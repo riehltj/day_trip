@@ -2,10 +2,15 @@
 
 Rails.application.routes.draw do
   devise_for :users
-  resources :rides, only: %i[index show] do
-    resources :bookings, only: %i[create destroy]
+
+  resources :rides do
+    resources :bookings, only: %i[new create show]
   end
-  resources :drivers, only: %i[new create]
+
+  resources :bookings, only: %i[index]
+
+  resources :drivers, only: %i[new create show]
+
   root 'rides#index'
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

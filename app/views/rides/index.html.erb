@@ -1,4 +1,7 @@
-<div>
-  <h1 class="font-bold text-4xl">Rides#index</h1>
-  <p>Find me in app/views/rides/index.html.erb</p>
+<div class="bg-map bg-cover bg-center min-h-screen">
+  <h1 class="font-bold text-4xl text-center my-8">Upcoming Rides</h1>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mx-auto p-4">
+    <%= render partial: 'ride_card', collection: @rides, as: :ride %>
+  </div>
 </div>

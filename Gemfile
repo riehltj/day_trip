@@ -31,12 +31,6 @@ gem 'tailwindcss-rails'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
-gem 'devise' # Authentication
-gem 'rubocop', require: false
-gem 'rubocop-rails', require: false
-gem 'rubocop-rspec', require: false
-gem 'stripe' # Payments
-
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
@@ -76,3 +70,13 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
 end
+
+gem 'devise' # Authentication
+gem 'rubocop', require: false
+gem 'rubocop-rails', require: false
+gem 'rubocop-rspec', require: false
+gem 'stripe' # Payments
+gem 'factory_bot_rails', '~> 6.4' # Test data
+gem 'faker', '~> 3.4', '>= 3.4.2' # Fake test data
+gem 'money-rails', '~> 1.15' # Money handling
+gem 'lucide-rails', '~> 0.4.0' # SVG icons

@@ -1,0 +1,31 @@
+<h1 class="text-2xl font-bold m-4 text-center">My Bookings</h1>
+
+<!-- name of each tab group should be unique -->
+<div class="tabs tabs-lift">
+  <label class="tab">
+    <input type="radio" name="my_tabs_4" />
+    <%= lucide_icon('check') %>
+    Completed
+  </label>
+  <div class="tab-content bg-base-100 border-base-300 p-6">
+    <%= render partial: 'booking_card', collection: @completed_bookings, as: :booking %>
+  </div>
+
+  <label class="tab">
+    <input type="radio" name="my_tabs_4" checked="checked" />
+    <%= lucide_icon('calendar') %>
+    Scheduled
+  </label>
+  <div class="tab-content bg-base-100 border-base-300 p-6">
+    <%= render partial: 'booking_card', collection: @scheduled_bookings, as: :booking %>
+  </div>
+
+  <label class="tab">
+    <input type="radio" name="my_tabs_4" />
+    <%= lucide_icon('x') %>
+    Canceled
+  </label>
+  <div class="tab-content bg-base-100 border-base-300 p-6">
+    <%= render partial: 'booking_card', collection: @canceled_bookings, as: :booking %>
+  </div>
+</div>

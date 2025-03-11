@@ -1,0 +1,48 @@
+<div class="card border border-gray-200 bg-base-100 shadow-md my-4">
+  <div class="card-body">
+    <h2 class="card-title flex justify-between items-center">
+      <%= link_to booking.ride.destination, ride_path(booking.ride), class: "text-primary hover:underline font-semibold text-lg" %>
+
+      <div class="flex flex-col gap-1">
+        <span class="text-gray-500 flex items-center gap-1">
+          <%= lucide_icon('calendar') %>
+          <%= booking.ride.leave_date.strftime('%b %d, %Y @ %l:%M %p') %>
+        </span>
+        <div class="flex items-center gap-1">
+          <%= lucide_icon("pin") %>
+          <%= booking.ride.meetup_location %>
+        </div>
+      </div>
+
+    </h2>
+
+    <div class="grid grid-cols-2 gap-6">
+      <!-- Driver Info -->
+      <div>
+        <h4 class="text-lg font-semibold flex items-center gap-1">
+          <%= lucide_icon('user') %> Driver Information
+        </h4>
+        <p> Name: <%= booking.ride.driver.user.full_name %></p>
+        <p> Gender: <%= booking.ride.driver.user.gender_full %></p>
+        <p> Age: <%= booking.ride.driver.user.age %></p>
+      </div>
+
+      <!-- Car Info -->
+      <div>
+        <h4 class="text-lg font-semibold flex items-center gap-1">
+          <%= lucide_icon('car') %> Car Information
+        </h4>
+        <p>Car: <%= booking.ride.driver.full_car_details %></p>
+        <p>Seats Available: <%= booking.ride.available_seats %></p>
+
+        <div class="w-20 h-20 mt-2 border border-gray-300 rounded-md overflow-hidden">
+          <%= image_tag booking.ride.driver.car_photo, class: 'w-full h-full object-cover' %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-actions justify-center pb-4">
+    <%= link_to 'View Booking', ride_booking_path(booking.ride, booking), class: "btn btn-primary btn-sm flex items-center gap-1" %>
+  </div>
+</div>
