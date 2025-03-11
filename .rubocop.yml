@@ -1,0 +1,65 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - "bin/**/*"
+    - "db/schema.rb"
+    - "db/seeds.rb"
+    - "config/routes/**/*"
+    - "vendor/**/*"
+
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+Style/Documentation:
+  Exclude:
+    - "db/migrate/**/*"
+    - "app/models/**/*"
+    - "app/controllers/**/*"
+    - "app/helpers/**/*"
+
+Metrics/MethodLength:
+  Max: 15
+  Exclude:
+    - "db/migrate/**/*"
+    - "spec/**/*"
+
+Metrics/AbcSize:
+  Exclude:
+    - "db/migrate/**/*"
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"
+    - "config/environments/**/*"
+    - "config/routes.rb"
+    - "app/admin/**/*"
+
+Metrics/ClassLength:
+  Exclude:
+    - "spec/**/*"
+    - lib/country/united_states.rb
+
+Layout/LineLength:
+  Exclude:
+    - "app/admin/**/*"
+
+RSpec/MultipleExpectations:
+  Exclude:
+    - "spec/integration/**/*"
+
+RSpec/ExampleLength:
+  Exclude:
+    - "spec/integration/**/*"
+
+RSpec/MultipleMemoizedHelpers:
+  Exclude:
+    - "spec/integration/**/*"
+
+Rails/DynamicFindBy:
+  Exclude:
+    - "spec/integration/**/*"
+    - "spec/support/**/*"
