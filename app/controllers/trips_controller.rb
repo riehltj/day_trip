@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TripsController < ApplicationController
-  before_action :authenticate_user!, only: %i[index show new create]
+  before_action :authenticate_user!, only: %i[index show create]
   before_action :set_ride, only: %i[show new]
 
   def index

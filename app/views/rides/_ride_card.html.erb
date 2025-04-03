@@ -1,7 +1,7 @@
 <div class="card border border-gray-200 bg-base-100 shadow-md w-full">
   <div class="card-body">
     <h2 class="card-title flex justify-between items-center">
-      <span>Ride to <%= ride.destination %></span>
+      <span>To <%= ride.destination %></span>
 
       <div class="badge <%= ride.status == 'open' ? 'badge-accent' : 'badge-secondary' %>">
         <%= ride.status.capitalize %>
@@ -40,7 +40,7 @@
     </h4>
 
     <h3 class="text-lg font-semibold text-secondary flex items-center gap-1">
-      <div class="tooltip tooltip-top" data-tip="Cost per rider">
+      <div class="tooltip tooltip-top font-normal" data-tip="Cost per rider">
         <%= lucide_icon('dollar-sign') %>
       </div>
       <%= humanized_money_with_symbol(ride.cost_per_rider) %> /seat
