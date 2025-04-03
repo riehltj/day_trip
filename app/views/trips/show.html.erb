@@ -1,9 +1,9 @@
 <div class="max-w-2xl mx-auto my-6 px-4">
   <div class="flex justify-between items-center mb-4">
-    <h1 class="text-2xl font-bold">Booking Details</h1>
-    <%= link_to bookings_path, class: "btn btn-ghost btn-sm" do %>
+    <h1 class="text-2xl font-bold">Trip Details</h1>
+    <%= link_to trips_path, class: "btn btn-ghost btn-sm" do %>
       <%= lucide_icon('arrow-left', class: 'h-4 w-4 mr-1') %>
-      Back to Bookings
+      Back to Trips
     <% end %>
   </div>
 
@@ -15,12 +15,12 @@
           <div class="flex items-center gap-2">
             <%= lucide_icon('map', class: 'h-5 w-5 text-primary flex-shrink-0') %>
             <h2 class="card-title text-xl">
-              <%= link_to @booking.ride.destination, ride_path(@booking.ride), class: "text-primary hover:text-primary-focus hover:underline transition-colors" %>
+              <%= link_to @trip.ride.destination, ride_path(@trip.ride), class: "text-primary hover:text-primary-focus hover:underline transition-colors" %>
             </h2>
           </div>
 
           <div class="badge badge-lg badge-accent text-white whitespace-nowrap">
-            <%= @booking.ride.leave_date.strftime('%A, %b %d, %Y') %>
+            <%= @trip.ride.leave_date.strftime('%A, %b %d, %Y') %>
           </div>
         </div>
       </div>
@@ -32,7 +32,7 @@
           <%= lucide_icon('clock', class: 'h-5 w-5 text-primary') %>
           <div class="list-col-grow">
             <div class="font-medium">Departure Time</div>
-            <div class="text-base-content/70"><%= @booking.ride.leave_time.strftime('%l:%M %p').strip %></div>
+            <div class="text-base-content/70"><%= @trip.ride.leave_time.strftime('%l:%M %p').strip %></div>
           </div>
         </li>
 
@@ -41,7 +41,7 @@
           <%= lucide_icon('map-pin', class: 'h-5 w-5 text-primary') %>
           <div class="list-col-grow">
             <div class="font-medium">Pickup Location</div>
-            <div><%= @booking.ride.meetup_location %></div>
+            <div><%= @trip.ride.meetup_location %></div>
           </div>
         </li>
 
@@ -54,13 +54,13 @@
               <div class="avatar">
                 <div class="w-10 h-10 rounded-full bg-base-300">
                   <!-- Use default placeholder if no avatar -->
-                  <span class="text-xl"><%= @booking.ride.driver.user.first_name[0] %></span>
+                  <span class="text-xl"><%= @trip.ride.driver.user.first_name[0] %></span>
                 </div>
               </div>
               <div>
-                <div><%= @booking.ride.driver.user.full_name %></div>
+                <div><%= @trip.ride.driver.user.full_name %></div>
                 <div class="text-xs text-base-content/70">
-                  <%= @booking.ride.driver.user.age %>, <%= @booking.ride.driver.user.gender_full %>
+                  <%= @trip.ride.driver.user.age %>, <%= @trip.ride.driver.user.gender_full %>
                 </div>
               </div>
             </div>
@@ -75,31 +75,29 @@
             <div class="flex items-center gap-3 mt-1">
               <div class="avatar">
                 <div class="w-10 h-10 rounded bg-base-300">
-                  <%= image_tag @booking.ride.driver.car_photo.presence || 'default_car.png', class: 'object-cover' %>
+                  <%= image_tag @trip.ride.driver.car_photo.presence || 'default_car.png', class: 'object-cover' %>
                 </div>
               </div>
               <div>
-                <div><%= @booking.ride.driver.full_car_details %></div>
+                <div><%= @trip.ride.driver.full_car_details %></div>
               </div>
             </div>
           </div>
         </li>
 
-        <!-- Booking details -->
         <li class="list-row p-4">
           <%= lucide_icon('users', class: 'h-5 w-5 text-primary') %>
           <div class="list-col-grow">
-            <div class="font-medium">Booking</div>
+            <div class="font-medium">Trips</div>
             <div class="flex justify-between items-center mt-1">
-              <div><strong>Seats:</strong> <%= @booking.number_of_seats %></div>
-              <span class="badge <%= @booking.payment_status == 'paid' ? 'badge-success' : 'badge-warning' %>">
-                <%= @booking.payment_status&.titleize || 'Unknown' %>
+              <div><strong>Seats:</strong> <%= @trip.number_of_seats %></div>
+              <span class="badge <%= @trip.payment_status == 'paid' ? 'badge-success' : 'badge-warning' %>">
+                <%= @trip.payment_status&.titleize || 'Unknown' %>
               </span>
             </div>
           </div>
         </li>
 
-        <!-- Payment -->
         <li class="list-row p-4">
           <%= lucide_icon('receipt', class: 'h-5 w-5 text-primary') %>
           <div class="list-col-grow">
@@ -107,33 +105,32 @@
             <div class="bg-base-200 p-3 rounded-lg mt-2">
               <div class="flex justify-between items-center">
                 <span>Cost per seat:</span>
-                <span><%= humanized_money_with_symbol(@booking.ride.cost_per_rider) %></span>
+                <span><%= humanized_money_with_symbol(@trip.ride.cost_per_rider) %></span>
               </div>
               <div class="flex justify-between items-center mt-1">
                 <span>Number of seats:</span>
-                <span><%= @booking.number_of_seats %></span>
+                <span><%= @trip.number_of_seats %></span>
               </div>
               <div class="divider my-2"></div>
               <div class="flex justify-between items-center font-bold">
                 <span>Total:</span>
-                <span><%= humanized_money_with_symbol(@booking.total_cost) %></span>
+                <span><%= humanized_money_with_symbol(@trip.total_cost) %></span>
               </div>
             </div>
           </div>
         </li>
 
-        <!-- Booking metadata -->
         <li class="list-row p-4 bg-base-100/50">
           <%= lucide_icon('info', class: 'h-5 w-5 text-base-content/60') %>
           <div class="list-col-grow">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div>
-                <p class="text-base-content/60">Booking ID:</p>
-                <p class="font-mono"><%= @booking.id %></p>
+                <p class="text-base-content/60">Trip ID:</p>
+                <p class="font-mono"><%= @trip.id %></p>
               </div>
               <div>
-                <p class="text-base-content/60">Booking Date:</p>
-                <p><%= @booking.created_at.strftime("%B %d, %Y") %></p>
+                <p class="text-base-content/60">Trip Date:</p>
+                <p><%= @trip.created_at.strftime("%B %d, %Y") %></p>
               </div>
             </div>
           </div>
@@ -143,10 +140,10 @@
       <!-- Action buttons -->
       <div class="p-4 bg-base-100 border-t border-base-200">
         <div class="flex flex-wrap justify-end gap-2">
-          <% if @booking.ride.leave_date > Date.today %>
+          <% if @trip.ride.leave_date > Date.today %>
             <%= link_to "#", class: "btn btn-error" do %>
               <%= lucide_icon('trash-2', class: 'h-4 w-4 mr-1') %>
-              Cancel Booking
+              Cancel Trip
             <% end %>
           <% end %>
 

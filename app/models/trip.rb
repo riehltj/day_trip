@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Booking < ApplicationRecord
+class Trip < ApplicationRecord
   belongs_to :user
   belongs_to :ride
 

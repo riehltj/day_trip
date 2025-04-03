@@ -10,13 +10,13 @@ class UpdateForeignKeyConstraintsForDeleteCascade < ActiveRecord::Migration[7.1]
     remove_foreign_key :rides, :drivers
     add_foreign_key :rides, :drivers, on_delete: :cascade
 
-    # Fix the constraint between rides and bookings
-    remove_foreign_key :bookings, :rides if foreign_key_exists?(:bookings, :rides)
-    add_foreign_key :bookings, :rides, on_delete: :cascade
+    # Fix the constraint between rides and trips
+    remove_foreign_key :trips, :rides if foreign_key_exists?(:trips, :rides)
+    add_foreign_key :trips, :rides, on_delete: :cascade
 
-    # Fix the constraint between users and bookings
-    remove_foreign_key :bookings, :users if foreign_key_exists?(:bookings, :users)
-    add_foreign_key :bookings, :users, on_delete: :cascade
+    # Fix the constraint between users and trips
+    remove_foreign_key :trips, :users if foreign_key_exists?(:trips, :users)
+    add_foreign_key :trips, :users, on_delete: :cascade
   end
 
   def foreign_key_exists?(table, reference)

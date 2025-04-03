@@ -1,4 +1,4 @@
-<h1 class="text-2xl font-bold m-4 text-center">My Bookings</h1>
+<h1 class="text-2xl font-bold m-4 text-center">My Trips</h1>
 
 <!-- name of each tab group should be unique -->
 <div class="tabs tabs-lift px-6 md:px-20">
@@ -8,7 +8,7 @@
     Scheduled
   </label>
   <div class="tab-content bg-base-100 border-base-300 p-6">
-    <%= render partial: 'booking_card', collection: @scheduled_bookings, as: :booking %>
+    <%= render partial: 'trip_card', collection: @scheduled_trips, as: :trip %>
   </div>
 
   <label class="tab">
@@ -17,7 +17,7 @@
     Completed
   </label>
   <div class="tab-content bg-base-100 border-base-300 p-6">
-    <%= render partial: 'booking_card', collection: @completed_bookings, as: :booking %>
+    <%= render partial: 'trip_card', collection: @completed_trips, as: :trip %>
   </div>
 
   <label class="tab">
@@ -26,6 +26,6 @@
     Canceled
   </label>
   <div class="tab-content bg-base-100 border-base-300 p-6">
-    <%= render partial: 'booking_card', collection: @canceled_bookings, as: :booking %>
+    <%= render partial: 'trip_card', collection: @canceled_trips, as: :trip %>
   </div>
 </div>

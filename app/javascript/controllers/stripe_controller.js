@@ -57,9 +57,9 @@ export default class extends Controller {
 
   getCheckoutData() {
     // Collect any data needed for checkout
-    // You might want to customize this to include booking ID, etc.
+    // You might want to customize this to include trip ID, etc.
     return {
-      booking_id: this.element.dataset.bookingId,
+      trip_id: this.element.dataset.tripId,
       ride_id: this.element.dataset.rideId,
     };
   }

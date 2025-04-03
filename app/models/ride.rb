@@ -2,7 +2,7 @@
 
 class Ride < ApplicationRecord
   belongs_to :driver
-  has_many :bookings, dependent: :destroy
+  has_many :trips, dependent: :destroy
 
   enum :status, {
     open: 'open',

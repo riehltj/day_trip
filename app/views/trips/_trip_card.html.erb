@@ -5,12 +5,12 @@
       <div class="flex items-center gap-2">
         <%= lucide_icon('map', class: 'h-4 w-4 text-primary flex-shrink-0') %>
         <h2 class="card-title text-base sm:text-lg line-clamp-1">
-          <%= link_to booking.ride.destination, ride_path(booking.ride), class: "text-primary hover:text-primary-focus hover:underline transition-colors" %>
+          <%= link_to trip.ride.destination, ride_path(trip.ride), class: "text-primary hover:text-primary-focus hover:underline transition-colors" %>
         </h2>
       </div>
       
       <div class="badge badge-accent text-white text-xs whitespace-nowrap">
-        <%= booking.ride.leave_date.strftime('%b %d') %> • <%= booking.ride.leave_time.strftime('%l:%M %p').strip %>
+        <%= trip.ride.leave_date.strftime('%b %d') %> • <%= trip.ride.leave_time.strftime('%l:%M %p').strip %>
       </div>
     </div>
 
@@ -23,8 +23,8 @@
           <li class="list-row py-1">
             <%= lucide_icon('user', class: 'h-4 w-4 text-primary') %>
             <div class="list-col-grow min-w-0">
-              <span class="text-xs sm:text-sm font-medium"><%= booking.ride.driver.user.full_name %></span>
-              <span class="text-xs text-base-content/60 ml-1">(<%= booking.ride.driver.user.age %>)</span>
+              <span class="text-xs sm:text-sm font-medium"><%= trip.ride.driver.user.full_name %></span>
+              <span class="text-xs text-base-content/60 ml-1">(<%= trip.ride.driver.user.age %>)</span>
             </div>
           </li>
           
@@ -32,7 +32,7 @@
           <li class="list-row py-1">
             <%= lucide_icon('map-pin', class: 'h-4 w-4 text-primary') %>
             <div class="list-col-grow min-w-0">
-              <span class="text-xs sm:text-sm text-base-content/70 truncate"><%= booking.ride.meetup_location %></span>
+              <span class="text-xs sm:text-sm text-base-content/70 truncate"><%= trip.ride.meetup_location %></span>
             </div>
           </li>
           
@@ -40,25 +40,25 @@
           <li class="list-row py-1">
             <%= lucide_icon('car', class: 'h-4 w-4 text-primary') %>
             <div class="list-col-grow min-w-0">
-              <span class="text-xs sm:text-sm text-base-content/70 truncate"><%= booking.ride.driver.full_car_details %></span>
+              <span class="text-xs sm:text-sm text-base-content/70 truncate"><%= trip.ride.driver.full_car_details %></span>
             </div>
           </li>
         </ul>
       </div>
       
-      <!-- Right column for booking details using DaisyUI list -->
+      <!-- Right column for trip details using DaisyUI list -->
       <div class="col-span-2 bg-base-200 rounded-lg p-2">
         <ul class="list h-full flex flex-col justify-between">
           <!-- Seats and status -->
           <li class="list-row">
             <div class="flex items-center gap-1">
               <%= lucide_icon('users', class: 'h-3 w-3 text-primary') %>
-              <span class="text-xs"><%= booking.number_of_seats %></span>
+              <span class="text-xs"><%= trip.number_of_seats %></span>
             </div>
             
             <div class="list-col-grow text-right">
-              <span class="badge badge-xs sm:badge-sm <%= booking.payment_status == 'paid' ? 'badge-success' : 'badge-warning' %>">
-                <%= booking.payment_status&.titleize || 'Unknown' %>
+              <span class="badge badge-xs sm:badge-sm <%= trip.payment_status == 'paid' ? 'badge-success' : 'badge-warning' %>">
+                <%= trip.payment_status&.titleize || 'Unknown' %>
               </span>
             </div>
           </li>
@@ -67,14 +67,14 @@
           <li class="list-row">
             <span class="text-xs">Total:</span>
             <div class="list-col-grow text-right">
-              <span class="font-bold text-sm sm:text-base"><%= humanized_money_with_symbol(booking.total_cost_in_cents) %></span>
+              <span class="font-bold text-sm sm:text-base"><%= humanized_money_with_symbol(trip.total_cost_in_cents) %></span>
             </div>
           </li>
           
           <!-- Action button -->
           <li>
             <div class="mt-1 sm:mt-2 text-right">
-              <%= link_to ride_booking_path(booking.ride, booking), class: "btn btn-primary btn-xs h-7 min-h-0" do %>
+              <%= link_to ride_trip_path(trip.ride, trip), class: "btn btn-primary btn-xs h-7 min-h-0" do %>
                 Details
                 <%= lucide_icon('chevron-right', class: 'h-3 w-3 ml-1') %>
               <% end %>

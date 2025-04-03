@@ -83,13 +83,13 @@ end
     )
 end
 
-if Booking.count.zero?
-  print "\nCreating a booking"
+if Trip.count.zero?
+  print "\nCreating a trip"
   5.times do
     print '.'
     ride = Ride.all.sample
     number_of_seats = (1..2).to_a.sample
-    Booking.create!(
+    Trip.create!(
       user: test_user,
       ride: ride,
       number_of_seats: number_of_seats,

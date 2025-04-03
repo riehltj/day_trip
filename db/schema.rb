@@ -42,18 +42,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_26_181156) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
-    t.uuid "ride_id", null: false
-    t.integer "number_of_seats"
-    t.integer "total_cost_in_cents"
-    t.string "payment_status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["ride_id"], name: "index_bookings_on_ride_id"
-    t.index ["user_id"], name: "index_bookings_on_user_id"
-  end
-
   create_table "drivers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "user_id", null: false
     t.string "car_make"
@@ -83,6 +71,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_26_181156) do
     t.index ["driver_id"], name: "index_rides_on_driver_id"
   end
 
+  create_table "trips", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "ride_id", null: false
+    t.integer "number_of_seats"
+    t.integer "total_cost_in_cents"
+    t.string "payment_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ride_id"], name: "index_trips_on_ride_id"
+    t.index ["user_id"], name: "index_trips_on_user_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -106,8 +106,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_26_181156) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "bookings", "rides", on_delete: :cascade
-  add_foreign_key "bookings", "users", on_delete: :cascade
   add_foreign_key "drivers", "users", on_delete: :cascade
   add_foreign_key "rides", "drivers", on_delete: :cascade
+  add_foreign_key "trips", "rides", on_delete: :cascade
+  add_foreign_key "trips", "users", on_delete: :cascade
 end

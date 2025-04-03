@@ -3,8 +3,8 @@
       controller: "stripe",
       stripe_publishable_key_value: Rails.configuration.stripe[:publishable_key],
       stripe_checkout_url_value: checkout_path,
-      booking_id: booking.id,
-      ride_id: booking.ride_id
+      trip_id: trip.id,
+      ride_id: trip.ride_id
     } do %>
 
   <%= button_tag "PURCHASE", 

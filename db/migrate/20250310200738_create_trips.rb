@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class CreateBookings < ActiveRecord::Migration[7.1]
+class CreateTrips < ActiveRecord::Migration[7.1]
   def change
-    create_table :bookings, id: :uuid  do |t|
+    create_table :trips, id: :uuid  do |t|
       t.references :user, null: false, foreign_key: true, type: :uuid
       t.references :ride, null: false, foreign_key: true, type: :uuid
 

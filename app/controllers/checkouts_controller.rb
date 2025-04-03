@@ -3,9 +3,9 @@
 class CheckoutsController < ApplicationController
   def create # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     @ride = Ride.find(params[:ride_id])
-    @booking = Booking.find(params[:booking_id])
+    @trip = Trip.find(params[:trip_id])
 
-    Rails.logger.debug { ">>> TOTAL COST?: #{@booking.total_cost_in_cents}" }
+    Rails.logger.debug { ">>> TOTAL COST?: #{@trip.total_cost_in_cents}" }
 
     # Create a Stripe checkout session
     session =
@@ -15,18 +15,18 @@ class CheckoutsController < ApplicationController
                                            price_data: {
                                              currency: 'usd',
                                              product_data: {
-                                               name: "Booking for #{@ride.destination}"
+                                               name: "Trip booking for #{@ride.destination}"
                                              },
-                                             unit_amount: @booking.total_cost_in_cents
+                                             unit_amount: @trip.total_cost_in_cents
                                            },
                                            quantity: 1
                                          }],
                                          mode: 'payment',
                                          success_url:
-                                          "#{success_url}?session_id={CHECKOUT_SESSION_ID}&booking_id=#{@booking.id}",
+                                          "#{success_url}?session_id={CHECKOUT_SESSION_ID}&trip_id=#{@trip.id}",
                                          cancel_url: cancel_url,
                                          metadata: {
-                                           booking_id: @booking.id
+                                           trip_id: @trip.id
                                          }
                                        })
 
