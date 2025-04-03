@@ -1,0 +1,20 @@
+<%= content_tag :div,
+    data: {
+      controller: "stripe",
+      stripe_publishable_key_value: Rails.configuration.stripe[:publishable_key],
+      stripe_checkout_url_value: checkout_path,
+      booking_id: booking.id,
+      ride_id: booking.ride_id
+    } do %>
+
+  <%= button_tag "PURCHASE", 
+      type: "button",
+      class: "btn btn-primary",
+      id: "checkout-button",
+      data: { action: "click->stripe#checkout" } %>
+
+  <%= content_tag :div, nil,
+      class: "text-red-500 mt-2 hidden",
+      data: { stripe_target: "error" } %>
+
+<% end %>

@@ -9,10 +9,14 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <script src="https://js.stripe.com/v3/"></script>
   </head>
 
   <body>
-    <main class="custom-bg">
+    <% if flash.any? %>
+      <%= render 'components/flash_messages' %>
+    <% end %>
+    <main class="bg-base-200 relative">
       <%= render 'components/nav_bar' %>
       <%= yield %>
     </main>

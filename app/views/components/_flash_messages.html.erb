@@ -1,0 +1,48 @@
+<div id="flash-container" class="fixed top-5 right-5 transform z-50 space-y-2 w-full max-w-md">
+  <% flash.each do |type, message| %>
+    <% 
+      # Determine icon color and name based on message type
+      case type.to_sym
+        when :notice, :success
+          icon_color = "text-success"
+          icon_name = "check-circle"
+        when :alert, :error
+          icon_color = "text-error"
+          icon_name = "alert-triangle"
+        when :warning
+          icon_color = "text-warning"
+          icon_name = "alert-circle"
+        else
+          icon_color = "text-info"
+          icon_name = "info"
+      end
+    %>
+
+    <div 
+      data-controller="flash"
+      data-flash-auto-dismiss-value="true"
+      data-flash-dismiss-after-value="1000"
+      class="bg-white border border-dark rounded-lg shadow-md p-4">
+      <div class="flex items-start gap-3">
+        <div class="<%= icon_color %> flex-shrink-0">
+          <%= lucide_icon(icon_name, class: 'h-5 w-5') %>
+        </div>
+
+        <div class="flex-1">
+          <% if message.is_a?(Hash) && message[:title].present? %>
+            <h3 class="font-bold text-base-content mb-1"><%= message[:title] %></h3>
+            <div class="text-sm text-base-content/80"><%= message[:body] %></div>
+          <% else %>
+            <span class="text-base-content"><%= message %></span>
+          <% end %>
+        </div>
+
+        <button 
+          data-action="flash#close" 
+          class="flex-shrink-0 -mt-1 -mr-1 p-1 hover:bg-base-200 rounded-full transition-colors">
+          <%= lucide_icon('x-circle', class: 'h-4 w-4 text-base-content/70') %>
+        </button>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -111,6 +111,10 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    dotenv (3.1.7)
+    dotenv-rails (3.1.7)
+      dotenv (= 3.1.7)
+      railties (>= 6.1)
     drb (2.2.1)
     erubi (1.13.1)
     factory_bot (6.5.0)
@@ -151,6 +155,7 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.2)
+    method_source (1.1.0)
     mini_mime (1.1.5)
     minitest (5.25.4)
     monetize (1.13.0)
@@ -174,21 +179,7 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     nio4r (2.7.4)
-    nokogiri (1.18.3-aarch64-linux-gnu)
-      racc (~> 1.4)
-    nokogiri (1.18.3-aarch64-linux-musl)
-      racc (~> 1.4)
-    nokogiri (1.18.3-arm-linux-gnu)
-      racc (~> 1.4)
-    nokogiri (1.18.3-arm-linux-musl)
-      racc (~> 1.4)
     nokogiri (1.18.3-arm64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.18.3-x86_64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.18.3-x86_64-linux-gnu)
-      racc (~> 1.4)
-    nokogiri (1.18.3-x86_64-linux-musl)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     parallel (1.26.3)
@@ -205,7 +196,7 @@ GEM
     public_suffix (6.0.1)
     puma (6.6.0)
       nio4r (~> 2.0)
-    racc (1.8.1)
+    racc (1.7.3)
     rack (3.1.11)
     rack-session (2.1.0)
       base64 (>= 0.1.0)
@@ -292,17 +283,11 @@ GEM
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.5)
-    stripe (7.1.0)
+    stripe (13.5.0)
     tailwindcss-rails (4.2.0)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
-    tailwindcss-ruby (4.0.12)
-    tailwindcss-ruby (4.0.12-aarch64-linux-gnu)
-    tailwindcss-ruby (4.0.12-aarch64-linux-musl)
     tailwindcss-ruby (4.0.12-arm64-darwin)
-    tailwindcss-ruby (4.0.12-x86_64-darwin)
-    tailwindcss-ruby (4.0.12-x86_64-linux-gnu)
-    tailwindcss-ruby (4.0.12-x86_64-linux-musl)
     thor (1.3.2)
     timeout (0.4.3)
     turbo-rails (2.0.13)
@@ -313,6 +298,10 @@ GEM
     unicode-display_width (3.1.2)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
+    view_component (3.17.0)
+      activesupport (>= 5.2.0, < 8.0)
+      concurrent-ruby (~> 1.0)
+      method_source (~> 1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.1)
@@ -330,22 +319,14 @@ GEM
     zeitwerk (2.7.2)
 
 PLATFORMS
-  aarch64-linux
-  aarch64-linux-gnu
-  aarch64-linux-musl
-  arm-linux-gnu
-  arm-linux-musl
-  arm64-darwin
-  x86_64-darwin
-  x86_64-linux
-  x86_64-linux-gnu
-  x86_64-linux-musl
+  arm64-darwin-24
 
 DEPENDENCIES
   bootsnap
   capybara
   debug
   devise
+  dotenv-rails
   factory_bot_rails (~> 6.4)
   faker (~> 3.4, >= 3.4.2)
   importmap-rails
@@ -365,6 +346,7 @@ DEPENDENCIES
   tailwindcss-rails
   turbo-rails
   tzinfo-data
+  view_component
   web-console
 
 RUBY VERSION

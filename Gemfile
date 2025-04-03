@@ -57,6 +57,7 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'web-console'
+  gem 'dotenv-rails'
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
@@ -80,3 +81,4 @@ gem 'factory_bot_rails', '~> 6.4' # Test data
 gem 'faker', '~> 3.4', '>= 3.4.2' # Fake test data
 gem 'money-rails', '~> 1.15' # Money handling
 gem 'lucide-rails', '~> 0.4.0' # SVG icons
+gem "view_component"

@@ -1,0 +1,30 @@
+<div class="max-w-md mx-auto my-8 px-4">
+  <div class="card bg-base-100 shadow-lg">
+    <div class="card-body">
+      <h2 class="text-2xl font-bold text-center mb-4">Edit Profile</h2>
+
+      <%= render "user_form", 
+                  resource: resource, 
+                  url: registration_path(resource_name), 
+                  show_password_fields: true,
+                  submit_text: "Update Profile" %>
+
+      <div class="divider mt-8">Danger Zone</div>
+
+      <div class="bg-error/10 p-4 rounded-lg">
+        <h3 class="font-semibold text-error mb-2">Delete Account</h3>
+        <p class="text-sm mb-4">Once you delete your account, there is no going back. Please be certain.</p>
+
+        <%= button_to "Delete Account", 
+                    registration_path(resource_name), 
+                    method: :delete, 
+                    data: { confirm: "Are you sure? This action cannot be undone." }, 
+                    class: "btn btn-error btn-sm" %>
+      </div>
+
+      <div class="mt-6 text-center">
+        <%= link_to "Back", :back, class: "btn btn-ghost btn-sm" %>
+      </div>
+    </div>
+  </div>
+</div>

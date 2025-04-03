@@ -3,7 +3,7 @@
     <h2 class="card-title flex justify-between items-center">
       <span>Ride to <%= ride.destination %></span>
 
-      <div class="badge <%= ride.status == 'open' ? 'badge-secondary' : 'badge-accent' %>">
+      <div class="badge <%= ride.status == 'open' ? 'badge-accent' : 'badge-secondary' %>">
         <%= ride.status.capitalize %>
       </div>
     </h2>
@@ -12,7 +12,7 @@
       <span class="tooltip tooltip-top" data-tip="Departure Date">
         <%= lucide_icon('calendar') %>
       </span>
-      <%= ride.leave_date.strftime('%b %d, %Y @ %l:%M %p') %>
+      <%= ride.leave_date_time %>
     </h4>
 
     <h4 class="text-gray-600 flex items-center gap-1">
@@ -20,7 +20,7 @@
         <%= lucide_icon('user') %>
       </span>
 
-      <a href="<%= drivers_path(ride.driver) %>" class="text-primary hover:underline font-medium">
+      <a href="<%= driver_path(ride.driver.id) %>" class="text-secondary hover:underline font-medium">
         <%= ride.driver.user.full_name %>
       </a>
 
@@ -53,9 +53,17 @@
       <%= pluralize(ride.available_seats, "Seat") %>
     </div>
 
-    <%= link_to new_ride_booking_path(ride), class: 'btn btn-primary w-full hover:scale-105 transition-all' do  %>
-      <%= lucide_icon('check-circle') %>
-      Book Now!
+    <% if current_user&.driver_of?(ride) && ride.can_edit? %>
+      <%= link_to edit_ride_path(ride), class: 'btn btn-neutral w-full hover:scale-105 transition-all' do  %>
+        <%= lucide_icon('pencil') %>
+        Edit
+      <% end %>
+    <% else %>
+      <%= link_to new_ride_booking_path(ride), class: 'btn btn-primary w-full hover:scale-105 transition-all' do  %>
+        <%= lucide_icon('check-circle') %>
+        Book Now!
+      <% end %>
     <% end %>
+
   </div>
 </div>

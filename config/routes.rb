@@ -4,12 +4,17 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :rides do
+    get 'my_rides', on: :collection
     resources :bookings, only: %i[new create show]
   end
-
+  post 'checkout', to: 'checkouts#create'
+  get 'payment/success', to: 'payments#success', as: 'payment_success'
+  get 'payment/cancel', to: 'payments#cancel', as: 'payment_cancel'
   resources :bookings, only: %i[index]
-
+  resources :payments, only: %i[new create]
   resources :drivers, only: %i[new create show]
+
+  post 'webhooks/stripe', to: 'webhooks#stripe'
 
   root 'rides#index'
 

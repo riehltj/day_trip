@@ -1,48 +1,87 @@
-<div class="card border border-gray-200 bg-base-100 shadow-md my-4">
-  <div class="card-body">
-    <h2 class="card-title flex justify-between items-center">
-      <%= link_to booking.ride.destination, ride_path(booking.ride), class: "text-primary hover:underline font-semibold text-lg" %>
-
-      <div class="flex flex-col gap-1">
-        <span class="text-gray-500 flex items-center gap-1">
-          <%= lucide_icon('calendar') %>
-          <%= booking.ride.leave_date.strftime('%b %d, %Y @ %l:%M %p') %>
-        </span>
-        <div class="flex items-center gap-1">
-          <%= lucide_icon("pin") %>
-          <%= booking.ride.meetup_location %>
-        </div>
+<div class="card bg-base-100 shadow hover:shadow-md transition-shadow duration-300 border border-base-300 overflow-hidden">
+  <div class="card-body p-3 sm:p-4">
+    <!-- Header with destination and date/time -->
+    <div class="flex flex-wrap justify-between items-center gap-2 border-b border-base-200 pb-2">
+      <div class="flex items-center gap-2">
+        <%= lucide_icon('map', class: 'h-4 w-4 text-primary flex-shrink-0') %>
+        <h2 class="card-title text-base sm:text-lg line-clamp-1">
+          <%= link_to booking.ride.destination, ride_path(booking.ride), class: "text-primary hover:text-primary-focus hover:underline transition-colors" %>
+        </h2>
       </div>
-
-    </h2>
-
-    <div class="grid grid-cols-2 gap-6">
-      <!-- Driver Info -->
-      <div>
-        <h4 class="text-lg font-semibold flex items-center gap-1">
-          <%= lucide_icon('user') %> Driver Information
-        </h4>
-        <p> Name: <%= booking.ride.driver.user.full_name %></p>
-        <p> Gender: <%= booking.ride.driver.user.gender_full %></p>
-        <p> Age: <%= booking.ride.driver.user.age %></p>
-      </div>
-
-      <!-- Car Info -->
-      <div>
-        <h4 class="text-lg font-semibold flex items-center gap-1">
-          <%= lucide_icon('car') %> Car Information
-        </h4>
-        <p>Car: <%= booking.ride.driver.full_car_details %></p>
-        <p>Seats Available: <%= booking.ride.available_seats %></p>
-
-        <div class="w-20 h-20 mt-2 border border-gray-300 rounded-md overflow-hidden">
-          <%= image_tag booking.ride.driver.car_photo, class: 'w-full h-full object-cover' %>
-        </div>
+      
+      <div class="badge badge-accent text-white text-xs whitespace-nowrap">
+        <%= booking.ride.leave_date.strftime('%b %d') %> • <%= booking.ride.leave_time.strftime('%l:%M %p').strip %>
       </div>
     </div>
-  </div>
 
-  <div class="card-actions justify-center pb-4">
-    <%= link_to 'View Booking', ride_booking_path(booking.ride, booking), class: "btn btn-primary btn-sm flex items-center gap-1" %>
+    <!-- Two-column layout for info -->
+    <div class="grid grid-cols-5 gap-2 sm:gap-3 mt-2">
+      <!-- Left column for driver and location using DaisyUI list -->
+      <div class="col-span-3">
+        <ul class="list">
+          <!-- Driver info -->
+          <li class="list-row py-1">
+            <%= lucide_icon('user', class: 'h-4 w-4 text-primary') %>
+            <div class="list-col-grow min-w-0">
+              <span class="text-xs sm:text-sm font-medium"><%= booking.ride.driver.user.full_name %></span>
+              <span class="text-xs text-base-content/60 ml-1">(<%= booking.ride.driver.user.age %>)</span>
+            </div>
+          </li>
+          
+          <!-- Location -->
+          <li class="list-row py-1">
+            <%= lucide_icon('map-pin', class: 'h-4 w-4 text-primary') %>
+            <div class="list-col-grow min-w-0">
+              <span class="text-xs sm:text-sm text-base-content/70 truncate"><%= booking.ride.meetup_location %></span>
+            </div>
+          </li>
+          
+          <!-- Car details -->
+          <li class="list-row py-1">
+            <%= lucide_icon('car', class: 'h-4 w-4 text-primary') %>
+            <div class="list-col-grow min-w-0">
+              <span class="text-xs sm:text-sm text-base-content/70 truncate"><%= booking.ride.driver.full_car_details %></span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Right column for booking details using DaisyUI list -->
+      <div class="col-span-2 bg-base-200 rounded-lg p-2">
+        <ul class="list h-full flex flex-col justify-between">
+          <!-- Seats and status -->
+          <li class="list-row">
+            <div class="flex items-center gap-1">
+              <%= lucide_icon('users', class: 'h-3 w-3 text-primary') %>
+              <span class="text-xs"><%= booking.number_of_seats %></span>
+            </div>
+            
+            <div class="list-col-grow text-right">
+              <span class="badge badge-xs sm:badge-sm <%= booking.payment_status == 'paid' ? 'badge-success' : 'badge-warning' %>">
+                <%= booking.payment_status&.titleize || 'Unknown' %>
+              </span>
+            </div>
+          </li>
+          
+          <!-- Price -->
+          <li class="list-row">
+            <span class="text-xs">Total:</span>
+            <div class="list-col-grow text-right">
+              <span class="font-bold text-sm sm:text-base"><%= humanized_money_with_symbol(booking.total_cost_in_cents) %></span>
+            </div>
+          </li>
+          
+          <!-- Action button -->
+          <li>
+            <div class="mt-1 sm:mt-2 text-right">
+              <%= link_to ride_booking_path(booking.ride, booking), class: "btn btn-primary btn-xs h-7 min-h-0" do %>
+                Details
+                <%= lucide_icon('chevron-right', class: 'h-3 w-3 ml-1') %>
+              <% end %>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,0 +1,9 @@
+<li>
+  <%= render 'components/nav_link', text: 'Upcoming Rides', icon: 'car', path: rides_path  %>
+</li>
+
+<% unless current_user&.driver.present? %>
+  <li>
+    <%= render 'components/nav_link', text: 'Become a Driver', icon: 'square-user', path: new_driver_path  %>
+  </li>
+<% end %>

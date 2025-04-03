@@ -5,19 +5,21 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  before_save :normalize_gender
 
   has_many :bookings, dependent: :destroy
-  has_many :rides, through: :bookings
+  has_many :rides, through: :bookings, dependent: :destroy
+  has_one :driver, dependent: :destroy
+  has_one_attached :avatar
 
-  GENDER_MAPPING = {
-    'male' => 'M',
-    'female' => 'F',
-    'non_binary' => 'NB',
-    'declined_to_state' => 'DTS'
+  validates :first_name, :last_name, :date_of_birth, :gender, presence: true
+
+  # Map codes to full gender names (for display)
+  GENDER_DISPLAY = {
+    'M' => 'Male',
+    'F' => 'Female',
+    'NB' => 'Non-binary',
+    'DTS' => 'Declined to state'
   }.freeze
-
-  REVERSE_GENDER_MAPPING = GENDER_MAPPING.invert
 
   def age
     now = Time.now.utc.to_date
@@ -28,11 +30,11 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  def normalize_gender
-    GENDER_MAPPING[gender] if GENDER_MAPPING.key?(gender)
+  def gender_full
+    GENDER_DISPLAY[gender] || 'Other'
   end
 
-  def gender_full
-    REVERSE_GENDER_MAPPING[gender] || 'Other'
+  def driver_of?(ride)
+    driver.present? && ride.driver_id == driver.id
   end
 end

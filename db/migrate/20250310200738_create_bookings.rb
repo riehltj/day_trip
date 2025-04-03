@@ -2,12 +2,12 @@
 
 class CreateBookings < ActiveRecord::Migration[7.1]
   def change
-    create_table :bookings do |t|
-      t.references :user, null: false, foreign_key: true
-      t.references :ride, null: false, foreign_key: true
+    create_table :bookings, id: :uuid  do |t|
+      t.references :user, null: false, foreign_key: true, type: :uuid
+      t.references :ride, null: false, foreign_key: true, type: :uuid
 
       t.integer :number_of_seats
-      t.decimal :total_cost
+      t.integer :total_cost_in_cents
       t.string :payment_status
 
       t.timestamps

@@ -33,7 +33,7 @@ if User.count.zero?
       city: 'Denver',
       state: 'CO',
       zip_code: 80202,
-      gender: %w[male female non_binary declined_to_state].sample,
+      gender: %w[M F NB DTS].sample,
       date_of_birth: Faker::Date.birthday(min_age: 18, max_age: 65)
     )
   end
@@ -60,25 +60,27 @@ if Driver.count.zero?
   end
 end
 
-if Ride.count.zero?
   print "\nCreating a ride"
   leave_time = [6.hours, 6.hours + 15.minutes, 6.hours + 30.minutes].sample
+  leave_date = Faker::Date.between(from: Date.today + 3.weeks, to: Date.today + 4.weeks)
+  leave_time = Time.zone.now.change(hour: leave_time / 1.hour, min: leave_time % 1.hour / 1.minute)
 
   10.times do
     print '.'
     Ride.create!(
       driver: Driver.all.sample,
-      leave_date: Faker::Time.between(from: DateTime.now, to: DateTime.now + 1.week).change(hour: leave_time / 1.hour, min: leave_time % 1.hour / 1.minute),
+      leave_date: leave_date,
+      leave_time: leave_time,
       address_line1: Faker::Address.street_address,
       state: 'CO',
       city: 'Denver',
       zip_code: 80202,
       destination: 'Breckenridge',
+      description: Faker::Lorem.paragraph,
       cost_per_rider_in_cents: (400..1500).to_a.sample,
       available_seats: (1..4).to_a.sample,
       status: 'open'
     )
-end
 end
 
 if Booking.count.zero?
@@ -91,7 +93,7 @@ if Booking.count.zero?
       user: test_user,
       ride: ride,
       number_of_seats: number_of_seats,
-      total_cost: ride.cost_per_rider_in_cents * number_of_seats,
+      total_cost_in_cents: ride.cost_per_rider_in_cents * number_of_seats,
       payment_status: 'paid'
     )
   end

@@ -1,0 +1,14 @@
+<div class="flex justify-between items-center py-2 border-b border-gray-200">
+  <span class="font-medium">
+    <%= @title %>
+  </span>
+
+  <% if @link %>
+    <%= link_to @info, @link, class: 'text-primary underline' %>
+  <% else %>
+    <span>
+      <%= @info %>
+    </span>
+
+  <% end %>
+</div>
