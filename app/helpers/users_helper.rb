@@ -4,7 +4,7 @@
 module UsersHelper
   def user_avatar(user, options = {})
     size = options[:size] || 40
-    classes = options[:class] || 'rounded-full'
+    classes = options[:class] || 'rounded-full shrink-0'
 
     if user.avatar.attached?
       image_tag user.avatar.variant(resize_to_limit: [size * 2, size * 2]),

@@ -4,7 +4,7 @@ class RidesController < ApplicationController
   before_action :set_ride, only: %i[show edit update destroy]
 
   def index
-    @rides = Ride.open_rides
+    @rides = Ride.other_open_rides(current_user&.driver&.id)
   end
 
   def show; end

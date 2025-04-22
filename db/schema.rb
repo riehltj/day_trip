@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_26_181156) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_15_221424) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
 
   create_table "active_storage_attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
@@ -47,6 +57,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_26_181156) do
     t.string "car_make"
     t.string "car_model"
     t.integer "car_year"
+    t.text "description"
+    t.string "twitter"
+    t.string "instagram"
+    t.string "facebook"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_drivers_on_user_id"
@@ -62,12 +76,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_26_181156) do
     t.string "zip_code"
     t.string "city"
     t.string "destination"
-    t.text "description"
     t.integer "cost_per_rider_in_cents"
     t.integer "available_seats"
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "description"
     t.index ["driver_id"], name: "index_rides_on_driver_id"
   end
 
@@ -79,6 +93,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_26_181156) do
     t.string "payment_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0, null: false
     t.index ["ride_id"], name: "index_trips_on_ride_id"
     t.index ["user_id"], name: "index_trips_on_user_id"
   end
@@ -100,6 +115,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_26_181156) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "stripe_account_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

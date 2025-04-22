@@ -5,11 +5,23 @@ class Trip < ApplicationRecord
   belongs_to :ride
 
   validates :number_of_seats, presence: true
-  validates :total_cost_in_cents, presence: true
 
   monetize :total_cost_in_cents, as: :total_cost, allow_nil: true, numericality: { greater_than_or_equal_to: 0 }
 
-  scope :upcoming, -> { joins(:ride).where('rides.leave_date > ?', Time.zone.now).order('rides.leave_date ASC') }
-  scope :completed, -> { joins(:ride).where(rides: { leave_date: ...Time.zone.now }).order('rides.leave_date DESC') }
-  scope :canceled, -> { joins(:ride).where(rides: { status: :cancelled }) }
+  enum :status, {
+    pending: 0,
+    approved: 1,
+    rejected: 2
+  }, default: 0
+
+  scope :pending, -> { where(status: 'pending') }
+  scope :approved, -> { where(status: 'approved') }
+  scope :rejected, -> { where(status: 'rejected') }
+
+  scope :for_user, lambda { |user|
+    where(user_id: user.is_a?(User) ? user.id : user)
+      .joins(:ride)
+      .includes(ride: :driver)
+      .order('rides.leave_date')
+  }
 end

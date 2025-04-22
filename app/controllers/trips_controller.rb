@@ -3,16 +3,17 @@
 class TripsController < ApplicationController
   before_action :authenticate_user!, only: %i[index show create]
   before_action :set_ride, only: %i[show new]
+  before_action :set_trip, only: %i[approve reject show]
 
   def index
-    @scheduled_trips = current_user.trips.upcoming
-    @canceled_trips = current_user.trips.canceled
-    @completed_trips = current_user.trips.completed
+    @trips = Trip.for_user(current_user)
   end
 
-  def show
-    @trip = @ride.trips.find(params[:id])
+  def my_trips
+    @my_trips = current_user.trips.driving
   end
+
+  def show; end
 
   def new
     @trip = @ride.trips.new
@@ -32,14 +33,35 @@ class TripsController < ApplicationController
     end
   end
 
+  def approve
+    return unless @trip.update(status: :approved)
+
+    # Send notification to passenger
+    TripMailer.trip_approved(@trip).deliver_later if defined?(TripMailer)
+    flash.now[:notice] = "Trip for #{@trip.user.full_name} was approved"
+  end
+
+  def reject
+    if @trip.update(status: :rejected)
+      # Send notification to passenger
+      TripMailer.trip_rejected(@trip).deliver_later if defined?(TripMailer)
+      redirect_to @trip.ride, notice: "Trip for #{@trip.user.full_name} was rejected"
+    else
+      redirect_to @trip.ride, alert: "Couldn't reject this trip"
+    end
+  end
+
   private
 
   def set_ride
     @ride = Ride.find(params[:ride_id])
   end
 
+  def set_trip
+    @trip = Trip.find(params[:id])
+  end
+
   def trip_params
-    Rails.logger.debug { ">>> trip_params: #{params.inspect}" }
     params.require(:trip).permit(:number_of_seats, :total_cost_in_cents, :payment_status)
   end
 end

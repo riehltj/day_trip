@@ -23,6 +23,40 @@
 
         <!-- Driver details -->
         <div class="card-body">
+          <!-- Driver bio/description -->
+          <% if @driver.description.present? %>
+            <div class="mb-4">
+              <h3 class="flex items-center gap-2 font-semibold mb-2">
+                <%= lucide_icon('file-text', class: 'h-4 w-4') %>
+                About me
+              </h3>
+              <p class="text-sm"><%= @driver.description %></p>
+            </div>
+          <% end %>
+
+          <!-- Social media links -->
+          <% if @driver.twitter.present? || @driver.facebook.present? || @driver.instagram.present? %>
+            <div class="flex gap-3 mb-4">
+              <% if @driver.twitter.present? %>
+                <%= link_to @driver.twitter.start_with?('http') ? @driver.twitter : "https://twitter.com/#{@driver.twitter.gsub('@', '')}", target: "_blank", class: "btn btn-circle btn-sm btn-outline" do %>
+                  <%= lucide_icon('twitter', class: 'h-4 w-4') %>
+                <% end %>
+              <% end %>
+
+              <% if @driver.facebook.present? %>
+                <%= link_to @driver.facebook.start_with?('http') ? @driver.facebook : "https://facebook.com/#{@driver.facebook}", target: "_blank", class: "btn btn-circle btn-sm btn-outline" do %>
+                  <%= lucide_icon('facebook', class: 'h-4 w-4') %>
+                <% end %>
+              <% end %>
+
+              <% if @driver.instagram.present? %>
+                <%= link_to @driver.instagram.start_with?('http') ? @driver.instagram : "https://instagram.com/#{@driver.instagram.gsub('@', '')}", target: "_blank", class: "btn btn-circle btn-sm btn-outline" do %>
+                  <%= lucide_icon('instagram', class: 'h-4 w-4') %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+
           <!-- Driver stats -->
           <div class="stats stats-vertical shadow bg-base-200 w-full">
             <div class="stat">
@@ -38,6 +72,35 @@
           </div>
         </div>
       </div>
+
+      <!-- Stripe connected account section for driver -->
+      <% if current_user == @driver.user %>
+        <div class="card bg-base-100 shadow-lg mt-4">
+          <div class="card-body">
+            <h3 class="card-title flex items-center gap-2">
+              <%= lucide_icon('credit-card', class: 'h-5 w-5 text-primary') %>
+              Payment Settings
+            </h3>
+
+            <% if current_user.stripe_account_id.present? %>
+              <div class="alert alert-success flex items-center gap-2 mb-3">
+                <%= lucide_icon('check-circle', class: 'h-4 w-4') %>
+                <span>Stripe account connected</span>
+              </div>
+              <div class="flex flex-col gap-2">
+                <%= button_to "Update Stripe Account", onboarding_stripe_path, method: :post, class: "btn btn-sm btn-outline", data: { turbo: false } %>
+                <%= button_to "View Stripe Dashboard", dashboard_stripe_path, method: :post, class: "btn btn-sm btn-outline", data: { turbo: false } %>
+              </div>
+            <% else %>
+              <div class="alert alert-warning flex items-center gap-2 mb-3">
+                <%= lucide_icon('alert-circle', class: 'h-4 w-4') %>
+                <span>Connect your Stripe account to receive payments</span>
+              </div>
+              <%= button_to "Connect with Stripe", onboarding_stripe_path, method: :post, class: "btn btn-primary btn-sm" %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     </div>
 
     <!-- Vehicle and rides info -->

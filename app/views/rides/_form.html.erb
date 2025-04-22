@@ -1,49 +1,17 @@
 <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-  <%= form_with(model: ride, html: { class: "space-y-6 w-full max-w-md mx-auto", data: { turbo: false } }) do |f| %>
+  <%= form_with(model: ride, html: { class: "flex flex-col gap-4 w-full max-w-md mx-auto", data: { turbo: false } }) do |f| %>
     <%= f.hidden_field :driver_id, value: current_user.driver.id %>
     <%= f.hidden_field :status, value: :open %>
 
-    <% if ride.errors.any? %>
-      <div class="alert alert-error mb-4">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            <span class="text-gray-500 flex items-center">
-              <%= lucide_icon('alert-circle', class: 'h-5 w-5') %>
-            </span>
-          </div>
-          <div class="ml-3">
-            <h3 class="font-medium">Please fix the following errors:</h3>
-            <ul class="mt-1 list-disc list-inside">
-              <% ride.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-      </div>
-    <% else %>
-      <div class="alert mb-4">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            <span class="text-dark flex items-center">
-              <%= lucide_icon('info', class: 'h-5 w-5') %>
-            </span>
-          </div>
-          <div class="ml-3">
-            <p>
-              Please provide details for your upcoming ride to help passengers plan their trip.
-            </p>
-          </div>
-        </div>
-      </div>
-    <% end %>
+    <%= render 'ride_errors', ride: ride if ride.errors.any? %>
+    <%= render 'ride_notice' unless ride.errors.any? %>
 
     <fieldset class="border border-gray-300 rounded-md p-5 bg-gray-50">
       <legend class="text-sm font-medium px-2">Trip Details</legend>
       <div class="grid grid-cols-2 gap-4">
         <div class="form-control">
           <%= f.label :leave_date, "Departure Date", class: "label" %>
-          <%= f.date_field :leave_date, class: "input input-bordered p-3 w-full", value: ride.leave_date|| Date.today.next_day(6), min: Date.today %>
+          <%= f.date_field :leave_date, class: "input input-bordered p-3 w-full", value: ride.leave_date || Date.today.next_day(4), min: Date.today %>
         </div>
 
         <div class="form-control">
@@ -124,8 +92,16 @@
       </div>
     </fieldset>
 
-    <div class="form-control mt-6">
-      <%= f.submit class: "btn btn-primary w-full" %>
-    </div>
-  <% end %>
-</div>
+    <fieldset class="border border-gray-300 rounded-md p-5 bg-gray-50">
+      <legend class="text-sm font-medium px-2">Trip Description</legend>
+
+      <div class="form-control mb-4">
+        <%= f.label :description, "Description", class: "label" %>
+        <%= f.text_area :description, class: 'w-full bg-white rounded-md p-2' %>
+      </fieldset>
+
+      <div class="form-control mt-6">
+        <%= f.submit 'Continue to Payment', class: "btn btn-primary w-full" %>
+      </div>
+    <% end %>
+  </div>

@@ -2,6 +2,6 @@
   <% if user_signed_in? %>
     <%= render 'components/avatar_button' %>
   <% else %>
-    <%= link_to "Sign In", new_user_session_path, class: "btn btn-secondar btn-sm" %>
+    <%= link_to "Sign In", new_user_session_path, class: "btn btn-accent btn-sm" %>
   <% end %>
 </div>

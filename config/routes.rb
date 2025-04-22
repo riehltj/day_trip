@@ -7,10 +7,22 @@ Rails.application.routes.draw do
     get 'my_rides', on: :collection
     resources :trips, only: %i[new create show]
   end
+
   post 'checkout', to: 'checkouts#create'
   get 'payment/success', to: 'payments#success', as: 'payment_success'
   get 'payment/cancel', to: 'payments#cancel', as: 'payment_cancel'
-  resources :trips, only: %i[index]
+
+  post '/stripe/onboarding', to: 'stripe#onboarding', as: :onboarding_stripe
+  get '/stripe/return', to: 'stripe#onboarding_return', as: :onboarding_return
+  get '/stripe/refresh', to: 'stripe#onboarding_refresh', as: :onboarding_refresh
+  get '/stripe/dashboard', to: 'stripe#dashboard', as: :dashboard_stripe
+  get '/stripe/return', to: 'stripe#dashboard_return', as: :dashboard_return
+  get '/stripe/refresh', to: 'stripe#dashboard_refresh', as: :dashboard_refresh
+
+  resources :trips do
+    patch :approve
+    patch :reject
+  end
   resources :payments, only: %i[new create]
   resources :drivers, only: %i[new create show]
 
