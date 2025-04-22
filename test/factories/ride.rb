@@ -10,7 +10,7 @@ FactoryBot.define do
     zip_code      { '12345' }
     leave_date    { Time.zone.today + 1 }
     leave_time    { Time.zone.parse('08:00') }
-    destination { DestinationsLoader.names.sample }
+    destination { DestinationsLoader.all.sample }
     available_seats { 3 }
     cost_per_rider { 10.00 }
     status { 1 } # open

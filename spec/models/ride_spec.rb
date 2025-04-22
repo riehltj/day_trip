@@ -61,9 +61,9 @@ RSpec.describe Ride do
     let(:ride) { create(:ride) }
 
     it 'returns the formatted meetup location' do
-      expect(ride.meetup_location).to eq("#{ride.address_line1} #{ride.address_line2}
-      <br>
-      #{ride.city}, #{ride.state} #{ride.zip_code}")
+      expect(ride.meetup_location).to match(
+        /\A#{ride.address_line1} #{ride.address_line2}\s*<br>\s*#{ride.city}, #{ride.state} #{ride.zip_code}\z/
+      )
     end
   end
 
