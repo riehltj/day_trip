@@ -79,7 +79,7 @@ end
       description: Faker::Lorem.paragraph,
       cost_per_rider_in_cents: (400..1500).to_a.sample,
       available_seats: (1..4).to_a.sample,
-      status: 'open'
+      status: 1, # open
     )
 end
 
