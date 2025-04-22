@@ -12,7 +12,7 @@ FactoryBot.define do
     leave_time    { Time.zone.parse('08:00') }
     destination   { 'Test Destination' }
     available_seats { 3 }
-    cost_per_rider_in_cents { 1000 }
+    cost_per_rider { 10.00 }
     status { 1 } # open
   end
 end

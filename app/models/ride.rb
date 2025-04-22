@@ -16,7 +16,7 @@ class Ride < ApplicationRecord
   validates :status, inclusion: { in: statuses.keys }
   validates :address_line1, :city, :state, :zip_code, :leave_date, :leave_time, :destination, :available_seats,
             :cost_per_rider, presence: true
-  validates :available_seats, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  validates :available_seats, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :cost_per_rider, numericality: { greater_than_or_equal_to: 0 }
 
   scope :other_open_rides, lambda { |current_driver_id = nil|
