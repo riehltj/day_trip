@@ -19,7 +19,7 @@ class Trip < ApplicationRecord
   scope :rejected, -> { where(status: 'rejected') }
 
   scope :for_user, lambda { |user|
-    where(user_id: user.is_a?(User) ? user.id : user)
+    where(user_id: user.id)
       .joins(:ride)
       .includes(ride: :driver)
       .order('rides.leave_date')

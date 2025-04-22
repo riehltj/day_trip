@@ -12,9 +12,10 @@ class Driver < ApplicationRecord
   validates :car_make, presence: true
   validates :car_model, presence: true
   validates :car_year, presence: true, numericality: { only_integer: true }
+  validates :car_photo, presence: true
 
   def delete_stripe_account
-    return if stripe_account_id.blank?
+    return if user.stripe_account_id.blank?
 
     user.update!(nil)
   end
