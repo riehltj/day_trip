@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Ride do
   describe 'validations' do
-    let(:ride) { build(:ride) }
+    subject { build(:ride) }
 
     it { is_expected.to belong_to(:driver) }
     it { is_expected.to have_many(:trips).dependent(:destroy) }
@@ -17,8 +17,8 @@ RSpec.describe Ride do
     it { is_expected.to validate_presence_of(:leave_time) }
     it { is_expected.to validate_presence_of(:destination) }
     it { is_expected.to validate_presence_of(:available_seats) }
-    it { is_expected.to validate_presence_of(:cost_per_rider) }
-    it { is_expected.to validate_numericality_of(:available_seats).only_integer.is_greater_than_or_equal_to(0) }
+    it { is_expected.to validate_presence_of(:cost_per_rider_in_cents) }
+    it { is_expected.to validate_numericality_of(:available_seats).is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_numericality_of(:cost_per_rider).is_greater_than_or_equal_to(0) }
     it { is_expected.to define_enum_for(:status).with_values(%i[filled open pending canceled]) }
   end
