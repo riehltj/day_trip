@@ -8,7 +8,7 @@ class ChangeRideStatusToInt < ActiveRecord::Migration[7.1]
   def down
     change_table :rides, bulk: true do |t|
       t.remove :status, type: :integer
-      t.add :status, :string
+      t.column :status, :string
     end
   end
 end

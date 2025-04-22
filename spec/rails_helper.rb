@@ -7,9 +7,11 @@ require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
+# Add additional requires below this line. Rails is not loaded until this point!
 require 'money-rails/test_helpers'
 require 'shoulda/matchers'
-# Add additional requires below this line. Rails is not loaded until this point!
+require 'simplecov'
+require 'faker'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -34,6 +36,9 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+
+SimpleCov.start 'rails'
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = Rails.root.join('spec/fixtures').to_s
@@ -41,7 +46,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
@@ -68,6 +73,7 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include MoneyRails::TestHelpers
+  config.include Devise::Test::IntegrationHelpers, type: :request
 end
 
 Shoulda::Matchers.configure do |config|

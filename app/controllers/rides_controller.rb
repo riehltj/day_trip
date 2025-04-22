@@ -27,6 +27,8 @@ class RidesController < ApplicationController
   end
 
   def update
+    raise User::NotAuthorized unless @ride.editable_by?(current_user)
+
     if @ride.update(ride_params)
       redirect_to my_rides_rides_path, notice: 'Ride was successfully updated.'
     else

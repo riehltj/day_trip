@@ -5,14 +5,12 @@ Rails.application.routes.draw do
 
   root 'rides#index'
 
-  # Rides and nested trips
   resources :rides do
     get 'my_rides', on: :collection
-    resources :trips, only: %i[new create show]
   end
 
   # Standalone trips actions
-  resources :trips, only: [] do
+  resources :trips, only: %i[new create show] do
     patch :approve, on: :member
     patch :reject, on: :member
   end

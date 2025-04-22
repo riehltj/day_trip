@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "actiontext.css";
+@import "../stylesheets/actiontext.css";
 @plugin "daisyui";
 
 :root {

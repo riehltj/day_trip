@@ -6,7 +6,7 @@ class Trip < ApplicationRecord
 
   validates :number_of_seats, presence: true
 
-  monetize :total_cost_in_cents, as: :total_cost, allow_nil: true, numericality: { greater_than_or_equal_to: 0 }
+  monetize :total_cost_in_cents, as: :total_cost, numericality: { greater_than_or_equal_to: 0 }
 
   enum :status, {
     pending: 0,

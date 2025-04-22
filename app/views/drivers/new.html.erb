@@ -76,7 +76,7 @@
 <% end %>
 <% if current_user.stripe_account_id.blank? %>
   <p class="flex items-center"><%= lucide_icon('credit-card', class: 'h-4 w-4 mr-2') %> You haven't connected your Stripe account yet.</p>
-  <%= button_to onboarding_stripe_path, method: :post, class: "bg-accent text-white px-4 py-2 rounded flex items-center justify-center", data: { turbo: false } do %>
+  <%= button_to stripe_onboarding_path, method: :post, class: "bg-accent text-white px-4 py-2 rounded flex items-center justify-center", data: { turbo: false } do %>
     <%= lucide_icon('link', class: 'h-4 w-4 mr-2') %> Connect with Stripe
   <% end %>
 <% else %>

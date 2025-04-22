@@ -37,12 +37,16 @@ class Ride < ApplicationRecord
     open? || pending?
   end
 
+  def editable_by?(user)
+    driver.user == user
+  end
+
   def passengers
-    Trip.where(ride_id: id).map(&:user)
+    trips&.map(&:user)
   end
 
   def trip_payment_status(user)
-    Trip.find_by(user_id: user.id, ride_id: id).payment_status
+    trips.find_by(user_id: user.id)&.payment_status
   end
 
   def leave_date_time

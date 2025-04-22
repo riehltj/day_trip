@@ -88,15 +88,15 @@
                 <span>Stripe account connected</span>
               </div>
               <div class="flex flex-col gap-2">
-                <%= button_to "Update Stripe Account", onboarding_stripe_path, method: :post, class: "btn btn-sm btn-outline", data: { turbo: false } %>
-                <%= button_to "View Stripe Dashboard", dashboard_stripe_path, method: :post, class: "btn btn-sm btn-outline", data: { turbo: false } %>
+                <%= button_to "Update Stripe Account", stripe_onboarding_path, method: :post, class: "btn btn-sm btn-outline", data: { turbo: false } %>
+                <%= button_to "View Stripe Dashboard", stripe_dashboard_path, method: :post, class: "btn btn-sm btn-outline", data: { turbo: false } %>
               </div>
             <% else %>
               <div class="alert alert-warning flex items-center gap-2 mb-3">
                 <%= lucide_icon('alert-circle', class: 'h-4 w-4') %>
                 <span>Connect your Stripe account to receive payments</span>
               </div>
-              <%= button_to "Connect with Stripe", onboarding_stripe_path, method: :post, class: "btn btn-primary btn-sm" %>
+              <%= button_to "Connect with Stripe", stripe_onboarding_path, method: :post, class: "btn btn-primary btn-sm" %>
             <% end %>
           </div>
         </div>

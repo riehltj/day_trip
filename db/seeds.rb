@@ -53,9 +53,9 @@ if Driver.count.zero?
 
     file_path = Rails.root.join('test/assets/images', "car_#{i + 1}.jpg")
     driver.car_photo.attach(
-    io: File.open(file_path),
-    filename: File.basename(file_path),
-    content_type: 'image/jpeg'
+      io: File.open(file_path),
+      filename: File.basename(file_path),
+      content_type: 'image/jpeg'
 )
   end
 end

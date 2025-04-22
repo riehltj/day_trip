@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :user do
     first_name { 'John' }
     last_name { 'Doe' }
-    email { 'test@test.com' }
+    email { Faker::Internet.email }
     address { '123 Main St' }
     city { 'Denver' }
     state { 'CO' }
