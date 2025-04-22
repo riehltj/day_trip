@@ -19,7 +19,7 @@ class RidesController < ApplicationController
     @ride = Ride.new(ride_params.merge(driver: current_user.driver))
 
     if @ride.save
-      redirect_to my_rides_rides_path, notice: 'Ride was successfully created.'
+      redirect_to my_rides_path, notice: 'Ride was successfully created.'
     else
       flash.now[:alert] = @ride.errors.full_messages.to_sentence
       render :new
@@ -30,14 +30,15 @@ class RidesController < ApplicationController
     raise User::NotAuthorized unless @ride.editable_by?(current_user)
 
     if @ride.update(ride_params)
-      redirect_to my_rides_rides_path, notice: 'Ride was successfully updated.'
+      redirect_to my_rides_path, notice: 'Ride was successfully updated.'
     else
       flash.now[:alert] = @ride.errors.full_messages.to_sentence
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
+    Rails.logger.debug { ">>> #{@ride.inspect}" }
     @ride.destroy
     redirect_to rides_url, notice: 'Ride was successfully destroyed.'
   end

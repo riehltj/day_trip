@@ -4,13 +4,13 @@ Rails.application.routes.draw do
   devise_for :users
 
   root 'rides#index'
+  # Rides
+  resources :rides
 
-  resources :rides do
-    get 'my_rides', on: :collection
-  end
+  get 'my_rides', to: 'rides#my_rides', as: :my_rides
 
-  # Standalone trips actions
-  resources :trips, only: %i[new create show] do
+  # Trips
+  resources :trips, only: %i[new create show index] do
     patch :approve, on: :member
     patch :reject, on: :member
   end
