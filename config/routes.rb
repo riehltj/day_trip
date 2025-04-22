@@ -3,34 +3,42 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  root 'rides#index'
+
+  # Rides and nested trips
   resources :rides do
     get 'my_rides', on: :collection
     resources :trips, only: %i[new create show]
   end
 
+  # Standalone trips actions
+  resources :trips, only: [] do
+    patch :approve, on: :member
+    patch :reject, on: :member
+  end
+
+  # Payments
+  resources :payments, only: %i[new create]
   post 'checkout', to: 'checkouts#create'
   get 'payment/success', to: 'payments#success', as: 'payment_success'
   get 'payment/cancel', to: 'payments#cancel', as: 'payment_cancel'
 
-  post '/stripe/onboarding', to: 'stripe#onboarding', as: :onboarding_stripe
-  get '/stripe/return', to: 'stripe#onboarding_return', as: :onboarding_return
-  get '/stripe/refresh', to: 'stripe#onboarding_refresh', as: :onboarding_refresh
-  get '/stripe/dashboard', to: 'stripe#dashboard', as: :dashboard_stripe
-  get '/stripe/return', to: 'stripe#dashboard_return', as: :dashboard_return
-  get '/stripe/refresh', to: 'stripe#dashboard_refresh', as: :dashboard_refresh
-
-  resources :trips do
-    patch :approve
-    patch :reject
+  # Stripe onboarding & dashboard
+  namespace :stripe do
+    post :onboarding
+    get :onboarding_return, path: 'return'
+    get :onboarding_refresh, path: 'refresh'
+    get :dashboard
+    get :dashboard_return, path: 'return'
+    get :dashboard_refresh, path: 'refresh'
   end
-  resources :payments, only: %i[new create]
+
+  # Drivers
   resources :drivers, only: %i[new create show]
 
+  # Stripe webhooks
   post 'webhooks/stripe', to: 'webhooks#stripe'
 
-  root 'rides#index'
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # Health check
   get 'up' => 'rails/health#show', as: :rails_health_check
 end
