@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_22_165246) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_27_175229) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -64,6 +64,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_22_165246) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_drivers_on_user_id"
+  end
+
+  create_table "reviews", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "driver_id", null: false
+    t.uuid "user_id", null: false
+    t.integer "rating", null: false
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["driver_id", "user_id"], name: "index_reviews_on_driver_id_and_user_id", unique: true
+    t.index ["driver_id"], name: "index_reviews_on_driver_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "rides", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -125,6 +137,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_22_165246) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "drivers", "users", on_delete: :cascade
+  add_foreign_key "reviews", "drivers"
+  add_foreign_key "reviews", "users"
   add_foreign_key "rides", "drivers", on_delete: :cascade
   add_foreign_key "trips", "rides", on_delete: :cascade
   add_foreign_key "trips", "users", on_delete: :cascade

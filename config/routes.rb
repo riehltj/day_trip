@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     patch :reject, on: :member
   end
 
+  get 'my_trips', to: 'trips#my_trips', as: :my_trips
+
   # Payments
   resources :payments, only: %i[new create]
   post 'checkout', to: 'checkouts#create'
@@ -32,7 +34,7 @@ Rails.application.routes.draw do
   end
 
   # Drivers
-  resources :drivers, only: %i[new create show]
+  resources :drivers, except: %i[index]
 
   # Stripe webhooks
   post 'webhooks/stripe', to: 'webhooks#stripe'

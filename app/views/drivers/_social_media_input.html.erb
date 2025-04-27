@@ -1,0 +1,7 @@
+<div class="form-control">
+  <%= f.label social_media, class: 'label' do %>
+    <span><%= lucide_icon(social_media.to_s, class: 'h-4 w-4 mr-2') %></span>
+    <span><%= social_media.to_s.titleize %> Handle</span>
+  <% end %>
+  <%= f.text_field social_media, class: "input input-bordered w-full" %>
+</div>

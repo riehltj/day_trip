@@ -46,7 +46,7 @@
           <span class="font-semibold text-base"><%= humanized_money_with_symbol(trip.total_cost) %></span>
         </div>
         <div class="text-right pt-2">
-          <%= link_to ride_trip_path(trip.ride, trip), class: "btn btn-primary btn-sm" do %>
+          <%= link_to trip_path(trip.ride, trip), class: "btn btn-primary btn-sm" do %>
             Details
             <%= lucide_icon('chevron-right', class: 'h-3 w-3 ml-1') %>
           <% end %>

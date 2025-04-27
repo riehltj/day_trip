@@ -1,0 +1,15 @@
+<figure class="relative h-56 bg-base-200">
+  <% if driver.user.avatar&.attached? %>
+    <%= image_tag driver.user.avatar, class: "w-full h-full object-cover" %>
+  <% else %>
+    <div class="flex items-center justify-center h-full w-full bg-base-300">
+      <span class="text-6xl font-light text-base-content/50"><%= driver.user.first_name[0] %></span>
+    </div>
+  <% end %>
+  <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+    <h2 class="text-white text-2xl font-bold"><%= driver.user.full_name %></h2>
+    <div class="flex items-center gap-1 text-white/80">
+      <span><%= driver.user.gender_full %>, <%= driver.user.age %></span>
+    </div>
+  </div>
+</figure>

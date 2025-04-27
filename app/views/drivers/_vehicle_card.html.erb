@@ -1,0 +1,32 @@
+<div class="card bg-base-100 shadow-lg">
+  <div class="card-body">
+    <h2 class="card-title flex items-center gap-2">
+      <%= lucide_icon('car', class: 'h-5 w-5 text-primary') %>
+      Vehicle Information
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <div>
+        <dl class="space-y-2">
+          <div class="flex items-center justify-between py-2 border-b border-base-200">
+            <dt class="text-sm text-base-content/70">Make & Model</dt>
+            <dd class="font-semibold"><%= driver.car_make %> <%= driver.car_model %></dd>
+          </div>
+          <div class="flex items-center justify-between py-2 border-b border-base-200">
+            <dt class="text-sm text-base-content/70">Year</dt>
+            <dd class="font-semibold"><%= driver.car_year %></dd>
+          </div>
+        </dl>
+      </div>
+      <div class="flex items-center justify-center bg-base-200 rounded-box overflow-hidden h-48">
+        <% if driver.car_photo.attached? %>
+          <%= image_tag driver.car_photo, class: "w-full h-full object-cover" %>
+        <% else %>
+          <div class="flex flex-col items-center justify-center text-base-content/50">
+            <%= lucide_icon('car', class: 'h-12 w-12 mb-2') %>
+            <p class="text-sm">No vehicle photo available</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

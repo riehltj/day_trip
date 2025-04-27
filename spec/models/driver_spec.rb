@@ -64,4 +64,19 @@ RSpec.describe Driver do
       expect(driver.rides_completed).not_to eq(2)
     end
   end
+
+  describe '#average_rating' do
+    let(:driver) { create(:driver) }
+    let!(:four_star_review) { create(:review, driver: driver, rating: 4) } # rubocop:disable RSpec/LetSetup
+    let!(:five_star_review) { create(:review, driver: driver, rating: 5) } # rubocop:disable RSpec/LetSetup
+
+    it 'returns the average rating' do
+      expect(driver.average_rating).to eq(4.5)
+    end
+
+    it 'returns 0 if there are no reviews' do
+      driver.reviews.destroy_all
+      expect(driver.average_rating).to eq(0)
+    end
+  end
 end

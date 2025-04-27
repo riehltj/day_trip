@@ -35,7 +35,7 @@ class PaymentsController < ApplicationController
 
   def success
     @trip.update!(payment_status: 'paid')
-    redirect_to ride_trip_path(@trip, ride_id: @trip.ride_id), notice: 'Payment was successful.'
+    redirect_to trip_path(@trip, ride_id: @trip.ride_id), notice: 'Payment was successful.'
   rescue StandardError => e
     flash[:error] = "An error occurred: #{e.message}"
     redirect_to new_payment_path(trip_id: @trip.id)

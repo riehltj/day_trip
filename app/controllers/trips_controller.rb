@@ -21,7 +21,8 @@ class TripsController < ApplicationController
 
   def create # rubocop:disable Metrics/AbcSize
     @ride = Ride.find(params[:ride_id])
-    @trip = @ride.trips.create!(trip_params.merge(ride_id: @ride.id, user_id: current_user.id,
+    @trip = @ride.trips.create!(trip_params.merge(ride_id: @ride.id,
+                                                  user_id: current_user.id,
                                                   payment_status: 'pending'))
 
     if @trip.save

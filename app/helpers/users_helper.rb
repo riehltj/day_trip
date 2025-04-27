@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# app/helpers/users_helper.rb
 module UsersHelper
   def user_avatar(user, options = {})
     size = options[:size] || 40

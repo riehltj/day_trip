@@ -1,147 +1,17 @@
-<div class="max-w-4xl mx-auto my-8 px-4">
-
-  <!-- Profile header -->
-  <div class="flex flex-col md:flex-row gap-6 mb-8">
-    <div class="md:w-1/3">
+<div class="max-w-5xl mx-auto my-8 px-4">
+  <div class="flex flex-col md:flex-row gap-8 mb-8">
+    <!-- Left columnt -->
+    <div class="md:w-1/3 flex flex-col gap-4">
       <div class="card bg-base-100 shadow-lg overflow-hidden">
-        <!-- Driver photo -->
-        <figure class="relative h-56 bg-base-200">
-          <% if @driver.user.avatar&.attached? %>
-            <%= image_tag @driver.user.avatar, class: "w-full h-full object-cover" %>
-          <% else %>
-            <div class="flex items-center justify-center h-full w-full bg-base-300">
-              <span class="text-6xl font-light text-base-content/50"><%= @driver.user.first_name[0] %></span>
-            </div>
-          <% end %>
-          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-            <h2 class="text-white text-2xl font-bold"><%= @driver.user.full_name %></h2>
-            <div class="flex items-center gap-1 text-white/80">
-              <span><%= @driver.user.gender_full %>, <%= @driver.user.age %></span>
-            </div>
-          </div>
-        </figure>
-
-        <!-- Driver details -->
-        <div class="card-body">
-          <!-- Driver bio/description -->
-          <% if @driver.description.present? %>
-            <div class="mb-4">
-              <h3 class="flex items-center gap-2 font-semibold mb-2">
-                <%= lucide_icon('file-text', class: 'h-4 w-4') %>
-                About me
-              </h3>
-              <p class="text-sm"><%= @driver.description %></p>
-            </div>
-          <% end %>
-
-          <!-- Social media links -->
-          <% if @driver.twitter.present? || @driver.facebook.present? || @driver.instagram.present? %>
-            <div class="flex gap-3 mb-4">
-              <% if @driver.twitter.present? %>
-                <%= link_to @driver.twitter.start_with?('http') ? @driver.twitter : "https://twitter.com/#{@driver.twitter.gsub('@', '')}", target: "_blank", class: "btn btn-circle btn-sm btn-outline" do %>
-                  <%= lucide_icon('twitter', class: 'h-4 w-4') %>
-                <% end %>
-              <% end %>
-
-              <% if @driver.facebook.present? %>
-                <%= link_to @driver.facebook.start_with?('http') ? @driver.facebook : "https://facebook.com/#{@driver.facebook}", target: "_blank", class: "btn btn-circle btn-sm btn-outline" do %>
-                  <%= lucide_icon('facebook', class: 'h-4 w-4') %>
-                <% end %>
-              <% end %>
-
-              <% if @driver.instagram.present? %>
-                <%= link_to @driver.instagram.start_with?('http') ? @driver.instagram : "https://instagram.com/#{@driver.instagram.gsub('@', '')}", target: "_blank", class: "btn btn-circle btn-sm btn-outline" do %>
-                  <%= lucide_icon('instagram', class: 'h-4 w-4') %>
-                <% end %>
-              <% end %>
-            </div>
-          <% end %>
-
-          <!-- Driver stats -->
-          <div class="stats stats-vertical shadow bg-base-200 w-full">
-            <div class="stat">
-              <div class="stat-title">Rides Completed</div>
-              <div class="stat-value text-primary"><%= @driver.rides_completed %></div>
-            </div>
-            <div class="stat">
-              <div class="stat-title">Member Since</div>
-              <div class="stat-value text-accent text-lg">
-                <%= @driver.created_at.strftime("%b %Y") %>
-              </div>
-            </div>
-          </div>
-        </div>
+        <%= render 'driver_photo', driver: @driver %>
+        <%= render 'driver_info', driver: @driver %>
       </div>
-
-      <!-- Stripe connected account section for driver -->
-      <% if current_user == @driver.user %>
-        <div class="card bg-base-100 shadow-lg mt-4">
-          <div class="card-body">
-            <h3 class="card-title flex items-center gap-2">
-              <%= lucide_icon('credit-card', class: 'h-5 w-5 text-primary') %>
-              Payment Settings
-            </h3>
-
-            <% if current_user.stripe_account_id.present? %>
-              <div class="alert alert-success flex items-center gap-2 mb-3">
-                <%= lucide_icon('check-circle', class: 'h-4 w-4') %>
-                <span>Stripe account connected</span>
-              </div>
-              <div class="flex flex-col gap-2">
-                <%= button_to "Update Stripe Account", stripe_onboarding_path, method: :post, class: "btn btn-sm btn-outline", data: { turbo: false } %>
-                <%= button_to "View Stripe Dashboard", stripe_dashboard_path, method: :post, class: "btn btn-sm btn-outline", data: { turbo: false } %>
-              </div>
-            <% else %>
-              <div class="alert alert-warning flex items-center gap-2 mb-3">
-                <%= lucide_icon('alert-circle', class: 'h-4 w-4') %>
-                <span>Connect your Stripe account to receive payments</span>
-              </div>
-              <%= button_to "Connect with Stripe", stripe_onboarding_path, method: :post, class: "btn btn-primary btn-sm" %>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
+      <%= render 'payment_settings', driver: @driver if current_user == @driver.user %>
     </div>
-
-    <!-- Vehicle and rides info -->
-    <div class="md:w-2/3">
-      <!-- Vehicle card -->
-      <div class="card bg-base-100 shadow-lg mb-6">
-        <div class="card-body">
-          <h2 class="card-title flex items-center gap-2">
-            <%= lucide_icon('car', class: 'h-5 w-5 text-primary') %>
-            Vehicle Information
-          </h2>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <!-- Vehicle details -->
-            <div>
-              <dl class="space-y-2">
-                <div class="flex items-center justify-between py-2 border-b border-base-200">
-                  <dt class="text-sm text-base-content/70">Make & Model</dt>
-                  <dd class="font-semibold"><%= @driver.car_make %> <%= @driver.car_model %></dd>
-                </div>
-                <div class="flex items-center justify-between py-2 border-b border-base-200">
-                  <dt class="text-sm text-base-content/70">Year</dt>
-                  <dd class="font-semibold"><%= @driver.car_year %></dd>
-                </div>
-              </dl>
-            </div>
-
-            <!-- Vehicle photo -->
-            <div class="flex items-center justify-center bg-base-200 rounded-box overflow-hidden h-48">
-              <% if @driver.car_photo.attached? %>
-                <%= image_tag @driver.car_photo, class: "w-full h-full object-cover" %>
-              <% else %>
-                <div class="flex flex-col items-center justify-center text-base-content/50">
-                  <%= lucide_icon('car', class: 'h-12 w-12 mb-2') %>
-                  <p class="text-sm">No vehicle photo available</p>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- Right column -->
+    <div class="md:w-2/3 flex flex-col gap-6">
+      <%= render 'vehicle_card', driver: @driver %>
+      <%= render 'reviews_section', driver: @driver %>
     </div>
   </div>
 </div>
