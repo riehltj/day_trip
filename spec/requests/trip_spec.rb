@@ -36,7 +36,7 @@ RSpec.describe 'Trips', type: :request do
 
     it 'creates a trip and redirects to payment' do
       expect do
-        post ride_trips_path(ride), params: { trip: trip_params }
+        post trips_path(ride), params: { trip: trip_params }
       end.to change(Trip, :count).by(1)
     end
   end

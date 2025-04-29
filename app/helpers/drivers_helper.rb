@@ -2,7 +2,7 @@
 
 module DriversHelper
   def driver_social_links(driver)
-    DRIVER::SOCIALS.map do |platform, base_url|
+    Driver::SOCIALS.map do |platform, base_url|
       handle = driver.send(platform)
       next if handle.blank?
 

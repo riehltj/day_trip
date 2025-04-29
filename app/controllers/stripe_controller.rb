@@ -21,8 +21,8 @@ class StripeController < ApplicationController
     # Generate onboarding link
     account_link = Stripe::AccountLink.create({
                                                 account: account.id,
-                                                refresh_url: onboarding_refresh_url,
-                                                return_url: onboarding_return_url,
+                                                refresh_url: stripe_onboarding_refresh_url,
+                                                return_url: stripe_onboarding_return_url,
                                                 type: 'account_onboarding'
                                               })
     # Redirect to the Stripe onboarding page
