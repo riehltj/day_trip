@@ -23,12 +23,12 @@
     <%= render(RideDetailsComponent.new(title: 'Cost Per Seat:', info:humanized_money_with_symbol(@ride.cost_per_rider))) %>
   </div>
 
-  <%= form_with(url: trips_path(@ride), html: { class: "space-y-6", id: "trip-form", data: { turbo: false } }) do |f| %>
+  <%= form_with(url: ride_trips_path(@ride), html: { class: "space-y-6", id: "trip-form", data: { turbo: false } }) do |f| %>
     <div class="form-control">
       <%= f.label :number_of_seats, "Number of Seats", class: "label" %>
       <div class="relative">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <span class="text-gray-500 flex items-center">
+          <span class="text-gray-500 flex items-center z-1">
             <%= lucide_icon('users', class: 'h-5 w-5 text-gray-400') %>
           </span>
         </div>
@@ -59,7 +59,7 @@
         <%= f.label :email, "Email Address", class: "label" %>
         <div class="relative">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <span class="text-gray-500 flex items-center">
+            <span class="text-gray-500 flex items-center z-1">
               <%= lucide_icon('mail', class: 'h-5 w-5 text-gray-400') %>
             </span>
           </div>

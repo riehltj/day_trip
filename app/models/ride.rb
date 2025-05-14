@@ -25,6 +25,7 @@ class Ride < ApplicationRecord
     # and have a leave date in the future
     where(status: :open)
       .where('leave_date > ?', DateTime.now)
+      .where('available_seats > 0')
       .where.not(driver_id: current_driver_id)
       .order('leave_date ASC')
   }
@@ -34,7 +35,7 @@ class Ride < ApplicationRecord
   end
 
   def can_edit?
-    open? || pending?
+    passengers.nil? && open?
   end
 
   def editable_by?(user)

@@ -12,14 +12,14 @@ RSpec.describe 'Trips', type: :request do
 
   describe 'GET /trips' do
     it 'returns a successful response' do
-      get trips_path
+      get ride_trips_path
       expect(response).to have_http_status(:ok)
     end
   end
 
   describe 'GET /trips/:id' do
     it 'shows a trip' do
-      get trip_path(trip)
+      get ride_trip_path(trip)
       expect(response).to have_http_status(:ok)
     end
   end
@@ -52,13 +52,6 @@ RSpec.describe 'Trips', type: :request do
     it 'rejects the trip and redirects' do
       patch reject_trip_path(trip)
       expect(response).to redirect_to(trip.ride)
-    end
-  end
-
-  describe 'GET /my_trips' do
-    it 'shows my trips as a driver' do
-      get my_trips_path
-      expect(response).to have_http_status(:ok)
     end
   end
 end

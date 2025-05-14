@@ -3,27 +3,13 @@
     <h1 class="text-2xl font-bold">Trip Details</h1>
     <%= link_to trips_path, class: "btn btn-ghost btn-sm" do %>
       <%= lucide_icon('arrow-left', class: 'h-4 w-4 mr-1') %>
-      Back to Trips
+      Back to My Trips
     <% end %>
   </div>
 
   <div class="card bg-base-100 shadow-lg border border-base-300 overflow-hidden">
     <div class="card-body p-0">
-      <!-- Header with destination and date -->
-      <div class="bg-base-200 p-4">
-        <div class="flex flex-wrap justify-between items-center gap-3">
-          <div class="flex items-center gap-2">
-            <%= lucide_icon('map', class: 'h-5 w-5 text-primary flex-shrink-0') %>
-            <h2 class="card-title text-xl">
-              <%= link_to @trip.ride.destination, ride_path(@trip.ride), class: "text-primary hover:text-primary-focus hover:underline transition-colors" %>
-            </h2>
-          </div>
-
-          <div class="badge badge-lg badge-accent text-white whitespace-nowrap">
-            <%= @trip.ride.leave_date.strftime('%A, %b %d, %Y') %>
-          </div>
-        </div>
-      </div>
+      <%= render 'header', trip: @trip %>
 
       <!-- Main content using lists -->
       <ul class="list divide-y divide-base-200">

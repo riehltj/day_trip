@@ -66,6 +66,10 @@
 }
 
 @layer {
+  .custom-bg {
+    background-image: url("background-image-white.webp");
+  }
+
   @keyframes fadeOut {
     0%,
     60% {
@@ -79,7 +83,7 @@
   }
 
   .animate-fade-out {
-    animation: fadeOut 0.5s ease-out forwards;
+    animation: fadeOut 3s ease-out forwards;
   }
 
   input:-webkit-autofill,

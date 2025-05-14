@@ -5,17 +5,13 @@ Rails.application.routes.draw do
 
   root 'rides#index'
   # Rides
-  resources :rides
-
+  resources :rides do
+    resources :trips, only: %i[new create]
+  end
   get 'my_rides', to: 'rides#my_rides', as: :my_rides
 
   # Trips
-  resources :trips, only: %i[new create show index] do
-    patch :approve, on: :member
-    patch :reject, on: :member
-  end
-
-  get 'my_trips', to: 'trips#my_trips', as: :my_trips
+  resources :trips, only: %i[show index]
 
   # Payments
   resources :payments, only: %i[new create]

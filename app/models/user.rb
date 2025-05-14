@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_one :driver, dependent: :destroy
   has_one_attached :avatar
 
-  validates :first_name, :last_name, :date_of_birth, :gender, presence: true
+  validates :first_name, :last_name, presence: true
 
   # Map codes to full gender names (for display)
   GENDER_DISPLAY = {

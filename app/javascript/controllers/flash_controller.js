@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static values = {
     autoDismiss: { type: Boolean, default: true },
-    dismissAfter: { type: Number, default: 1000 }, // 1 second
+    dismissAfter: { type: Number, default: 3000 }, // 3 seconds
   };
 
   connect() {

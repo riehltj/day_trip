@@ -2,7 +2,13 @@
 
 class PaymentsController < ApplicationController
   before_action :set_trip
-  def new; end
+  def new
+    @ride = @trip.ride
+
+    # Create Stripe Checkout Session
+    session = StripeCheckoutService.create_session(ride: @ride, trip: @trip)
+    redirect_to session.url, allow_other_host: true
+  end
 
   def create # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     customer = Stripe::Customer.create({

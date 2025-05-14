@@ -1,7 +1,7 @@
 <div class="card border border-gray-200 bg-base-100 shadow-md w-full">
   <div class="card-body">
-    <h2 class="card-title flex justify-between items-center">
-      <span>To <%= ride.destination %></span>
+    <h2 class="card-title flex justify-between items-center hover:text-secondary hover:underline">
+      <%= link_to "To #{ride.destination}", ride_path(ride) %>
     </h2>
 
     <h4 class="text-gray-600 flex items-center gap-1">
@@ -23,9 +23,7 @@
       <span class="tooltip tooltip-top" data-tip="<%= ride.driver.user.gender_full.titleize %>">
         <%= ride.driver.user.gender %>
       </span>
-      <span>
-        (<%= ride.driver.user.age %> yrs)
-      </span>
+      <span>(<%= ride.driver.user.age %> yrs)</span>
     </h4>
 
     <h4 class="text-gray-600 items-center flex items-center gap-1">
@@ -52,12 +50,12 @@
     <% if current_user&.driver_of?(ride) && ride.can_edit? %>
       <%= render 'passenger_info', ride: %>
 
-      <%= link_to edit_ride_path(ride_id: ride), class: 'btn btn-neutral w-full hover:scale-105 transition-all' do  %>
+      <%= link_to edit_ride_path(ride), class: 'btn btn-neutral w-full hover:scale-105 transition-all' do  %>
         <%= lucide_icon('pencil') %>
         Edit
       <% end %>
     <% else %>
-      <%= link_to new_trip_path(ride_id: ride), class: 'btn btn-primary w-full hover:scale-105 transition-all' do  %>
+      <%= link_to new_ride_trip_path(ride_id: ride), class: 'btn btn-primary w-full hover:scale-105 transition-all' do  %>
         <%= lucide_icon('check-circle') %>
         Book Now!
       <% end %>

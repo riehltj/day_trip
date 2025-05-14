@@ -1,16 +1,12 @@
 # frozen_string_literal: true
 
 class TripsController < ApplicationController
-  before_action :authenticate_user!, only: %i[index show create]
-  before_action :set_ride, only: %i[show new]
-  before_action :set_trip, only: %i[approve reject show]
+  before_action :authenticate_user!, only: %i[index show]
+  before_action :set_ride, only: %i[new create]
+  before_action :set_trip, only: %i[show approve reject show]
 
   def index
     @trips = Trip.for_user(current_user)
-  end
-
-  def my_trips
-    @my_trips = current_user.trips.driving
   end
 
   def show; end
@@ -20,18 +16,20 @@ class TripsController < ApplicationController
   end
 
   def create # rubocop:disable Metrics/AbcSize
+    if params[:user].present?
+      create_account_and_sign_in
+      return if @user.nil?
+    end
+
     @ride = Ride.find(params[:ride_id])
     @trip = @ride.trips.create!(trip_params.merge(ride_id: @ride.id,
                                                   user_id: current_user.id,
                                                   payment_status: 'pending'))
-
-    if @trip.save
-      @ride.available_seats -= @trip.number_of_seats
-      @ride.save
-      redirect_to new_payment_path(trip_id: @trip.id), notice: 'Your trip booking was successfully created.'
-    else
-      render :new
-    end
+    @ride.update!(available_seats: @ride.available_seats -= @trip.number_of_seats)
+    redirect_to new_payment_path(trip_id: @trip.id), notice: 'Your trip booking was successfully created.'
+  rescue ActiveRecord::RecordInvalid => e
+    flash.now[:alert] = e.message
+    render :new
   end
 
   def approve
@@ -58,11 +56,23 @@ class TripsController < ApplicationController
     @ride = Ride.find(params[:ride_id])
   end
 
+  def create_account_and_sign_in
+    @user = User.create!(user_params)
+    sign_in(@user)
+  rescue ActiveRecord::RecordInvalid => e
+    flash.now[:alert] = e.essage
+    render :new
+  end
+
   def set_trip
-    @trip = Trip.find(params[:id])
+    @trip = Trip.find(params[:id] || params[:trip_id])
   end
 
   def trip_params
     params.require(:trip).permit(:number_of_seats, :total_cost_in_cents, :payment_status)
+  end
+
+  def user_params
+    params.require(:user).permit(:email, :password, :first_name, :last_name)
   end
 end

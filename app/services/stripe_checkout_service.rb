@@ -33,7 +33,7 @@ class StripeCheckoutService
           application_fee_amount: 100,
           transfer_data: { destination: user.stripe_account_id }
         },
-        success_url: Rails.application.routes.url_helpers.payment_success_url + "?session_id={CHECKOUT_SESSION_ID}&trip_id=#{trip.id}", # rubocop:disable Layout/LineLength
+        success_url: Rails.application.routes.url_helpers.payment_success_url(host: Rails.application.routes.default_url_options[:host]) + "?trip_id=#{trip.id}", # rubocop:disable Layout/LineLength
         cancel_url: Rails.application.routes.url_helpers.payment_cancel_url,
         metadata: { trip_id: trip.id }
       )

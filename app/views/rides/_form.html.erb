@@ -3,7 +3,6 @@
     <%= f.hidden_field :driver_id, value: current_user.driver.id %>
     <%= f.hidden_field :status, value: :open %>
 
-    <%= render 'ride_errors', ride: ride if ride.errors.any? %>
     <%= render 'ride_notice' unless ride.errors.any? %>
 
     <fieldset class="border border-gray-300 rounded-md p-5 bg-gray-50">
@@ -102,20 +101,20 @@
     </fieldset>
 
     <div class="form-control mt-6">
-      <% button_text = ride.new_record? ? 'Continue to Payment' : 'Save' %>
+      <% button_text = ride.new_record? ? 'Create Trip' : 'Save' %>
       <%= f.submit button_text, class: "btn btn-primary w-full" %>
     </div>
   <% end %>
-
-  <div class=" w-full max-w-md mx-auto">
-    <div class="divider mt-8">Danger Zone</div>
-    <% if ride.persisted? %>
+  <% if ride.persisted? %>
+    <div class=" w-full max-w-md mx-auto">
+      <div class="divider mt-8">Danger Zone</div>
       <div class="form-control mt-6">
         <%= button_to 'Delete Ride', ride_path(ride), 
               method: :delete, 
               class: "btn btn-warning w-full", 
               data: { turbo_confirm: "Are you sure you want to delete this ride? This is not reversable." } %>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
+
 </div>

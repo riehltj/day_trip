@@ -1,64 +1,66 @@
-<div class="card border border-gray-200 bg-base-100 shadow-md w-full max-w-2xl mx-auto">
-  <div class="card-body">
-    <h2 class="card-title flex justify-between items-center">
-      <span>Ride to <%= @ride.destination %></span>
-      <div class="badge <%= @ride.status == 'open' ? 'badge-secondary' : 'badge-accent' %>">
-        <%= @ride.status.capitalize %>
-      </div>
-    </h2>
-
-    <div class="grid grid-cols-1 gap-4 text-gray-600">
-      <div class="flex items-center gap-2">
-        <span class="tooltip tooltip-top" data-tip="Departure Date">
-          <%= lucide_icon('calendar') %>
-        </span>
-        <%= @ride.leave_date.strftime('%b %d, %Y @ %l:%M %p') %>
-      </div>
-
-      <div class="flex items-center gap-2">
-        <span class="tooltip tooltip-top" data-tip="Driver">
-          <%= lucide_icon('user') %>
-        </span>
-        <a href="<%= driver_path(@ride.driver.id) %>" class="text-secondary hover:underline font-medium">
-          <%= @ride.driver.user.full_name %>
-        </a>
-        <span class="tooltip tooltip-top" data-tip="<%= @ride.driver.user.gender_full.titleize %>">
-          <%= @ride.driver.user.gender %>
-        </span>
-        <span>(<%= @ride.driver.user.age %> yrs)</span>
-      </div>
-
-      <div class="flex items-center gap-2">
-        <div class="tooltip tooltip-top" data-tip="Meetup location">
-          <%= lucide_icon('map-pin') %>
+<div class="h-screen py-20 px-6">
+  <div class="card border border-gray-200 bg-base-100 shadow-md w-full max-w-2xl mx-auto">
+    <div class="card-body">
+      <h2 class="card-title flex justify-between items-center">
+        <span>Ride to <%= @ride.destination %></span>
+        <div class="badge <%= @ride.status == 'open' ? 'badge-secondary' : 'badge-accent' %>">
+          <%= @ride.status.capitalize %>
         </div>
-        <%= @ride.meetup_location %>
-      </div>
-    </div>
+      </h2>
 
-    <h3 class="text-lg font-semibold text-secondary flex items-center gap-2 mt-4">
-      <div class="tooltip tooltip-top" data-tip="Cost per rider">
-        <%= lucide_icon('dollar-sign') %>
-      </div>
-      <%= humanized_money_with_symbol(@ride.cost_per_rider) %> /seat
-    </h3>
+      <div class="grid grid-cols-1 gap-4 text-gray-600">
+        <div class="flex items-center gap-2">
+          <span class="tooltip tooltip-top" data-tip="Departure Date">
+            <%= lucide_icon('calendar') %>
+          </span>
+          <%= @ride.leave_date.strftime('%b %d, %Y @ %l:%M %p') %>
+        </div>
 
-    <div class="text-sm text-gray-500 flex items-center gap-2">
-      <div class="tooltip tooltip-top" data-tip="Available seats">
-        <%= lucide_icon('luggage') %>
-      </div>
-      <%= pluralize(@ride.available_seats, "Seat") %>
-    </div>
+        <div class="flex items-center gap-2">
+          <span class="tooltip tooltip-top" data-tip="Driver">
+            <%= lucide_icon('user') %>
+          </span>
+          <a href="<%= driver_path(@ride.driver.id) %>" class="text-secondary hover:underline font-medium">
+            <%= @ride.driver.user.full_name %>
+          </a>
+          <span class="tooltip tooltip-top" data-tip="<%= @ride.driver.user.gender_full.titleize %>">
+            <%= @ride.driver.user.gender %>
+          </span>
+          <span>(<%= @ride.driver.user.age %> yrs)</span>
+        </div>
 
-    <div class="flex flex-col md:flex-row gap-2 mt-4">
-      <%= link_to new_trip_path(@ride), class: 'btn btn-primary flex-1 hover:scale-105 transition-all' do %>
-        <%= lucide_icon('check-circle') %>
-        Book Now!
-      <% end %>
-      <%= link_to rides_path, class: 'btn btn-outline flex-1' do %>
-        <%= lucide_icon('arrow-left') %>
-        Back to Rides
-      <% end %>
+        <div class="flex items-center gap-2">
+          <div class="tooltip tooltip-top" data-tip="Meetup location">
+            <%= lucide_icon('map-pin') %>
+          </div>
+          <%= @ride.meetup_location %>
+        </div>
+      </div>
+
+      <h3 class="text-lg font-semibold text-secondary flex items-center gap-2 mt-4">
+        <div class="tooltip tooltip-top" data-tip="Cost per rider">
+          <%= lucide_icon('dollar-sign') %>
+        </div>
+        <%= humanized_money_with_symbol(@ride.cost_per_rider) %> /seat
+      </h3>
+
+      <div class="text-sm text-gray-500 flex items-center gap-2">
+        <div class="tooltip tooltip-top" data-tip="Available seats">
+          <%= lucide_icon('luggage') %>
+        </div>
+        <%= pluralize(@ride.available_seats, "Seat") %>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-5 mt-4">
+        <%= link_to rides_path, class: 'btn btn-outline flex-1 btn-lg py-2' do %>
+          <%= lucide_icon('arrow-left') %>
+          Back to Rides
+        <% end %>
+        <%= link_to new_ride_trip_path(ride_id: @ride.id), class: 'btn btn-primary btn-lg py-2 flex-1 hover:scale-105 transition-all' do %>
+          <%= lucide_icon('check-circle') %>
+          Book Now!
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

@@ -24,4 +24,8 @@ class Trip < ApplicationRecord
       .includes(ride: :driver)
       .order('rides.leave_date')
   }
+
+  def driving
+    Trip.where(driver: current_user.driver)
+  end
 end
