@@ -10,12 +10,12 @@ class Trip < ApplicationRecord
 
   enum :status, {
     pending: 0,
-    approved: 1,
+    accepted: 1,
     rejected: 2
   }, default: 0
 
   scope :pending, -> { where(status: 'pending') }
-  scope :approved, -> { where(status: 'approved') }
+  scope :accepted, -> { where(status: 'accepted') }
   scope :rejected, -> { where(status: 'rejected') }
 
   scope :for_user, lambda { |user|

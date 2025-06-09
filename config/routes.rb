@@ -11,7 +11,13 @@ Rails.application.routes.draw do
   get 'my_rides', to: 'rides#my_rides', as: :my_rides
 
   # Trips
-  resources :trips, only: %i[show index]
+  resources :trips, only: %i[show index] do
+    member do
+      patch 'accept', to: 'trips#accept'
+      patch 'reject', to: 'trips#reject'
+      patch 'complete', to: 'trips#complete'
+    end
+  end
 
   # Payments
   resources :payments, only: %i[new create]

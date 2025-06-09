@@ -3,7 +3,7 @@
 class TripsController < ApplicationController
   before_action :authenticate_user!, only: %i[index show]
   before_action :set_ride, only: %i[new create]
-  before_action :set_trip, only: %i[show approve reject show]
+  before_action :set_trip, only: %i[show accept reject show]
 
   def index
     @trips = Trip.for_user(current_user)
@@ -32,12 +32,12 @@ class TripsController < ApplicationController
     render :new
   end
 
-  def approve
-    return unless @trip.update(status: :approved)
+  def accept
+    return unless @trip.update(status: :accepted)
 
     # Send notification to passenger
-    TripMailer.trip_approved(@trip).deliver_later if defined?(TripMailer)
-    flash.now[:notice] = "Trip for #{@trip.user.full_name} was approved"
+    TripMailer.trip_accepted(@trip).deliver_later if defined?(TripMailer)
+    redirect_to my_rides_path, notice: "Trip for #{@trip.user.full_name} was accepted"
   end
 
   def reject

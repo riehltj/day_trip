@@ -10,7 +10,7 @@ RSpec.describe Trip do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to validate_presence_of(:number_of_seats) }
     it { is_expected.to monetize(:total_cost_in_cents).as(:total_cost) }
-    it { is_expected.to define_enum_for(:status).with_values(%i[pending approved rejected]) }
+    it { is_expected.to define_enum_for(:status).with_values(%i[pending accepted rejected]) }
   end
 
   describe 'scopes' do
@@ -21,10 +21,10 @@ RSpec.describe Trip do
       end
     end
 
-    describe '#approved' do
-      it 'returns trips with approved status' do
-        trip = create(:trip, status: :approved)
-        expect(described_class.approved).to include(trip)
+    describe '#accepted' do
+      it 'returns trips with accepted status' do
+        trip = create(:trip, status: :accepted)
+        expect(described_class.accepted).to include(trip)
       end
     end
 

@@ -47,12 +47,14 @@
       <%= pluralize(ride.available_seats, "Seat") %>
     </div>
 
-    <% if current_user&.driver_of?(ride) && ride.can_edit? %>
+    <% if current_user&.driver_of?(ride) %>
       <%= render 'passenger_info', ride: %>
 
-      <%= link_to edit_ride_path(ride), class: 'btn btn-neutral w-full hover:scale-105 transition-all' do  %>
-        <%= lucide_icon('pencil') %>
-        Edit
+      <% if ride.can_edit? %>
+        <%= link_to edit_ride_path(ride), class: 'btn btn-neutral w-full hover:scale-105 transition-all' do  %>
+          <%= lucide_icon('pencil') %>
+          Edit
+        <% end %>
       <% end %>
     <% else %>
       <%= link_to new_ride_trip_path(ride_id: ride), class: 'btn btn-primary w-full hover:scale-105 transition-all' do  %>

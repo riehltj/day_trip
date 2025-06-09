@@ -1,0 +1,42 @@
+<li class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-2">
+  <div class="flex items-center gap-2">
+    <%= user_avatar(trip.user) %>
+    <div>
+      <span class="font-medium"><%= trip.user.full_name %></span>
+      <div class="text-xs text-gray-500">
+        <%= pluralize(trip.number_of_seats, "seat") %> • 
+        <span class="<%= trip.payment_status == 'paid' ? 'text-success' : 'text-warning' %>">
+          <%= trip.payment_status.capitalize %>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex gap-2">
+    <% case trip.status %>
+    <% when 'pending' %>
+      <div class="flex gap-4">
+            <%= button_to reject_trip_path(trip),
+                   method: :patch,
+                   data: { turbo: false },
+                   class: "btn btn-error btn-xs" do %>
+        <%= lucide_icon('x', class: 'h-3 w-3 mr-1') %>
+      <% end %>
+            <%= button_to accept_trip_path(trip),
+                   method: :patch,
+                   data: { turbo: false },
+                   class: "btn btn-success btn-xs" do %>
+        <%= lucide_icon('check', class: 'h-3 w-3 mr-1') %>
+      <% end %>
+      </div>
+      <% when 'accepted' %>
+      <div class="bg-success text-white p-4 btn btn-success btn-xs"> 
+        Accepted
+      </div>
+            <% when 'rejected' %>
+      <div class="text-white p-4 btn btn-error btn-xs"> 
+        Rejected
+      </div>
+    <% end %>
+  </div>
+</li>
