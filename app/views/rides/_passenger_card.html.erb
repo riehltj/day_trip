@@ -15,26 +15,29 @@
   <div class="flex gap-2">
     <% case trip.status %>
     <% when 'pending' %>
-      <div class="flex gap-4">
-            <%= button_to reject_trip_path(trip),
-                   method: :patch,
-                   data: { turbo: false },
-                   class: "btn btn-error btn-xs" do %>
-        <%= lucide_icon('x', class: 'h-3 w-3 mr-1') %>
-      <% end %>
-            <%= button_to accept_trip_path(trip),
-                   method: :patch,
-                   data: { turbo: false },
-                   class: "btn btn-success btn-xs" do %>
-        <%= lucide_icon('check', class: 'h-3 w-3 mr-1') %>
-      <% end %>
+      <div class="flex gap-2">
+        <%= button_to reject_trip_path(trip),
+              method: :patch,
+              data: { turbo: false },
+              class: "btn btn-error btn-xs" do %>
+          <%= lucide_icon('x', class: 'h-3 w-3 mr-1') %>
+        <% end %>
+
+        <%= button_to accept_trip_path(trip),
+              method: :patch,
+              data: { turbo: false },
+              class: "btn btn-success btn-xs" do %>
+          <%= lucide_icon('check', class: 'h-3 w-3 mr-1') %>
+        <% end %>
       </div>
-      <% when 'accepted' %>
-      <div class="bg-success text-white p-4 btn btn-success btn-xs"> 
+
+    <% when 'accepted' %>
+      <div class="btn btn-success btn-xs text-white">
         Accepted
       </div>
-            <% when 'rejected' %>
-      <div class="text-white p-4 btn btn-error btn-xs"> 
+
+    <% when 'rejected' %>
+      <div class="btn btn-error btn-xs text-white">
         Rejected
       </div>
     <% end %>
