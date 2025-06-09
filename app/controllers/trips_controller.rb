@@ -26,6 +26,7 @@ class TripsController < ApplicationController
                                                   user_id: current_user.id,
                                                   payment_status: 'pending'))
     @ride.update!(available_seats: @ride.available_seats -= @trip.number_of_seats)
+    TripMailer.trip_passenger_request(@trip).deliver_later if defined?(TripMailer)
     redirect_to new_payment_path(trip_id: @trip.id), notice: 'Your trip booking was successfully created.'
   rescue ActiveRecord::RecordInvalid => e
     flash.now[:alert] = e.message
@@ -42,6 +43,9 @@ class TripsController < ApplicationController
 
   def reject
     if @trip.update(status: :rejected)
+      if @trip.payment_status == 'paid'
+        # TODO: Refund the trip cost (processing fee is gone?)
+      end
       # Send notification to passenger
       TripMailer.trip_rejected(@trip).deliver_later if defined?(TripMailer)
       redirect_to @trip.ride, notice: "Trip for #{@trip.user.full_name} was rejected"

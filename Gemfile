@@ -76,3 +76,5 @@ gem 'faker', '~> 3.4', '>= 3.4.2' # Fake test data
 gem 'money-rails', '~> 1.15' # Money handling
 gem 'lucide-rails', '~> 0.4.0' # SVG icons
 gem "view_component"
+
+gem "sidekiq", "~> 7.3"

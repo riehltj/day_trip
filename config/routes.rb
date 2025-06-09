@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'sidekiq/web' # require the web UI
+
 Rails.application.routes.draw do
   devise_for :users
 
@@ -40,6 +42,9 @@ Rails.application.routes.draw do
 
   # Stripe webhooks
   post 'webhooks/stripe', to: 'webhooks#stripe'
+
+  # Sidekiq
+  mount Sidekiq::Web => '/sidekiq' # access it at http://localhost:3009/sidekiq
 
   # Health check
   get 'up' => 'rails/health#show', as: :rails_health_check
