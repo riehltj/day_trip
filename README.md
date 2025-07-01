@@ -1,25 +1,40 @@
-# README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+---
 
-Things you may want to cover:
+### DayTrip (Ruby on Rails + Stripe)
 
-* Ruby version
+# DayTrip
 
-* System dependencies
+DayTrip is a full-stack Ruby on Rails web app that allows users to browse and book seats on upcoming group trips. The app integrates with Stripe for secure online payments.
 
-* Configuration
+## Features
 
-* Database creation
+- User authentication (Devise)
+- Trip listings with availability and details
+- Seat booking with real-time availability
+- Stripe Checkout integration for payments
+- Admin dashboard for managing trips (optional)
 
-* Database initialization
+## 💸 Payments
 
-* How to run the test suite
+Stripe is used to securely handle credit card transactions. Payments are processed using [Stripe Checkout](https://stripe.com/docs/checkout), and all sensitive data is handled via Stripe's SDK.
 
-* Services (job queues, cache servers, search engines, etc.)
+## Tech Stack
 
-* Deployment instructions
+- Ruby on Rails 7
+- PostgreSQL
+- Tailwind CSS
+- Stripe Ruby SDK
+- Turbo/Hotwire
+- StimulusJS
 
-* ...
-# day_trip
+## Setup
+
+```bash
+git clone https://github.com/yourusername/daytrip.git
+cd daytrip
+bundle install
+yarn install
+rails db:create db:migrate db:seed
+rails server
+```
