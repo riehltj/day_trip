@@ -44,7 +44,7 @@ class RidesController < ApplicationController
   end
 
   def my_rides
-    @rides = Ride.where(driver: current_user.driver)
+    @rides = Ride.where(driver: current_user.driver).where.not(status: %i[cancelled closed])
   end
 
   private

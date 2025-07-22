@@ -22,6 +22,18 @@ class TripMailer < ApplicationMailer
     )
   end
 
+  def trip_completed(trip)
+    @trip = trip
+    @ride = trip.ride
+    @user = trip.user
+    @driver = trip.ride.driver.user
+
+    mail(
+      to: @user.email,
+      subject: 'Your trip has been completed'
+    )
+  end
+
   def trip_passenger_request(trip)
     @trip = trip
     @ride = trip.ride

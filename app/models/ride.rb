@@ -8,7 +8,8 @@ class Ride < ApplicationRecord
     filled: 0, # All seats are booked
     open: 1, # Open for new passengers
     pending: 2, # Waiting for driver approval
-    canceled: 3 # Driver canceled the ride
+    canceled: 3, # Driver canceled the ride
+    closed: 4 # Ride is completed
   }, default: 1
 
   monetize :cost_per_rider_in_cents, as: :cost_per_rider

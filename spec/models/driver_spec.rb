@@ -17,26 +17,6 @@ RSpec.describe Driver do
     it { is_expected.to validate_presence_of(:car_photo) }
   end
 
-  describe '#delete_stripe_account' do
-    let(:user) { create(:user, stripe_account_id: 'acct_123') }
-    let(:driver) { create(:driver, user: user) }
-
-    before do
-      allow(driver.user).to receive(:update!)
-    end
-
-    it 'updates the user with nil' do
-      driver.delete_stripe_account
-      expect(driver.user).to have_received(:update!).with(nil)
-    end
-
-    it 'does not update the user if stripe_account_id is blank' do
-      driver.user.update(stripe_account_id: nil)
-      driver.delete_stripe_account
-      expect(driver.user).not_to have_received(:update!)
-    end
-  end
-
   describe '#full_car_details' do
     let(:driver) { create(:driver, car_make: 'Toyota', car_model: 'Camry', car_year: 2020) }
 

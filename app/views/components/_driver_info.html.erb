@@ -1,0 +1,20 @@
+<h4 class="text-gray-600 flex items-center  flex-wrap gap-1">
+  <span class="tooltip tooltip-top" data-tip="Driver">
+    <%= lucide_icon('user') %>
+  </span>
+
+  <a href="<%= driver_path(driver) %>" class="text-secondary hover:underline font-medium">
+    <%= driver.user.full_name %>
+  </a>
+
+  <span class="tooltip tooltip-top" data-tip="<%= driver.user.gender_full.titleize %>">
+    <%= driver.user.gender %>
+  </span>
+
+  <span><%= driver.user.age %> yrs</span>
+
+  <span class="flex items-center gap-1 text-xs">
+    <%= lucide_icon('star', class: 'h-4 w-4 text-yellow-400') %>
+    <%= driver.average_rating %>
+  </span>
+</h4>

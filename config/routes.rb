@@ -21,27 +21,10 @@ Rails.application.routes.draw do
     end
   end
 
-  # Payments
-  resources :payments, only: %i[new create]
-  post 'checkout', to: 'checkouts#create'
-  get 'payment/success', to: 'payments#success', as: 'payment_success'
-  get 'payment/cancel', to: 'payments#cancel', as: 'payment_cancel'
-
-  # Stripe onboarding & dashboard
-  namespace :stripe do
-    post :onboarding
-    get :onboarding_return, path: 'return'
-    get :onboarding_refresh, path: 'refresh'
-    get :dashboard
-    get :dashboard_return, path: 'return'
-    get :dashboard_refresh, path: 'refresh'
-  end
-
   # Drivers
-  resources :drivers, except: %i[index]
-
-  # Stripe webhooks
-  post 'webhooks/stripe', to: 'webhooks#stripe'
+  resources :drivers, except: %i[index] do
+    resources :reviews, only: %i[new create index]
+  end
 
   # Sidekiq
   mount Sidekiq::Web => '/sidekiq' # access it at http://localhost:3009/sidekiq

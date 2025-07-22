@@ -1,8 +1,11 @@
-<div class="card bg-base-100 shadow-lg">
+<div class="card bg-base-100 shadow-lg max-h-30rem">
   <div class="card-body">
     <h2 class="card-title flex items-center gap-2">
-      <%= lucide_icon('star', class: 'h-5 w-5 text-yellow-400') %>
-      Reviews
+      <span>Reviews</span>
+      <span class="flex items-center gap-1 text-xs">( 
+        <%= lucide_icon('star', class: 'h-4 w-4 text-yellow-400') %>
+        <%= driver.average_rating %>
+        )</span>
     </h2>
     <% if driver.reviews.any? %>
       <div class="grid grid-cols-1 gap-4">
@@ -28,10 +31,6 @@
       </div>
     <% else %>
       <div class="text-base-content/60 py-4">No reviews yet.</div>
-    <% end %>
-    <%# --- Leave a Review Button --- %>
-    <% if user_signed_in? && current_user != driver.user %>
-      <%= link_to 'Leave a Review', new_driver_review_path(driver), class: "btn btn-outline btn-primary mt-4" %>
     <% end %>
   </div>
 </div>

@@ -70,11 +70,12 @@ gem 'devise' # Authentication
 gem 'rubocop', require: false
 gem 'rubocop-rails', require: false
 gem 'rubocop-rspec', require: false
-gem 'stripe' # Payments
 gem 'factory_bot_rails', '~> 6.4' # Test data
 gem 'faker', '~> 3.4', '>= 3.4.2' # Fake test data
 gem 'money-rails', '~> 1.15' # Money handling
 gem 'lucide-rails', '~> 0.4.0' # SVG icons
 gem "view_component"
+
+gem "faker_active_record", path: "/Users/tylerriehl/faker_active_record"
 
 gem "sidekiq", "~> 7.3"

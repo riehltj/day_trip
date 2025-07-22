@@ -1,4 +1,4 @@
-<div class="navbar bg-black shadow-sm px-6 md:px-20 mb-4 sticky top-0 z-50 shadow-lg">
+<div class="navbar bg-black shadow-sm px-6 md:px-20 mb-4 sticky w-screen top-0 z-50 shadow-lg">
   <div class="navbar-start">
     <div class="dropdown">
       <div tabindex="0" role="button" class="btn btn-ghost lg:hidden text-white">
@@ -13,8 +13,8 @@
     <%= link_to root_path, class: 'text-xl w-20 h-20' do %>
       <%= image_tag 'logo.png', alt: 'DayTrip Logo', class: 'w-full object-contain' %>
     <% end %>
-
   </div>
+
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal px-1 text-white">
       <%= render 'components/nav_links' %>

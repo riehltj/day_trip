@@ -23,7 +23,7 @@
     <%= render(RideDetailsComponent.new(title: 'Cost Per Seat:', info:humanized_money_with_symbol(@ride.cost_per_rider))) %>
   </div>
 
-  <%= form_with(url: ride_trips_path(@ride), html: { class: "space-y-6", id: "trip-form", data: { turbo: false } }) do |f| %>
+  <%= form_with(url: ride_trips_path(@ride), class: "space-y-6", id: "trip-form", data: { turbo: false }) do |f| %>
     <div class="form-control">
       <%= f.label :number_of_seats, "Number of Seats", class: "label" %>
       <div class="relative">

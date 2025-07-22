@@ -15,19 +15,7 @@
           </span>
           <%= @ride.leave_date.strftime('%b %d, %Y @ %l:%M %p') %>
         </div>
-
-        <div class="flex items-center gap-2">
-          <span class="tooltip tooltip-top" data-tip="Driver">
-            <%= lucide_icon('user') %>
-          </span>
-          <a href="<%= driver_path(@ride.driver.id) %>" class="text-secondary hover:underline font-medium">
-            <%= @ride.driver.user.full_name %>
-          </a>
-          <span class="tooltip tooltip-top" data-tip="<%= @ride.driver.user.gender_full.titleize %>">
-            <%= @ride.driver.user.gender %>
-          </span>
-          <span>(<%= @ride.driver.user.age %> yrs)</span>
-        </div>
+        <%= render 'components/driver_info', driver: @ride.driver %>
 
         <div class="flex items-center gap-2">
           <div class="tooltip tooltip-top" data-tip="Meetup location">

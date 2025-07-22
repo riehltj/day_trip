@@ -1,3 +1,10 @@
+PATH
+  remote: /Users/tylerriehl/faker_active_record
+  specs:
+    faker_active_record (0.1.0)
+      marcel
+      mini_mime
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -372,6 +379,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails (~> 6.4)
   faker (~> 3.4, >= 3.4.2)
+  faker_active_record!
   image_processing (~> 1.2)
   importmap-rails
   jbuilder

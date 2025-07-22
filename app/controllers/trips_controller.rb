@@ -2,7 +2,7 @@
 
 class TripsController < ApplicationController
   before_action :authenticate_user!, only: %i[index show]
-  before_action :set_ride, only: %i[new create]
+  before_action :set_ride, only: %i[new create complete]
   before_action :set_trip, only: %i[show accept reject show]
 
   def index
@@ -36,9 +36,8 @@ class TripsController < ApplicationController
   def accept
     return unless @trip.update(status: :accepted)
 
-    # Send notification to passenger
-    TripMailer.trip_accepted(@trip).deliver_later if defined?(TripMailer)
-    redirect_to my_rides_path, notice: "Trip for #{@trip.user.full_name} was accepted"
+    mail_trip_users(@ride, :trip_accepted)
+    redirect_to my_rides_path, notice: "Trip for #{@trip.user.full_name} was accepted!"
   end
 
   def reject
@@ -46,12 +45,23 @@ class TripsController < ApplicationController
       if @trip.payment_status == 'paid'
         # TODO: Refund the trip cost (processing fee is gone?)
       end
-      # Send notification to passenger
-      TripMailer.trip_rejected(@trip).deliver_later if defined?(TripMailer)
-      redirect_to @trip.ride, notice: "Trip for #{@trip.user.full_name} was rejected"
+      mail_trip_users(@ride, :trip_rejected)
+      redirect_to my_rides_path, notice: "Trip for #{@trip.user.full_name} was rejected."
     else
-      redirect_to @trip.ride, alert: "Couldn't reject this trip"
+      redirect_to my_rides_path alert: "Couldn't reject this trip"
     end
+  end
+
+  def complete
+    ActiveRecord::Base.transaction do
+      @ride.trips.map { |trip| trip.update!(status: 'closed') }
+      @ride.update!(status: 'closed')
+    end
+    mail_trip_users(@ride, :trip_completed)
+    redirect_to my_rides_path, notice: 'Ride was completed!'
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error { "Error completing trip: #{e.message}" }
+    flash.now[:alert] = e.message
   end
 
   private
@@ -66,6 +76,12 @@ class TripsController < ApplicationController
   rescue ActiveRecord::RecordInvalid => e
     flash.now[:alert] = e.essage
     render :new
+  end
+
+  def mail_trip_users(ride, method)
+    ride.trips.each do |trip|
+      TripMailer.send(method, trip).deliver_later if defined?(TripMailer)
+    end
   end
 
   def set_trip

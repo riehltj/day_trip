@@ -57,7 +57,7 @@ export default class extends Controller {
     }
 
     // Add the animation class to trigger fade out
-    this.element.classList.add("animate-fade-out");
+    this.element.classList.add("hidden");
 
     // Prevent default button behavior
     event.preventDefault();

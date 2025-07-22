@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class Review < ApplicationRecord
-  belongs_to :ride
+  belongs_to :driver
   belongs_to :user
+  belongs_to :ride
 
   validates :rating, presence: true,
                      numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
