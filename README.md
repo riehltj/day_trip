@@ -1,4 +1,3 @@
-
 ---
 
 ### DayTrip (Ruby on Rails + Stripe)
@@ -12,7 +11,6 @@ DayTrip is a full-stack Ruby on Rails web app that allows users to browse and bo
 - User authentication (Devise)
 - Trip listings with availability and details
 - Seat booking with real-time availability
-- Stripe Checkout integration for payments
 - Admin dashboard for managing trips (optional)
 
 ## 💸 Payments
