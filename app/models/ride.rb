@@ -19,6 +19,11 @@ class Ride < ApplicationRecord
             :cost_per_rider, presence: true
   validates :available_seats, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :cost_per_rider, numericality: { greater_than_or_equal_to: 0 }
+  validate :leave_date_in_future, on: :create
+  validate :leave_date_not_in_past, on: :update
+  validate :available_seats_not_below_booked, on: :update
+
+  after_update :update_status_based_on_seats
 
   scope :other_open_rides, lambda { |current_driver_id = nil|
     # The query to find other open rides
@@ -36,7 +41,7 @@ class Ride < ApplicationRecord
   end
 
   def can_edit?
-    passengers.nil? && open?
+    passengers.empty? && open?
   end
 
   def editable_by?(user)
@@ -55,5 +60,45 @@ class Ride < ApplicationRecord
     date = leave_date.strftime('%b %d, %Y')
     time = leave_time.strftime('%l:%M %p')
     "#{date} @ #{time}"
+  end
+
+  def booked_seats
+    trips.where(status: [:pending, :accepted]).sum(:number_of_seats)
+  end
+
+  private
+
+  def leave_date_in_future
+    return unless leave_date
+
+    if leave_date <= Date.today
+      errors.add(:leave_date, 'must be in the future')
+    end
+  end
+
+  def leave_date_not_in_past
+    return unless leave_date && leave_date_changed?
+
+    if leave_date < Date.today
+      errors.add(:leave_date, 'cannot be changed to a past date')
+    end
+  end
+
+  def available_seats_not_below_booked
+    return unless available_seats && available_seats_changed?
+
+    if available_seats < booked_seats
+      errors.add(:available_seats, "cannot be less than booked seats (#{booked_seats})")
+    end
+  end
+
+  def update_status_based_on_seats
+    return unless available_seats_changed? && !status_changed?
+
+    if available_seats.zero? && open?
+      update_column(:status, :filled)
+    elsif available_seats.positive? && filled?
+      update_column(:status, :open)
+    end
   end
 end

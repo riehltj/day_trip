@@ -3,6 +3,7 @@
 class DriversController < ApplicationController
   before_action :authenticate_user!, only: %i[new create]
   before_action :set_driver, only: %i[show edit update destroy]
+  before_action :authorize_driver_owner!, only: %i[show edit update destroy]
 
   def show; end
 
@@ -35,6 +36,12 @@ class DriversController < ApplicationController
 
   def set_driver
     @driver = Driver.find(params[:id])
+  end
+
+  def authorize_driver_owner!
+    return if user_signed_in? && @driver.user == current_user
+
+    raise User::NotAuthorized
   end
 
   def driver_params

@@ -76,6 +76,6 @@ gem 'money-rails', '~> 1.15' # Money handling
 gem 'lucide-rails', '~> 0.4.0' # SVG icons
 gem "view_component"
 
-gem "faker_active_record", path: "/Users/tylerriehl/faker_active_record"
+# gem "faker_active_record", path: "/Users/tylerriehl/faker_active_record" # Commented out - path doesn't exist
 
 gem "sidekiq", "~> 7.3"
