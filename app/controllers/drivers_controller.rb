@@ -16,6 +16,9 @@ class DriversController < ApplicationController
   def create
     @driver = Driver.create!(driver_params.merge(user: current_user))
     redirect_to driver_path(@driver), notice: 'Driver profile created successfully'
+  rescue ActiveRecord::RecordInvalid => e
+    flash.now[:alert] = e.message
+    render :new, params: { driver: Driver.new }
   end
 
   def update

@@ -6,7 +6,7 @@
     <%= render 'ride_notice' unless ride.errors.any? %>
 
     <fieldset class="border border-gray-300 rounded-md p-5 bg-gray-50">
-      <legend class="text-sm font-medium px-2">Trip Details</legend>
+      <legend class="text-sm font-medium px-2">Reservation Details</legend>
       <div class="grid grid-cols-2 gap-4">
         <div class="form-control">
           <%= f.label :leave_date, "Departure Date", class: "label" %>
@@ -48,7 +48,7 @@
     </fieldset>
 
     <fieldset class="border border-gray-300 rounded-md p-5 bg-gray-50">
-      <legend class="text-sm font-medium px-2">Trip Information</legend>
+      <legend class="text-sm font-medium px-2">Reservation Information</legend>
       <div class="form-control mb-4">
         <%= f.label :destination, "Destination", class: "label" %>
         <div class="relative">
@@ -92,7 +92,7 @@
     </fieldset>
 
     <fieldset class="border border-gray-300 rounded-md p-5 bg-gray-50">
-      <legend class="text-sm font-medium px-2">Trip Description</legend>
+      <legend class="text-sm font-medium px-2">Reservation Description</legend>
 
       <div class="form-control mb-4">
         <%= f.label :description, "Description", class: "label" %>
@@ -101,7 +101,7 @@
     </fieldset>
 
     <div class="form-control mt-6">
-      <% button_text = ride.new_record? ? 'Create Trip' : 'Save' %>
+      <% button_text = ride.new_record? ? 'Create Reservation' : 'Save' %>
       <%= f.submit button_text, class: "btn btn-primary w-full" %>
     </div>
   <% end %>

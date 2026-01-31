@@ -2,14 +2,13 @@
 
 class Ride < ApplicationRecord
   belongs_to :driver
-  has_many :trips, dependent: :destroy
+  has_many :reservations, dependent: :destroy
 
   enum :status, {
     filled: 0, # All seats are booked
     open: 1, # Open for new passengers
-    pending: 2, # Waiting for driver approval
-    canceled: 3, # Driver canceled the ride
-    closed: 4 # Ride is completed
+    canceled: 2, # Driver canceled the ride
+    closed: 3 # Ride is completed
   }, default: 1
 
   monetize :cost_per_rider_in_cents, as: :cost_per_rider
@@ -49,11 +48,7 @@ class Ride < ApplicationRecord
   end
 
   def passengers
-    trips&.map(&:user)
-  end
-
-  def trip_payment_status(user)
-    trips.find_by(user_id: user.id)&.payment_status
+    reservations&.map(&:user)
   end
 
   def leave_date_time
@@ -63,7 +58,7 @@ class Ride < ApplicationRecord
   end
 
   def booked_seats
-    trips.where(status: [:pending, :accepted]).sum(:number_of_seats)
+    trips.where(status: %i[pending accepted]).sum(:number_of_seats)
   end
 
   private
@@ -71,34 +66,34 @@ class Ride < ApplicationRecord
   def leave_date_in_future
     return unless leave_date
 
-    if leave_date <= Date.today
-      errors.add(:leave_date, 'must be in the future')
-    end
+    return unless leave_date <= Time.zone.today
+
+    errors.add(:leave_date, 'must be in the future')
   end
 
   def leave_date_not_in_past
     return unless leave_date && leave_date_changed?
 
-    if leave_date < Date.today
-      errors.add(:leave_date, 'cannot be changed to a past date')
-    end
+    return unless leave_date < Time.zone.today
+
+    errors.add(:leave_date, 'cannot be changed to a past date')
   end
 
   def available_seats_not_below_booked
     return unless available_seats && available_seats_changed?
 
-    if available_seats < booked_seats
-      errors.add(:available_seats, "cannot be less than booked seats (#{booked_seats})")
-    end
+    return unless available_seats < booked_seats
+
+    errors.add(:available_seats, "cannot be less than booked seats (#{booked_seats})")
   end
 
   def update_status_based_on_seats
     return unless available_seats_changed? && !status_changed?
 
     if available_seats.zero? && open?
-      update_column(:status, :filled)
+      update!(:status, :filled)
     elsif available_seats.positive? && filled?
-      update_column(:status, :open)
+      update!(:status, :open)
     end
   end
 end

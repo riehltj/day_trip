@@ -7,7 +7,7 @@ RSpec.describe Ride do
     subject { build(:ride) }
 
     it { is_expected.to belong_to(:driver) }
-    it { is_expected.to have_many(:trips).dependent(:destroy) }
+    it { is_expected.to have_many(:reservations).dependent(:destroy) }
     it { is_expected.to monetize(:cost_per_rider_in_cents).as(:cost_per_rider) }
     it { is_expected.to validate_presence_of(:address_line1) }
     it { is_expected.to validate_presence_of(:city) }
@@ -19,7 +19,7 @@ RSpec.describe Ride do
     it { is_expected.to validate_presence_of(:available_seats) }
     it { is_expected.to validate_numericality_of(:available_seats).is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_numericality_of(:cost_per_rider).is_greater_than_or_equal_to(0) }
-    it { is_expected.to define_enum_for(:status).with_values(%i[filled open pending canceled]) }
+    it { is_expected.to define_enum_for(:status).with_values(%i[filled open canceled closed]) }
   end
 
   describe '#other_open_rides' do # rubocop:disable RSpec/MultipleMemoizedHelpers
@@ -29,7 +29,6 @@ RSpec.describe Ride do
     let(:other_ride) { create(:ride) }
     let(:filled_ride) { create(:ride, status: :filled) }
     let(:canceled_ride) { create(:ride, status: :canceled) }
-    let(:pending_ride) { create(:ride, status: :pending) }
     let(:past_ride) { create(:ride, leave_date: 1.day.ago) }
 
     it 'returns the other open ride that is not the current_users' do
@@ -46,10 +45,6 @@ RSpec.describe Ride do
 
     it 'does not return canceled rides' do
       expect(described_class.other_open_rides(driver.id)).not_to include(canceled_ride)
-    end
-
-    it 'does not return pending rides' do
-      expect(described_class.other_open_rides(driver.id)).not_to include(pending_ride)
     end
 
     it 'does not return the current_users ride' do
@@ -72,28 +67,21 @@ RSpec.describe Ride do
 
     context 'when the ride is open' do
       it 'returns true' do
-        ride.status = :open
-        expect(ride.can_edit?).to be true
-      end
-    end
-
-    context 'when the ride is pending' do
-      it 'returns true' do
-        ride.status = :pending
+        ride.update!(status: :open)
         expect(ride.can_edit?).to be true
       end
     end
 
     context 'when the ride is filled' do
       it 'returns false' do
-        ride.status = :filled
+        ride.update!(status: :filled)
         expect(ride.can_edit?).to be false
       end
     end
 
     context 'when the ride is canceled' do
       it 'returns false' do
-        ride.status = :canceled
+        ride.update!(status: :canceled)
         expect(ride.can_edit?).to be false
       end
     end
@@ -102,7 +90,7 @@ RSpec.describe Ride do
   describe '#passengers' do
     let(:ride) { create(:ride) }
     let(:user) { create(:user) }
-    let!(:trip) { create(:trip, ride: ride, user: user) } # rubocop:disable RSpec/LetSetup
+    let!(:reservation) { create(:reservation, ride: ride, user: user) } # rubocop:disable RSpec/LetSetup
 
     it 'returns the passengers of the ride' do
       expect(ride.passengers).to include(user)
@@ -111,21 +99,6 @@ RSpec.describe Ride do
     it 'does not return users who are not passengers' do
       other_user = create(:user)
       expect(ride.passengers).not_to include(other_user)
-    end
-  end
-
-  describe '#trip_payment_status' do
-    let(:ride) { create(:ride) }
-    let(:user) { create(:user) }
-    let!(:trip) { create(:trip, ride: ride, user: user, payment_status: 'paid') } # rubocop:disable RSpec/LetSetup
-
-    it 'returns the payment status of the trip for the given user' do
-      expect(ride.trip_payment_status(user)).to eq('paid')
-    end
-
-    it 'returns nil if the user is not a passenger' do
-      other_user = create(:user)
-      expect(ride.trip_payment_status(other_user)).to be_nil
     end
   end
 

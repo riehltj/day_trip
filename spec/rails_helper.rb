@@ -11,6 +11,9 @@ require 'rspec/rails'
 require 'money-rails/test_helpers'
 require 'shoulda/matchers'
 require 'simplecov'
+SimpleCov.start 'rails' do
+  add_filter '/spec/' # Exclude the spec directory itself
+end
 require 'faker'
 
 SimpleCov.start 'rails'
@@ -73,6 +76,7 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include MoneyRails::TestHelpers
+  config.include ActiveSupport::Testing::TimeHelpers
   config.include Devise::Test::IntegrationHelpers, type: :request
 end
 

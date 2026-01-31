@@ -1,0 +1,39 @@
+<div class="p-4 bg-base-100 border-t border-base-200" data-controller="popup">
+  <div class="flex flex-wrap justify-end gap-2">
+    <% if reservation.ride.leave_date > Date.today %>
+      <%= button_to reservation_path(reservation), method: :delete, class: "btn btn-error" do %>
+        <%= lucide_icon('trash-2', class: 'h-4 w-4 mr-1') %>
+        Cancel reservation
+      <% end %>
+    <% end %>
+
+    <%= button_tag class: "btn btn-primary", data: { action: "click->popup#show" } do %>
+      <%= lucide_icon('message-square', class: 'h-4 w-4 mr-1') %>
+      Contact Driver
+    <% end %>
+
+    <dialog data-popup-target="popup" class="modal">
+      <div class="modal-box">
+        <% phone_number = reservation.ride.driver.user.phone_number %>
+        <% email = reservation.ride.driver.user.email %>
+        <h3 class="text-lg font-bold">Driver Contact Information</h3>
+        <p class="py-2">Name: <%= reservation.ride.driver.user.full_name %></p>
+        <p class="py-2">Phone: <%= link_to phone_number, "tel:#{phone_number}", class: 'link' %></p>
+        <p class="py-2">Email: <%= link_to email, "mailto:#{email}", class: 'link' %></p>
+
+        <div class="modal-action">
+          <form method="dialog">
+            <%= button_tag "Close", class: 'btn btn-secondary', data: { action: 'click->popup#hide' } %>
+          </form>
+        </div>
+      </div>
+    </dialog>
+
+    <% if reservation.status == 'closed' %>
+      <%= link_to new_driver_review_path(driver_id: reservation.ride.driver, ride_id: reservation.ride), class: "btn btn-secondary" do %>
+        <%= lucide_icon('clipboard') %>
+        Leave a Review
+      <% end %>
+    <% end %>
+  </div>
+</div>

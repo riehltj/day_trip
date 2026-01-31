@@ -15,18 +15,11 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    @review = Review.new(review_params.merge(
-      user_id: current_user.id,
-      ride_id: @ride.id,
-      driver_id: @driver.id
-    ))
-
-    if @review.save
-      redirect_to trips_path, notice: "Successfully reviewed driver #{@review.driver.user.full_name}"
-    else
-      flash.now[:alert] = @review.errors.full_messages.to_sentence
-      render :new, status: :unprocessable_entity
-    end
+    @review = Review.create!(review_params)
+    redirect_to reservations_path, notice: "Successfully reviewed driver #{@review.driver.user.full_name}"
+  rescue ActiveRecord::RecordInvalid
+    flash.now[:alert] = 'Error creating review. Please check the form and try again.'
+    render :new
   end
 
   private
@@ -36,8 +29,7 @@ class ReviewsController < ApplicationController
     @driver = Driver.find(params[:driver_id])
   end
 
-  def authorize_review!
-    # Check user has a completed trip for this ride
+  def authorize_review! # rubocop:disable Metrics/AbcSize
     trip = Trip.find_by(user: current_user, ride: @ride, status: :closed)
     unless trip
       flash[:alert] = 'You can only review rides you have completed.'
@@ -45,19 +37,17 @@ class ReviewsController < ApplicationController
       return
     end
 
-    # Check user hasn't already reviewed this ride
     if Review.exists?(user: current_user, ride: @ride, driver: @driver)
       flash[:alert] = 'You have already reviewed this ride.'
       redirect_to trips_path
       return
     end
 
-    # Check driver matches ride
-    unless @ride.driver == @driver
-      flash[:alert] = 'Invalid driver for this ride.'
-      redirect_to trips_path
-      return
-    end
+    return if @ride.driver == @driver
+
+    flash[:alert] = 'Invalid driver for this ride.'
+    redirect_to trips_path
+    nil
   end
 
   def review_params

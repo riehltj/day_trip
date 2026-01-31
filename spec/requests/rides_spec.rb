@@ -95,9 +95,9 @@ RSpec.describe 'Rides', type: :request do
       expect(response.body).to include(driver.user.full_name)
     end
 
-    it 'shows no trips found when no rides exist' do
+    it 'shows no reservations found when no rides exist' do
       get my_rides_path
-      expect(response.body).to include('You have no trip offerings yet.')
+      expect(response.body).to include('You have no rides yet.')
     end
 
     it 'shows all my rides' do

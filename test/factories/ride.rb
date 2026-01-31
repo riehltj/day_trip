@@ -11,7 +11,7 @@ FactoryBot.define do
     leave_date    { Time.zone.today + 1 }
     leave_time    { Time.zone.parse('08:00') }
     destination { DestinationsLoader.all.sample }
-    available_seats { 3 }
+    available_seats { 4 }
     cost_per_rider { 10.00 }
     status { 1 } # open
   end

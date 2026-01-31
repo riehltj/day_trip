@@ -42,7 +42,9 @@ RSpec.describe 'Drivers', type: :request do
         car_make: 'Toyota',
         car_model: 'Camry',
         car_year: 2020,
-        car_photo: fixture_file_upload('test/assets/images/car_1.jpg', 'image/jpeg')
+        car_photo: fixture_file_upload('test/assets/images/car_1.jpg', 'image/jpeg'),
+        license_plate_photo: fixture_file_upload('test/assets/images/car_1.jpg', 'image/jpeg'),
+        description: 'Experienced driver with a clean record.'
       }
     end
 
@@ -81,9 +83,9 @@ RSpec.describe 'Drivers', type: :request do
         expect(flash[:notice]).to eq('Driver profile created successfully')
       end
 
-      it 'redirects to root path' do
+      it 'redirects to driver path' do
         post drivers_path, params: { driver: driver_params }
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(driver_path(Driver.find_by(car_make: driver_params[:car_make])))
       end
 
       it 'does not create a driver with invalid params' do
@@ -93,8 +95,8 @@ RSpec.describe 'Drivers', type: :request do
       end
 
       it 'flashes an error message when creation fails' do
-        post drivers_path, params: { driver: driver_params_without_photo }
-        expect(response.body).to include('Car photo can\'t be blank')
+        post drivers_path(driver: driver_params_without_photo)
+        expect(response.body).to include("Car photo can't be blank")
       end
     end
   end

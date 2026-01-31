@@ -2,51 +2,51 @@
   <div class="form-control">
     <%= f.label :car_make, class: "label" do %>
       <span><%= lucide_icon('car', class: 'h-4 w-4 mr-2') %></span>
-      <span>Car Make</span>
+      <span>Car Make *</span>
     <% end %>
-    <%= f.text_field :car_make, class: "input input-bordered w-full" %>
+    <%= f.text_field :car_make, required: true, class: "input input-bordered w-full" %>
   </div>
 
   <div class="form-control">
     <%= f.label :car_model, class: "label" do %>
       <span><%= lucide_icon('settings', class: 'h-4 w-4 mr-2') %></span>
-      <span>Car Model</span>
+      <span>Car Model *</span>
     <% end %>
-    <%= f.text_field :car_model, class: "input input-bordered w-full" %>
+    <%= f.text_field :car_model, required: true, class: "input input-bordered w-full" %>
   </div>
 
   <div class="form-control">
     <%= f.label :car_year, class: "label" do %>
       <span><%= lucide_icon('calendar', class: 'h-4 w-4 mr-2') %></span>
-      <span>Car Year</span>
+      <span>Car Year *</span>
     <% end %>
-    <%= f.text_field :car_year, class: "input input-bordered w-full" %>
+    <%= f.text_field :car_year, required: true, class: "input input-bordered w-full" %>
   </div>
 
   <div class="form-control">
     <%= f.label :description, class: "label" do %>
       <span><%= lucide_icon('file-text', class: 'h-4 w-4 mr-2') %></span>
-      <span>Bio</span>
+      <span>Bio *</span>
     <% end %>
-    <%= f.text_area :description, class: "textarea textarea-bordered w-full h-24", placeholder: "Tell riders a bit about yourself..." %>
+    <%= f.text_area :description, required: true, class: "textarea textarea-bordered w-full h-24", placeholder: "Tell riders a bit about yourself..." %>
     <p class="text-sm text-gray-500 mt-1">Share a brief introduction about yourself to help riders feel comfortable.</p>
   </div>
 
   <div class="form-control">
     <%= f.label :car_photo, class: "label" do %>
       <span><%= lucide_icon('image', class: 'h-4 w-4 mr-2') %></span>
-      <span>Upload Car Photo</span>
+      <span>Upload Car Photo *</span>
     <% end %>
-    <%= f.file_field :car_photo, class: "file-input file-input-bordered w-full" %>
+    <%= f.file_field :car_photo, required: true, class: "file-input file-input-bordered w-full" %>
     <p class="text-sm text-gray-500 mt-1">Make sure it's a clear and well-lit photo of your car.</p>
   </div>
 
   <div class="form-control">
     <%= f.label :license_plate_photo, class: "label" do %>
       <span><%= lucide_icon('star', class: 'h-4 w-4 mr-2') %></span>
-      <span>Upload License Plate Photo</span>
+      <span>Upload License Plate Photo *</span>
     <% end %>
-    <%= f.file_field :license_plate_photo, class: "file-input file-input-bordered w-full" %>
+    <%= f.file_field :license_plate_photo, required: true, class: "file-input file-input-bordered w-full" %>
     <p class="text-sm text-gray-500 mt-1">Ensure the license plate is clearly readable.</p>
   </div>
 

@@ -1,0 +1,114 @@
+<div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 max-w-xl my-8 mx-6 md:mx-auto" data-controller="reservation">
+  <h2 class="text-2xl font-bold text-center mb-6">Book Your Ride</h2>
+
+  <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <span class="text-blue-500 flex items-center">
+          <%= lucide_icon('info', class: 'h-5 w-5') %>
+        </span>
+      </div>
+      <div class="ml-3">
+        <p class="text-sm text-blue-700">
+          You're booking a reservation to <strong><%= @ride.destination %></strong> on <strong><%= @ride.leave_date.strftime("%A, %B %d, %Y") %></strong> at <strong><%= @ride.leave_time.strftime("%I:%M %p") %></strong>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-6">
+    <%= render(RideDetailsComponent.new(title: 'Driver:', info: @ride.driver.user.full_name, link: driver_path(@ride.driver_id))) %>
+    <%= render(RideDetailsComponent.new(title: 'Meetup Location:', info: @ride.meetup_location)) %>
+    <%= render(RideDetailsComponent.new(title: 'Available Seats:', info: @ride.available_seats)) %>
+    <%= render(RideDetailsComponent.new(title: 'Cost Per Seat:', info:humanized_money_with_symbol(@ride.cost_per_rider))) %>
+  </div>
+
+  <%= form_with(url: ride_reservations_path(ride_id: @ride), class: "space-y-6", id: "reservation-form", data: { turbo: false }) do |f| %>
+    <div class="form-control">
+      <%= f.label :number_of_seats, "Number of Seats", class: "label" %>
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <span class="text-gray-500 flex items-center z-1">
+            <%= lucide_icon('users', class: 'h-5 w-5 text-gray-400') %>
+          </span>
+        </div>
+        <%= f.number_field :number_of_seats, 
+                         name: "reservation[number_of_seats]",
+                         class: "input input-bordered pl-10 p-3 w-full", 
+                         min: 1, 
+                         max: @ride.available_seats, 
+                         value: 1, 
+                         data: { 
+                          action: "change->reservation#updateTotal",
+                          reservation_price_param: @ride.cost_per_rider_in_cents } %>
+      </div>
+    </div>
+
+    <div class="bg-gray-50 p-4 rounded-md">
+      <div class="flex justify-between items-center font-medium">
+        <span>Total Cost:</span>
+        <span data-reservation-target="total"><%= humanized_money_with_symbol(@ride.cost_per_rider) %></span>
+      </div>
+      <%= f.hidden_field 'total_cost_in_cents', name: 'reservation[total_cost_in_cents]', value: @ride.cost_per_rider_in_cents, data: { reservation_target: "hiddenTotal" } %>
+    </div>
+
+    <% unless user_signed_in? %>
+      <div class="divider my-4">Your Information</div>
+
+      <div class="form-control">
+        <%= f.label :email, "Email Address", class: "label" %>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <span class="text-gray-500 flex items-center z-1">
+              <%= lucide_icon('mail', class: 'h-5 w-5 text-gray-400') %>
+            </span>
+          </div>
+          <%= f.email_field :email, 
+                            name: "user[email]",
+                            class: "input input-bordered pl-10 p-3 w-full",
+                            required: true %>
+        </div>
+        <span class="text-xs text-gray-500 mt-1">We'll send your reservation confirmation to this email</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="form-control">
+          <%= f.label :first_name, "First Name", class: "label" %>
+          <%= f.text_field :first_name, 
+                           name: "user[first_name]",
+                           class: "input input-bordered w-full",
+                           required: true %>
+        </div>
+
+        <div class="form-control">
+          <%= f.label :last_name, "Last Name", class: "label" %>
+          <%= f.text_field :last_name, 
+                           name: "user[last_name]",
+                           class: "input input-bordered w-full",
+                           required: true %>
+        </div>
+      </div>
+
+      <div class="form-control">
+        <%= f.label :password, "Create Password", class: "label" %>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <span class="text-gray-500 flex items-center z-10">
+              <%= lucide_icon('lock', class: 'h-5 w-5 text-gray-400') %>
+            </span>
+          </div>
+          <%= f.password_field :password, 
+                               name: "user[password]",
+                               class: "input input-bordered pl-10 p-3",
+                               required: true,
+                               minlength: 6 %>
+        </div>
+        <span class="text-xs text-gray-500 mt-1">Must be at least 6 characters</span>
+      </div>
+    <% end %>
+
+    <div class="form-control mt-6">
+      <%= f.submit user_signed_in? ? "Complete reservation Booking" : "Create Account & Book Ride", id: "submit-payment", class: "btn btn-primary w-full" %>
+    </div>
+  <% end %>
+</div>

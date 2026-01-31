@@ -3,13 +3,10 @@
 class User < ApplicationRecord
   class NotAuthorized < StandardError; end
 
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
-  has_many :trips, dependent: :destroy
-  has_many :rides, through: :trips, dependent: :destroy
+  has_many :reservations, dependent: :destroy
+  has_many :rides, through: :reservations, dependent: :destroy
   has_one :driver, dependent: :destroy
   has_one_attached :avatar
 
@@ -24,7 +21,7 @@ class User < ApplicationRecord
   }.freeze
 
   def age
-    return nil if date_of_birth.nil?
+    return 99 unless date_of_birth
 
     now = Time.now.utc.to_date
     now.year - date_of_birth.year - (date_of_birth.to_date.change(year: now.year) > now ? 1 : 0)
@@ -36,6 +33,10 @@ class User < ApplicationRecord
 
   def gender_full
     GENDER_DISPLAY[gender] || 'Other'
+  end
+
+  def driver?
+    driver.present?
   end
 
   def driver_of?(ride)

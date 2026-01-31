@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This is a details component for displaying ride information.
-# It is used in the trip show page to display details about the ride.
+# It is used in the reservation show page to display details about the ride.
 # The component takes a title, info, and an optional link.
 # The title and info are displayed in a card format, and the link is optional.
 #

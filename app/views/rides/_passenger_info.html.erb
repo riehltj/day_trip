@@ -1,4 +1,4 @@
-<% if ride.trips.any? %>
+<% if ride.reservations.any? %>
   <div class="mt-4 p-4 bg-base-200 rounded-lg">
     <h3 class="font-medium mb-2 flex items-center">
       <%= lucide_icon('users', class: 'h-5 w-5 mr-2') %>
@@ -6,8 +6,8 @@
     </h3>
 
     <ul class="space-y-3">
-      <% ride.trips.includes(:user).each do |trip| %>
-        <%= render 'passenger_card', trip: trip %>
+      <% ride.reservations.includes(:user).each do |reservation| %>
+        <%= render 'passenger_card', reservation: reservation %>
       <% end %>
     </ul>
   </div>

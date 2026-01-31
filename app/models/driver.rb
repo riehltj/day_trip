@@ -15,7 +15,6 @@ class Driver < ApplicationRecord
   has_one_attached :license_plate_photo
   has_many :rides, dependent: :destroy
   has_many :reviews, dependent: :destroy
-  has_and_belongs_to_many :payment_methods # rubocop:disable Rails/HasAndBelongsToMany
 
   validates :car_make, presence: true
   validates :car_model, presence: true

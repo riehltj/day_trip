@@ -2,7 +2,7 @@
   <div class="card border border-gray-200 bg-base-100 shadow-md w-full max-w-2xl mx-auto">
     <div class="card-body">
       <h2 class="card-title flex justify-between items-center">
-        <span>Ride to <%= @ride.destination %></span>
+        <span>Ride to <%= @ride.destination.titleize %></span>
         <div class="badge <%= @ride.status == 'open' ? 'badge-secondary' : 'badge-accent' %>">
           <%= @ride.status.capitalize %>
         </div>
@@ -21,7 +21,7 @@
           <div class="tooltip tooltip-top" data-tip="Meetup location">
             <%= lucide_icon('map-pin') %>
           </div>
-          <%= @ride.meetup_location %>
+          <%= link_to @ride.meetup_location, "http://maps.google.com/?q=#{@ride.meetup_location}", class: 'link', target: "_blank" %>
         </div>
       </div>
 
@@ -44,7 +44,7 @@
           <%= lucide_icon('arrow-left') %>
           Back to Rides
         <% end %>
-        <%= link_to new_ride_trip_path(ride_id: @ride.id), class: 'btn btn-primary btn-lg py-2 flex-1 hover:scale-105 transition-all' do %>
+        <%= link_to new_ride_reservation_path(ride_id: @ride.id), class: 'btn btn-primary btn-lg py-2 flex-1 hover:scale-105 transition-all' do %>
           <%= lucide_icon('check-circle') %>
           Book Now!
         <% end %>

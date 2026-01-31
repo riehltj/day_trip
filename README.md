@@ -1,10 +1,10 @@
 ---
 
-### DayTrip (Ruby on Rails + Stripe)
+### DayTrip (Ruby on Rails + Tailwind CSS)
 
 # DayTrip
 
-DayTrip is a full-stack Ruby on Rails web app that allows users to browse and book seats on upcoming group trips. The app integrates with Stripe for secure online payments.
+DayTrip is a full-stack Ruby on Rails web app that allows users to browse and book seats on upcoming group trips.
 
 ## Features
 
@@ -13,16 +13,11 @@ DayTrip is a full-stack Ruby on Rails web app that allows users to browse and bo
 - Seat booking with real-time availability
 - Admin dashboard for managing trips (optional)
 
-## 💸 Payments
-
-Stripe is used to securely handle credit card transactions. Payments are processed using [Stripe Checkout](https://stripe.com/docs/checkout), and all sensitive data is handled via Stripe's SDK.
-
 ## Tech Stack
 
 - Ruby on Rails 7
 - PostgreSQL
 - Tailwind CSS
-- Stripe Ruby SDK
 - Turbo/Hotwire
 - StimulusJS
 

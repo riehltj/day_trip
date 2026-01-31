@@ -27,7 +27,7 @@ RSpec.describe Driver do
 
   describe '#rides_completed' do
     let(:driver) { create(:driver) }
-    let!(:completed_ride) { create(:ride, driver: driver, status: 'filled') } # rubocop:disable RSpec/LetSetup
+    let!(:completed_ride) { create(:ride, driver: driver, status: 'closed') } # rubocop:disable RSpec/LetSetup
     let!(:other_ride) { create(:ride, driver: driver, status: 'open') } # rubocop:disable RSpec/LetSetup
 
     it 'returns the count of completed rides' do

@@ -1,22 +1,33 @@
-<%= form_with model: @review, url: driver_reviews_path, data: { turbo: false } do |form| %>
+<div class="mb-6 bg-gray-100 p-4 rounded-lg shadow-sm">
+  <h2 class="text-lg font-semibold text-gray-800">Ride Information</h2>
+  <p class="text-sm text-gray-600 mt-1"><strong>Date:</strong> <%= @ride.leave_date.strftime('%B %d, %Y') %></p>
+  <p class="text-sm text-gray-600"><strong>Destination:</strong> <%= @ride.destination %></p>
+  <p class="text-sm text-gray-600"><strong>Driver:</strong> <%= @driver.user.full_name %></p>
+</div>
+
+<%= form_with model: @review, url: driver_reviews_path, data: { turbo: false }, class: "space-y-6 bg-white p-6 rounded-lg shadow-md" do |form| %>
   <%= form.hidden_field :driver_id, value: @driver.id %>
   <%= form.hidden_field :ride_id, value: @ride.id %>
   <%= form.hidden_field :user_id, value: current_user.id %>
 
-  <%= form.label :rating, "Rating", class: "flex gap-4 text-sm font-medium text-gray-700" %>
-  <div class="flex space-x-1 mt-1">
-    <% (1..5).each do |star| %>
-      <label class="group hover:text-yellow-400 checked:text-yellow-400">
-        <%= form.radio_button :rating, star, class: "peer" %>
-        <%= lucide_icon('star') %>
-      </label>
-    <% end %>
+  <div>
+    <%= form.label :rating, "Rating", class: "block text-sm font-medium text-gray-700" %>
+    <div class="flex space-x-2 mt-2">
+      <% (1..5).each do |star| %>
+        <label class="group cursor-pointer">
+          <%= form.radio_button :rating, star, class: "hidden peer" %>
+          <%= lucide_icon('star', class: "w-6 h-6 text-gray-400 peer-checked:text-yellow-400 group-hover:text-yellow-500") %>
+        </label>
+      <% end %>
+    </div>
   </div>
 
-  <div class="mb-4">
+  <div>
     <%= form.label :comment, "Public Comment", class: "block text-sm font-medium text-gray-700" %>
-    <%= form.text_area :comment, rows: 4, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+    <%= form.text_area :comment, rows: 4, class: "p-4 mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
   </div>
 
-  <%= form.submit "Submit Review", class: "inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md text-white hover:bg-indigo-700" %>
+  <div>
+    <%= form.submit "Submit Review", class: "w-full inline-flex justify-center items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 cursor-pointer" %>
+  </div>
 <% end %>

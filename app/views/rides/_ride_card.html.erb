@@ -1,7 +1,7 @@
 <div class="card border border-gray-200 bg-base-100 shadow-md w-full">
   <div class="card-body">
     <h2 class="card-title flex justify-between items-center hover:text-secondary hover:underline">
-      <%= link_to "To #{ride.destination}", ride_path(ride) %>
+      <%= link_to "To #{ride.destination.titleize}", ride_path(ride) %>
     </h2>
 
     <h4 class="text-gray-600 flex items-center gap-1">
@@ -17,7 +17,7 @@
       <div class="tooltip tooltip-top" data-tip="Meetup location">
         <%= lucide_icon('map-pin') %>
       </div>
-      <%= ride.meetup_location %>
+      <%= link_to ride.meetup_location, "http://maps.google.com/?q=#{ride.meetup_location}", class: 'link', target: "_blank" %>
     </h4>
 
     <h3 class="text-lg font-semibold text-secondary flex items-center gap-1">
@@ -38,18 +38,18 @@
       <%= render 'passenger_info', ride: %>
 
       <% if ride.can_edit? %>
-        <%= link_to edit_ride_path(ride_id: ride), class: 'btn btn-neutral w-full hover:scale-105 transition-all' do  %>
+        <%= link_to edit_ride_path(ride), class: 'btn btn-neutral w-full hover:scale-105 transition-all' do  %>
           <%= lucide_icon('pencil') %>
           Edit
         <% end %>
       <% end %>
-      <%= button_to complete_trip_path(ride, ride_id: ride), class: 'btn btn-primary w-full hover:scale-105 transition-all', method: :patch, data: { turbo: false } do %>
+      <%= button_to complete_reservation_path(ride, ride_id: ride), class: 'btn btn-primary w-full hover:scale-105 transition-all', method: :patch, data: { turbo: false } do %>
         <%= lucide_icon('car') %>
 
-        <span>Trip Completed</span>
+        <span>Ride Completed</span>
       <% end %>
     <% else %>
-      <%= link_to new_ride_trip_path(ride_id: ride), class: 'btn btn-primary w-full hover:scale-105 transition-all' do  %>
+      <%= link_to new_ride_reservation_path(ride_id: ride), class: 'btn btn-primary w-full hover:scale-105 transition-all' do  %>
         <%= lucide_icon('check-circle') %>
         Book Now!
       <% end %>

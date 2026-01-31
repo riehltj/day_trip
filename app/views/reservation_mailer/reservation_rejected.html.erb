@@ -1,0 +1,31 @@
+<table width="100%" cellpadding="0" cellspacing="0" style="font-family: Arial, sans-serif; background-color: #f9fafb; padding: 32px;">
+  <tr>
+    <td>
+      <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: auto; background-color: white; border-radius: 8px; padding: 32px; border: 1px solid #e5e7eb;">
+        <tr>
+          <td>
+            <h2 style="margin-top: 0; color: #b91c1c;">Your DayTrip request was declined</h2>
+
+            <p style="color: #374151;">Hi <%= @user.first_name %>,</p>
+
+            <p style="color: #374151;">
+              Unfortunately, your reservation on <strong><%= @reservation.ride.leave_date_time %></strong> was not accepted by the driver.
+            </p>
+
+            <p style="color: #374151;">
+              You can browse other available rides here:<br>
+              <a href="<%= rides_url %>" style="color: #3b82f6; text-decoration: underline;">Find another ride</a>
+            </p>
+
+            <hr style="margin: 24px 0; border: none; border-top: 1px solid #e5e7eb;">
+
+            <p style="color: #6b7280; font-size: 14px;">
+              We’re here to help if you need anything.<br>
+              — The <strong style="color: #111827;">DayTrip</strong> Team
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

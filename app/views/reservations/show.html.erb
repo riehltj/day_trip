@@ -1,0 +1,17 @@
+<div class="max-w-2xl mx-auto my-6 px-4">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-2xl font-bold">Reservation Details</h1>
+    <%= link_to reservations_path, class: "btn btn-ghost btn-sm" do %>
+      <%= lucide_icon('arrow-left', class: 'h-4 w-4 mr-1') %>
+      Back to My reservations
+    <% end %>
+  </div>
+
+  <div class="card bg-base-100 shadow-lg border border-base-300 overflow-hidden">
+    <div class="card-body p-0">
+      <%= render 'header', reservation: @reservation %>
+      <%= render 'content', reservation: @reservation %>
+      <%= render 'action_buttons', reservation: @reservation %>
+    </div>
+  </div>
+</div>

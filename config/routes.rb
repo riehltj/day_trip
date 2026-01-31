@@ -7,17 +7,18 @@ Rails.application.routes.draw do
 
   root 'rides#index'
   # Rides
+  get 'my-rides', to: 'rides#my_rides', as: :my_rides
   resources :rides do
-    resources :trips, only: %i[new create]
+    # Create reservations from Rides
+    resources :reservations, only: %i[new create]
   end
-  get 'my_rides', to: 'rides#my_rides', as: :my_rides
 
-  # Trips
-  resources :trips, only: %i[show index] do
+  # Reservations (reservations)
+  resources :reservations, only: %i[show index destroy] do
     member do
-      patch 'accept', to: 'trips#accept'
-      patch 'reject', to: 'trips#reject'
-      patch 'complete', to: 'trips#complete'
+      patch 'accept', to: 'reservations#accept'
+      patch 'reject', to: 'reservations#reject'
+      patch 'complete', to: 'reservations#complete'
     end
   end
 

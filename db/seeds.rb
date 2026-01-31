@@ -7,7 +7,6 @@
 # Create a user
 
   test_user = User.find_or_create_by!(email: 'test@test.com') do |user|
-
     user.first_name = 'Test'
     user.last_name = 'User'
     user.phone_number = '123-456-7890'
@@ -75,14 +74,14 @@
       available_seats: (1..4).to_a.sample,
       status: 1, # open
     )
-end
+  end
 
-  print "\nCreating a trip"
+  print "\nCreating a reservation"
   5.times do
     print '.'
     ride = Ride.all.sample
     number_of_seats = (1..2).to_a.sample
-    Trip.create!(
+    Reservation.create!(
       user: test_user,
       ride: ride,
       number_of_seats: number_of_seats,
@@ -92,13 +91,13 @@ end
   end
 
 
-    # Make some closed trips for the test user to leave some reviews!
-    8.times do
+  # Make some closed reservations for the test user to leave some reviews!
+  8.times do
       print '.'
       ride = Ride.all.sample
       number_of_seats = (1..2).to_a.sample
       
-      Trip.create!(
+      Reservation.create!(
         user: test_user,
         ride: ride,
         number_of_seats: (1..2).to_a.sample,
@@ -109,7 +108,5 @@ end
 
       Review.create!(driver_id: test_user.driver.id, user_id: User.all.sample.id, ride_id: ride.id, rating: (1..5).to_a.sample, comment: 'This is a comment left by a bot teehee' )
   end
-  
-end
 
 
