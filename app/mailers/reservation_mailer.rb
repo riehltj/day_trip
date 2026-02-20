@@ -41,8 +41,8 @@ class ReservationMailer < ApplicationMailer
     @driver = reservation.ride.driver.user
 
     mail(
-      to: @user.email,
-      subject: 'New passenger request for your reservation'
+      to: @driver.email,
+      subject: 'New passenger request for your ride'
     )
   end
 end

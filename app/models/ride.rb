@@ -58,7 +58,7 @@ class Ride < ApplicationRecord
   end
 
   def booked_seats
-    trips.where(status: %i[pending accepted]).sum(:number_of_seats)
+    reservations.where(status: %i[pending accepted]).sum(:number_of_seats)
   end
 
   private
@@ -91,9 +91,9 @@ class Ride < ApplicationRecord
     return unless available_seats_changed? && !status_changed?
 
     if available_seats.zero? && open?
-      update!(:status, :filled)
+      update!(status: :filled)
     elsif available_seats.positive? && filled?
-      update!(:status, :open)
+      update!(status: :open)
     end
   end
 end

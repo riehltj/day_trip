@@ -53,6 +53,11 @@ class Reservation < ApplicationRecord
   def notify_status_change
     return unless saved_change_to_status?
 
+    if status == 'rejected'
+      ride.increment(:available_seats, number_of_seats)
+      ride.save!
+    end
+
     case status
     when 'accepted'
       ReservationMailer.reservation_accepted(self).deliver_later
