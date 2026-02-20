@@ -16,7 +16,6 @@ services:
 
     buildCommand: "bundle install && bundle exec rails assets:precompile"
     startCommand: "bundle exec puma -C config/puma.rb -p ${PORT:-3000}"
-    preDeployCommand: "bin/rails db:prepare"
 
     envVars:
       - key: RAILS_ENV
@@ -68,3 +67,6 @@ services:
     name: day-trip-redis
     plan: free
     maxmemoryPolicy: noeviction
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: Allow web and worker (Render internal)

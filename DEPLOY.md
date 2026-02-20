@@ -49,18 +49,13 @@ After saving the env vars, Render will redeploy (or trigger a deploy). The first
 
 ### 5. Run migrations
 
-If the DB is new, run migrations once:
+Free tier doesn’t support a pre-deploy command, so run migrations once after the first deploy:
 
-1. **Dashboard → day-trip-web → Shell** (or use **Manual Deploy** with a pre-deploy command).
-2. Or add a one-off **Background Worker** with start command: `bin/rails db:prepare`, run once, then delete.
+1. **Dashboard → day-trip-web → Shell** (tab next to Logs).
+2. Run: `bin/rails db:prepare`
+3. Exit the shell.
 
-Alternatively, you can add a **preDeployCommand** in `render.yaml` for the web service:
-
-```yaml
-preDeployCommand: "bin/rails db:prepare"
-```
-
-Then every web deploy will run migrations before starting.
+Run the same command after any new migrations in the future (or upgrade to a paid plan to use a pre-deploy command).
 
 ---
 
@@ -156,15 +151,9 @@ To avoid the 90-day Postgres limit, use a **Starter** Postgres plan or migrate t
 
 ---
 
-## Optional: Run migrations on every deploy
+## Optional: Run migrations on every deploy (paid plans only)
 
-In `render.yaml`, add to the **web** service:
-
-```yaml
-preDeployCommand: "bin/rails db:prepare"
-```
-
-Or in the Dashboard: **Web Service → Settings → Build & Deploy → Pre-Deploy Command** = `bin/rails db:prepare`.
+On **Starter** (or higher), you can run migrations automatically: **Web Service → Settings → Build & Deploy → Pre-Deploy Command** = `bin/rails db:prepare`. Free tier does not support pre-deploy commands.
 
 ---
 
