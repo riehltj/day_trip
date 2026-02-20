@@ -32,15 +32,16 @@ Make sure `render.yaml` is in the **root** of the repo and committed.
 
 ### 3. Set required secrets
 
-Render will create the services but prompt for a few values (marked **sync: false** in the Blueprint):
+Render will create the services but prompt for two values (marked **sync: false** in the Blueprint):
 
 | Variable           | Where to get it | Where to set it |
 |--------------------|-----------------|------------------|
 | `RAILS_MASTER_KEY` | From your app: `cat config/master.key` (or create with `bin/rails credentials:edit`) | Environment tab for **day-trip-web** and **day-trip-worker** |
 | `SECRET_KEY_BASE`  | Generate: `bin/rails secret` | Same: set the **same** value on both web and worker |
-| `HOST`             | Your Render URL, e.g. `day-trip-web-xxxx.onrender.com` | Same (use the URL Render gives the web service) |
 
-Set these in **Dashboard → your Web Service → Environment**, and **Dashboard → your Worker → Environment**. Use the **same** `SECRET_KEY_BASE` and `RAILS_MASTER_KEY` on both.
+`HOST` is already set to **daytrip.live** in the Blueprint (for mailer links and cookies). After you add your custom domain in Render (see below), the app will be served at daytrip.live.
+
+Set the two secrets in **Dashboard → your Web Service → Environment**, and **Dashboard → your Worker → Environment**. Use the **same** `SECRET_KEY_BASE` and `RAILS_MASTER_KEY` on both.
 
 ### 4. Deploy
 
@@ -94,7 +95,7 @@ If you prefer to create each piece in the Dashboard:
    - `SECRET_KEY_BASE` = (`bin/rails secret`)
    - `DATABASE_URL` = (from Postgres service: **Connect** → **Internal URL**)
    - `REDIS_URL` = (from Redis: **Connect** → **Internal URL**)
-   - `HOST` = your web service URL, e.g. `day-trip-web-xxxx.onrender.com`
+   - `HOST` = `daytrip.live` (your custom domain)
 7. Create Web Service.
 
 ### 4. Create the Background Worker
@@ -110,6 +111,35 @@ If you prefer to create each piece in the Dashboard:
 
 From the web service **Shell** (or a one-off job):  
 `bin/rails db:prepare`
+
+---
+
+## Custom domain: daytrip.live
+
+To serve the app at **daytrip.live** (and optionally **www.daytrip.live**):
+
+### 1. Add the domain in Render
+
+1. Open **Dashboard** → **day-trip-web** → **Settings**.
+2. Under **Custom Domains**, click **Add Custom Domain**.
+3. Enter **daytrip.live** and add it.
+4. Optionally add **www.daytrip.live** the same way.
+5. Render will show the DNS records you need (usually a **CNAME** for the apex or www).
+
+### 2. Point DNS at Render
+
+At your domain registrar (where you bought daytrip.live):
+
+- **For daytrip.live (apex):**  
+  Render often provides an **A** record (e.g. to a Render IP) or uses CNAME flattening. Follow the exact hostname Render shows (e.g. `day-trip-web-xxxx.onrender.com`).
+- **For www.daytrip.live:**  
+  Add a **CNAME** record:  
+  - Name: `www`  
+  - Value: the hostname Render gives (e.g. `day-trip-web-xxxx.onrender.com`).
+
+Save the DNS changes. SSL is issued automatically by Render once DNS is correct (can take a few minutes).
+
+`HOST` is already set to **daytrip.live** in the Blueprint, so links in emails and the app will use your domain.
 
 ---
 

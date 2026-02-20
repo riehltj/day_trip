@@ -35,7 +35,7 @@ services:
           name: day-trip-redis
           property: connectionString
       - key: HOST
-        sync: false
+        value: daytrip.live
 
   # Sidekiq background worker (mailers, jobs)
   - type: worker
