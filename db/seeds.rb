@@ -4,54 +4,63 @@
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
+# Minimal 1x1 PNG for attachments when no fixture image is available
+def seed_image_io
+  base64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='
+  StringIO.new(Base64.strict_decode64(base64))
+end
+
 # Create a user
+test_user = User.find_or_create_by!(email: 'test@test.com') do |user|
+  user.first_name = 'Test'
+  user.last_name = 'User'
+  user.phone_number = '123-456-7890'
+  user.address = '123 Test St'
+  user.city = 'Denver'
+  user.state = 'CO'
+  user.zip_code = 80202
+  user.gender = 'M'
+  user.date_of_birth = Date.new(1990, 1, 1)
+  user.password = 'password'
+  user.password_confirmation = 'password'
+end
 
-  test_user = User.find_or_create_by!(email: 'test@test.com') do |user|
-    user.first_name = 'Test'
-    user.last_name = 'User'
-    user.phone_number = '123-456-7890'
-    user.address = '123 Test St'
-    user.city = 'Denver'
-    user.state = 'CO'
-    user.zip_code = 80202
-    user.gender = 'M'
-    user.date_of_birth = Date.new(1990, 1, 1)
-    user.password = 'password'
-    user.password_confirmation = 'password'
+print "\nCreating users"
+10.times do
+  print '.'
+  User.create!(
+    email: Faker::Internet.unique.email,
+    password: 'password',
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    phone_number: Faker::PhoneNumber.phone_number,
+    address: Faker::Address.street_address,
+    city: 'Denver',
+    state: 'CO',
+    zip_code: 80202,
+    gender: %w[M F NB DTS].sample,
+    date_of_birth: Faker::Date.birthday(min_age: 18, max_age: 65)
+  )
+end
+
+# Create drivers (car_photo is required; use fixture if present, else minimal image)
+car_photo_path = Rails.root.join('test/assets/images/car_1.jpg')
+print "\nCreating drivers"
+3.times do
+  print '.'
+  driver = Driver.new(
+    user: User.all.sample,
+    car_make: Faker::Vehicle.make,
+    car_model: Faker::Vehicle.model,
+    car_year: Faker::Vehicle.year
+  )
+  if car_photo_path.exist?
+    driver.car_photo.attach(io: File.open(car_photo_path), filename: 'car_1.jpg', content_type: 'image/jpeg')
+  else
+    driver.car_photo.attach(io: seed_image_io, filename: 'placeholder.png', content_type: 'image/png')
   end
-
-
-  print "\nCreating a user"
-  10.times do
-    print '.'
-    User.create!(
-      email: Faker::Internet.email,
-      password: 'password',
-      first_name: Faker::Name.first_name,
-      last_name: Faker::Name.last_name,
-      phone_number: Faker::PhoneNumber.phone_number,
-      address: Faker::Address.street_address,
-      city: 'Denver',
-      state: 'CO',
-      zip_code: 80202,
-      gender: %w[M F NB DTS].sample,
-      date_of_birth: Faker::Date.birthday(min_age: 18, max_age: 65),
-      avatar: FakerActiveRecord::Image.attach_avatar
-    )
-  end
-
-# Create a Driver
-  print "\nCreating a driver"
-  3.times do |i|
-    print '.'
-    driver = Driver.create!(
-      user: User.all.sample, 
-      car_make: Faker::Vehicle.make, 
-      car_model: Faker::Vehicle.model, 
-      car_year: Faker::Vehicle.year,
-      car_photo: FakerActiveRecord::Image.attach_cat
-    )
-  end
+  driver.save!
+end
 
   print "\nCreating a ride"
   leave_time = [6.hours, 6.hours + 15.minutes, 6.hours + 30.minutes].sample
@@ -91,22 +100,22 @@
   end
 
 
-  # Make some closed reservations for the test user to leave some reviews!
+  # Make some completed reservations for the test user to leave some reviews!
   8.times do
-      print '.'
-      ride = Ride.all.sample
-      number_of_seats = (1..2).to_a.sample
-      
-      Reservation.create!(
-        user: test_user,
-        ride: ride,
-        number_of_seats: (1..2).to_a.sample,
-        total_cost_in_cents: ride.cost_per_rider_in_cents * number_of_seats,
-        payment_status: 'paid',
-        status: 'closed'
-      )
+    print '.'
+    ride = Ride.all.sample
+    number_of_seats = (1..2).to_a.sample
 
-      Review.create!(driver_id: test_user.driver.id, user_id: User.all.sample.id, ride_id: ride.id, rating: (1..5).to_a.sample, comment: 'This is a comment left by a bot teehee' )
+    Reservation.create!(
+      user: test_user,
+      ride: ride,
+      number_of_seats: number_of_seats,
+      total_cost_in_cents: ride.cost_per_rider_in_cents * number_of_seats,
+      payment_status: 'paid',
+      status: :completed
+    )
+
+    Review.create!(driver_id: ride.driver_id, user_id: test_user.id, ride_id: ride.id, rating: (1..5).to_a.sample, comment: 'This is a comment left by a bot teehee')
   end
 
 
