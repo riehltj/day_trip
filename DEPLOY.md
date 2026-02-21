@@ -14,6 +14,44 @@ No CLI required—you’ll use the Render Dashboard and connect your Git repo.
 
 ---
 
+## Where to get RAILS_MASTER_KEY and SECRET_KEY_BASE
+
+Run these in your project root (on your machine) and paste the output into Render’s Environment.
+
+### RAILS_MASTER_KEY
+
+Rails uses this to decrypt `config/credentials.yml.enc`. It lives in a file that is **not** in Git (for security).
+
+**If you already have the file:**
+
+```bash
+cat config/master.key
+```
+
+Copy the single line of output (no spaces or newlines). That’s your `RAILS_MASTER_KEY`.
+
+**If the file doesn’t exist** (e.g. new app or new machine):
+
+```bash
+bin/rails credentials:edit
+```
+
+That creates `config/master.key` and opens the credentials file. Save and close the editor. Then run `cat config/master.key` and copy that value. Use that same value on Render for both **day-trip-web** and **day-trip-worker**.
+
+### SECRET_KEY_BASE
+
+Rails uses this for signing cookies and sessions. It isn’t stored in the repo; you generate it once and set it in production.
+
+**Generate a new one:**
+
+```bash
+bin/rails secret
+```
+
+Copy the long string it prints. Set that **exact** value as `SECRET_KEY_BASE` in Render for **both** the web service and the worker (same value on both).
+
+---
+
 ## Option A: One-click Blueprint (recommended)
 
 The repo includes a **Blueprint** (`render.yaml`) that defines the web app, worker, Postgres, and Redis.
@@ -42,6 +80,8 @@ Render will create the services but prompt for two values (marked **sync: false*
 `HOST` is already set to **daytrip.live** in the Blueprint (for mailer links and cookies). After you add your custom domain in Render (see below), the app will be served at daytrip.live.
 
 Set the two secrets in **Dashboard → your Web Service → Environment**, and **Dashboard → your Worker → Environment**. Use the **same** `SECRET_KEY_BASE` and `RAILS_MASTER_KEY` on both.
+
+**Use Environment Variables, not Secret Files.** Add `RAILS_MASTER_KEY` and `SECRET_KEY_BASE` as **environment variables** in the Environment tab (paste the value into the value field). Do not use the “Secret Files” feature for these—Rails reads them from `ENV`.
 
 ### 4. Deploy
 
@@ -167,6 +207,9 @@ On **Starter** (or higher), you can run migrations automatically: **Web Service 
 ---
 
 ## Troubleshooting
+
+- **“Deploy failed” – find the real error**  
+  In Render: open the **failed deploy** → **Logs** (or **Build logs**). The last 30–50 lines usually show the failing command and error (e.g. `bundle install`, `assets:precompile`, or the **start** command). Copy that error when asking for help or searching.
 
 - **Build fails on assets**  
   Ensure **Build Command** includes:  
