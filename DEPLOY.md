@@ -28,7 +28,7 @@ Rails uses this to decrypt `config/credentials.yml.enc`. It lives in a file that
 cat config/master.key
 ```
 
-Copy the single line of output (no spaces or newlines). That’s your `RAILS_MASTER_KEY`.
+Copy the single line of output (no spaces or newlines). That’s your `RAILS_MASTER_KEY`. If you get `ActiveSupport::MessageEncryptor::InvalidMessage` during the Render build, the value in Render doesn’t match this file—re-copy it exactly (one line, no trailing newline or spaces).
 
 **If the file doesn’t exist** (e.g. new app or new machine):
 
