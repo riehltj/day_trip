@@ -13,12 +13,12 @@
 
     <%= render 'components/driver_info', driver: ride.driver %>
 
-    <h4 class="text-gray-600 items-center flex items-center gap-1">
+    <div class="text-gray-600 flex items-center gap-1">
       <div class="tooltip tooltip-top" data-tip="Meetup location">
         <%= lucide_icon('map-pin') %>
       </div>
       <%= link_to ride.meetup_location, "http://maps.google.com/?q=#{ride.meetup_location}", class: 'link', target: "_blank" %>
-    </h4>
+    </div>
 
     <h3 class="text-lg font-semibold text-secondary flex items-center gap-1">
       <div class="tooltip tooltip-top font-normal" data-tip="Cost per rider">

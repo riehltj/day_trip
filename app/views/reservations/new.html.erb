@@ -1,19 +1,12 @@
-<div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 max-w-xl my-8 mx-6 md:mx-auto" data-controller="reservation">
+<div class="card bg-base-100 shadow-md border border-base-300 max-w-xl my-8 mx-6 md:mx-auto" data-controller="reservation">
+<div class="card-body">
   <h2 class="text-2xl font-bold text-center mb-6">Book Your Ride</h2>
 
-  <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded">
-    <div class="flex">
-      <div class="flex-shrink-0">
-        <span class="text-blue-500 flex items-center">
-          <%= lucide_icon('info', class: 'h-5 w-5') %>
-        </span>
-      </div>
-      <div class="ml-3">
-        <p class="text-sm text-blue-700">
-          You're booking a reservation to <strong><%= @ride.destination %></strong> on <strong><%= @ride.leave_date.strftime("%A, %B %d, %Y") %></strong> at <strong><%= @ride.leave_time.strftime("%I:%M %p") %></strong>.
-        </p>
-      </div>
-    </div>
+  <div role="alert" class="alert alert-info mb-6">
+    <%= lucide_icon('info', class: 'h-5 w-5') %>
+    <span class="text-sm">
+      You're booking a ride to <strong><%= @ride.destination %></strong> on <strong><%= @ride.leave_date.strftime("%A, %B %d, %Y") %></strong> at <strong><%= @ride.leave_time.strftime("%I:%M %p") %></strong>.
+    </span>
   </div>
 
   <div class="mb-6">
@@ -111,4 +104,5 @@
       <%= f.submit user_signed_in? ? "Complete reservation Booking" : "Create Account & Book Ride", id: "submit-payment", class: "btn btn-primary w-full" %>
     </div>
   <% end %>
+</div>
 </div>

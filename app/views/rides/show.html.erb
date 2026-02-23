@@ -1,4 +1,4 @@
-<div class="h-screen py-20 px-6">
+<div class="min-h-screen py-12 px-6 sm:px-20">
   <div class="card border border-gray-200 bg-base-100 shadow-md w-full max-w-2xl mx-auto">
     <div class="card-body">
       <h2 class="card-title flex justify-between items-center">
@@ -40,11 +40,11 @@
       </div>
 
       <div class="flex flex-col md:flex-row gap-5 mt-4">
-        <%= link_to rides_path, class: 'btn btn-outline flex-1 btn-lg py-2' do %>
+        <%= link_to rides_path, class: 'btn btn-outline flex-1 btn-lg' do %>
           <%= lucide_icon('arrow-left') %>
           Back to Rides
         <% end %>
-        <%= link_to new_ride_reservation_path(ride_id: @ride.id), class: 'btn btn-primary btn-lg py-2 flex-1 hover:scale-105 transition-all' do %>
+        <%= link_to new_ride_reservation_path(ride_id: @ride.id), class: 'btn btn-primary btn-lg flex-1 hover:scale-105 transition-all' do %>
           <%= lucide_icon('check-circle') %>
           Book Now!
         <% end %>

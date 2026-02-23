@@ -1,4 +1,4 @@
-<div id="flash-container" class="fixed top-5 right-5 transform z-50 space-y-2 w-full max-w-md z-100">
+<div id="flash-container" class="fixed top-5 right-5 z-50 space-y-2 max-w-sm w-[calc(100vw-2.5rem)]">
   <% flash.each do |type, message| %>
     <% 
       # Determine icon color and name based on message type
@@ -22,7 +22,7 @@
       data-controller="flash"
       data-flash-auto-dismiss-value="true"
       data-flash-dismiss-after-value="1000"
-      class="bg-white border border-dark rounded-lg shadow-md p-4">
+      class="bg-base-100 border border-base-300 rounded-lg shadow-md p-4">
       <div class="flex items-start gap-3">
         <div class="<%= icon_color %> flex-shrink-0">
           <%= lucide_icon(icon_name, class: 'h-5 w-5') %>
