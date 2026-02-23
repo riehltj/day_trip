@@ -13,7 +13,7 @@
     <%= render(RideDetailsComponent.new(title: 'Driver:', info: @ride.driver.user.full_name, link: driver_path(@ride.driver_id))) %>
     <%= render(RideDetailsComponent.new(title: 'Meetup Location:', info: @ride.meetup_location)) %>
     <%= render(RideDetailsComponent.new(title: 'Available Seats:', info: @ride.available_seats)) %>
-    <%= render(RideDetailsComponent.new(title: 'Cost Per Seat:', info:humanized_money_with_symbol(@ride.cost_per_rider))) %>
+    <%= render(RideDetailsComponent.new(title: 'Cost Per Seat:', info: format_ride_cost(@ride.cost_per_rider))) %>
   </div>
 
   <%= form_with(url: ride_reservations_path(ride_id: @ride), class: "space-y-6", id: "reservation-form", data: { turbo: false }) do |f| %>
@@ -40,7 +40,7 @@
     <div class="bg-gray-50 p-4 rounded-md">
       <div class="flex justify-between items-center font-medium">
         <span>Total Cost:</span>
-        <span data-reservation-target="total"><%= humanized_money_with_symbol(@ride.cost_per_rider) %></span>
+        <span data-reservation-target="total"><%= format_ride_cost(@ride.cost_per_rider) %></span>
       </div>
       <%= f.hidden_field 'total_cost_in_cents', name: 'reservation[total_cost_in_cents]', value: @ride.cost_per_rider_in_cents, data: { reservation_target: "hiddenTotal" } %>
     </div>

@@ -29,7 +29,7 @@
         <div class="tooltip tooltip-top" data-tip="Cost per rider">
           <%= lucide_icon('dollar-sign') %>
         </div>
-        <%= humanized_money_with_symbol(@ride.cost_per_rider) %> /seat
+        <%= format_ride_cost(@ride.cost_per_rider) %> /seat
       </h3>
 
       <div class="text-sm text-gray-500 flex items-center gap-2">
@@ -38,6 +38,13 @@
         </div>
         <%= pluralize(@ride.available_seats, "Seat") %>
       </div>
+
+      <% if @ride.description.present? %>
+        <div class="mt-4 border-t border-base-300 pt-4">
+          <p class="text-sm font-medium text-base-content/60 mb-1">About this ride</p>
+          <p class="text-base-content/80 leading-relaxed"><%= @ride.description %></p>
+        </div>
+      <% end %>
 
       <div class="flex flex-col md:flex-row gap-5 mt-4">
         <%= link_to rides_path, class: 'btn btn-outline flex-1 btn-lg' do %>

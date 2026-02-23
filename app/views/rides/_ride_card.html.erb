@@ -24,7 +24,7 @@
       <div class="tooltip tooltip-top font-normal" data-tip="Cost per rider">
         <%= lucide_icon('dollar-sign') %>
       </div>
-      <%= humanized_money_with_symbol(ride.cost_per_rider) %> /seat
+      <%= format_ride_cost(ride.cost_per_rider) %> /seat
     </h3>
 
     <div class="text-sm text-gray-500 flex items-center gap-1">
