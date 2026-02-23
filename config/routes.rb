@@ -27,6 +27,10 @@ Rails.application.routes.draw do
     resources :reviews, only: %i[new create index]
   end
 
+  # Static pages
+  get 'how-it-works', to: 'pages#how_it_works', as: :how_it_works
+  get 'about', to: 'pages#about', as: :about
+
   # Sidekiq
   mount Sidekiq::Web => '/sidekiq' # access it at http://localhost:3009/sidekiq
 

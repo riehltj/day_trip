@@ -1,6 +1,12 @@
 <li>
   <%= render 'components/nav_link', text: 'Explore Rides', icon: 'compass', path: rides_path  %>
 </li>
+<li>
+  <%= render 'components/nav_link', text: 'How It Works', icon: 'info', path: how_it_works_path %>
+</li>
+<li>
+  <%= render 'components/nav_link', text: 'About', icon: 'heart', path: about_path %>
+</li>
 
 <% unless current_user&.driver.present? %>
   <li>

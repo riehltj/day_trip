@@ -1,0 +1,79 @@
+<div class="min-h-screen px-6 sm:px-20 py-12 max-w-4xl mx-auto">
+  <h1 class="font-bold text-4xl text-center mb-2">About DayTrip</h1>
+  <p class="text-center text-base-content/60 mb-12">A better way to get out there.</p>
+
+  <%# Mission %>
+  <div class="card bg-base-100 shadow-md mb-10">
+    <div class="card-body">
+      <h2 class="card-title text-2xl mb-2">What We're About</h2>
+      <p class="text-base-content/80 leading-relaxed">
+        DayTrip started with a simple idea: getting outdoors shouldn't require owning a car or paying for an expensive tour. Whether it's a hike in the mountains, a day at the lake, or a weekend trail run, the hardest part is often just getting there.
+      </p>
+      <p class="text-base-content/80 leading-relaxed mt-3">
+        DayTrip connects people who have a car and a destination with people who want to come along. Drivers offset their fuel costs, passengers get a ride to somewhere awesome, and everyone shares the experience.
+      </p>
+    </div>
+  </div>
+
+  <%# Values %>
+  <div class="mb-10">
+    <h2 class="text-2xl font-bold mb-6">What We Care About</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div class="card bg-base-100 shadow-md">
+        <div class="card-body items-center text-center">
+          <div class="bg-accent/10 rounded-full p-4 mb-2">
+            <%= lucide_icon('mountain', class: 'text-accent w-8 h-8') %>
+          </div>
+          <h3 class="font-bold text-lg">Getting Outside</h3>
+          <p class="text-sm text-base-content/70">Adventure shouldn't be gated by who has a car. We make it easier for everyone to reach the places worth going to.</p>
+        </div>
+      </div>
+
+      <div class="card bg-base-100 shadow-md">
+        <div class="card-body items-center text-center">
+          <div class="bg-accent/10 rounded-full p-4 mb-2">
+            <%= lucide_icon('heart-handshake', class: 'text-accent w-8 h-8') %>
+          </div>
+          <h3 class="font-bold text-lg">Community First</h3>
+          <p class="text-sm text-base-content/70">Every ride is a chance to meet someone new. We build trust through transparent driver profiles, ratings, and real reviews.</p>
+        </div>
+      </div>
+
+      <div class="card bg-base-100 shadow-md">
+        <div class="card-body items-center text-center">
+          <div class="bg-accent/10 rounded-full p-4 mb-2">
+            <%= lucide_icon('leaf', class: 'text-accent w-8 h-8') %>
+          </div>
+          <h3 class="font-bold text-lg">Fewer Empty Seats</h3>
+          <p class="text-sm text-base-content/70">Sharing rides means fewer cars on the road heading to the same trailhead. Better for the environment, better for traffic.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# Built by %>
+  <div class="card bg-primary text-primary-content shadow-md mb-10">
+    <div class="card-body">
+      <h2 class="card-title text-2xl mb-2">Built in Colorado</h2>
+      <p class="leading-relaxed opacity-90">
+        DayTrip was built by a developer who wanted a better way to get into the mountains without always driving solo. It's a passion project, and we'd love your feedback on it.
+      </p>
+      <div class="card-actions mt-4 flex-wrap gap-3">
+        <a href="mailto:support@daytrip.com" class="btn btn-outline btn-sm text-primary-content border-primary-content hover:bg-primary-content hover:text-primary">
+          <%= lucide_icon('mail', class: 'w-4 h-4') %>
+          Contact Us
+        </a>
+        <a href="https://www.buymeacoffee.com/tylerriehl" target="_blank" class="btn btn-outline btn-sm text-primary-content border-primary-content hover:bg-primary-content hover:text-primary">
+          <%= lucide_icon('coffee', class: 'w-4 h-4') %>
+          Buy Me a Coffee
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <%# CTA %>
+  <div class="text-center py-6 flex flex-col sm:flex-row gap-4 justify-center">
+    <%= link_to 'Explore Rides', rides_path, class: 'btn btn-primary btn-lg' %>
+    <%= link_to 'How It Works', how_it_works_path, class: 'btn btn-outline btn-lg' %>
+  </div>
+</div>

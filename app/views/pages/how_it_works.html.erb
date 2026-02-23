@@ -1,0 +1,134 @@
+<div class="min-h-screen px-6 sm:px-20 py-12 max-w-5xl mx-auto">
+  <h1 class="font-bold text-4xl text-center mb-2">How It Works</h1>
+  <p class="text-center text-base-content/60 mb-12">DayTrip connects drivers heading somewhere great with passengers who want to come along.</p>
+
+  <%# Steps for Passengers %>
+  <div class="mb-16">
+    <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+      <%= lucide_icon('users', class: 'text-secondary') %>
+      For Passengers
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div class="card bg-base-100 shadow-md">
+        <div class="card-body items-center text-center">
+          <div class="bg-secondary/10 rounded-full p-4 mb-2">
+            <%= lucide_icon('search', class: 'text-secondary w-8 h-8') %>
+          </div>
+          <div class="badge badge-secondary mb-1">Step 1</div>
+          <h3 class="card-title text-lg">Browse Rides</h3>
+          <p class="text-base-content/70 text-sm">Explore open rides on the home page. See the destination, departure date and time, cost per seat, and meetup location before you commit.</p>
+        </div>
+      </div>
+
+      <div class="card bg-base-100 shadow-md">
+        <div class="card-body items-center text-center">
+          <div class="bg-secondary/10 rounded-full p-4 mb-2">
+            <%= lucide_icon('ticket', class: 'text-secondary w-8 h-8') %>
+          </div>
+          <div class="badge badge-secondary mb-1">Step 2</div>
+          <h3 class="card-title text-lg">Book a Seat</h3>
+          <p class="text-base-content/70 text-sm">Click "Book Now!" on a ride that looks good, choose how many seats you need, and submit your request. No account? You can create one right in the booking flow.</p>
+        </div>
+      </div>
+
+      <div class="card bg-base-100 shadow-md">
+        <div class="card-body items-center text-center">
+          <div class="bg-secondary/10 rounded-full p-4 mb-2">
+            <%= lucide_icon('map-pin', class: 'text-secondary w-8 h-8') %>
+          </div>
+          <div class="badge badge-secondary mb-1">Step 3</div>
+          <h3 class="card-title text-lg">Show Up & Enjoy</h3>
+          <p class="text-base-content/70 text-sm">Once the driver accepts your request, you'll be confirmed. Head to the meetup spot at the listed time and enjoy the ride. Leave a review when you're back.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# Steps for Drivers %>
+  <div class="mb-16">
+    <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+      <%= lucide_icon('car', class: 'text-primary') %>
+      For Drivers
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div class="card bg-base-100 shadow-md">
+        <div class="card-body items-center text-center">
+          <div class="bg-primary/10 rounded-full p-4 mb-2">
+            <%= lucide_icon('square-user', class: 'text-primary w-8 h-8') %>
+          </div>
+          <div class="badge badge-primary mb-1">Step 1</div>
+          <h3 class="card-title text-lg">Become a Driver</h3>
+          <p class="text-base-content/70 text-sm">Sign up for an account, then click "Become a Driver" in the nav. Add your car details, a photo of your vehicle, and a bit about yourself.</p>
+        </div>
+      </div>
+
+      <div class="card bg-base-100 shadow-md">
+        <div class="card-body items-center text-center">
+          <div class="bg-primary/10 rounded-full p-4 mb-2">
+            <%= lucide_icon('plus-circle', class: 'text-primary w-8 h-8') %>
+          </div>
+          <div class="badge badge-primary mb-1">Step 2</div>
+          <h3 class="card-title text-lg">Post a Ride</h3>
+          <p class="text-base-content/70 text-sm">Heading somewhere? Post a ride with your departure date, time, pickup location, destination, cost per seat, and available seats. It's that simple.</p>
+        </div>
+      </div>
+
+      <div class="card bg-base-100 shadow-md">
+        <div class="card-body items-center text-center">
+          <div class="bg-primary/10 rounded-full p-4 mb-2">
+            <%= lucide_icon('check-circle', class: 'text-primary w-8 h-8') %>
+          </div>
+          <div class="badge badge-primary mb-1">Step 3</div>
+          <h3 class="card-title text-lg">Accept Passengers</h3>
+          <p class="text-base-content/70 text-sm">Review incoming booking requests and accept the passengers you want to bring along. Manage everything from your "My Rides" dashboard.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# FAQ %>
+  <div class="mb-12">
+    <h2 class="text-2xl font-bold mb-6">Common Questions</h2>
+
+    <div class="join join-vertical w-full shadow-md">
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq" checked />
+        <div class="collapse-title font-semibold">Is DayTrip free to use?</div>
+        <div class="collapse-content text-base-content/70 text-sm">
+          DayTrip itself is free. Drivers set their own per-seat price to cover fuel and expenses. You only pay what the driver asks for the seat.
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq" />
+        <div class="collapse-title font-semibold">What destinations are available?</div>
+        <div class="collapse-content text-base-content/70 text-sm">
+          Drivers choose from a curated list of destinations when posting a ride — think mountains, lakes, trails, and other day-trip-worthy spots in Colorado.
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq" />
+        <div class="collapse-title font-semibold">What if my booking request is rejected?</div>
+        <div class="collapse-content text-base-content/70 text-sm">
+          No worries — the seats are released back to the ride and you can book a different one. You're never charged for a rejected request.
+        </div>
+      </div>
+
+      <div class="collapse collapse-arrow join-item border border-base-300">
+        <input type="radio" name="faq" />
+        <div class="collapse-title font-semibold">How do I know the driver is trustworthy?</div>
+        <div class="collapse-content text-base-content/70 text-sm">
+          Every driver has a profile with their car details, a photo, and a star rating based on reviews from past passengers. You can see all of this before booking.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# CTA %>
+  <div class="text-center py-8">
+    <%= link_to 'Explore Rides', rides_path, class: 'btn btn-primary btn-lg' %>
+  </div>
+</div>
