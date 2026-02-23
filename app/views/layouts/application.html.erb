@@ -11,14 +11,14 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="min-h-screen flex flex-col">
     <% if flash.any? %>
       <%= render 'components/flash_messages' %>
     <% end %>
-    <main class="bg-base-200 relative custom-bg min-h-screen">
-      <%= render 'components/nav_bar' %>
+    <%= render 'components/nav_bar' %>
+    <main class="bg-base-200 relative custom-bg flex-1">
       <%= yield %>
-      <%= render 'components/footer' %>
     </main>
+    <%= render 'components/footer' %>
   </body>
 </html>
