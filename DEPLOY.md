@@ -28,7 +28,21 @@ Rails uses this to decrypt `config/credentials.yml.enc`. It lives in a file that
 cat config/master.key
 ```
 
-Copy the single line of output (no spaces or newlines). That’s your `RAILS_MASTER_KEY`. If you get `ActiveSupport::MessageEncryptor::InvalidMessage` during the Render build, the value in Render doesn’t match this file—re-copy it exactly (one line, no trailing newline or spaces).
+Copy the single line of output (no spaces or newlines). That’s your `RAILS_MASTER_KEY`.
+
+**If you get `ActiveSupport::MessageEncryptor::InvalidMessage` on Render:** the `RAILS_MASTER_KEY` in Render doesn’t match this file. Fix it like this:
+
+1. On your Mac, in the project folder, run (this prints the key with no newline so copy-paste is safe):
+   ```bash
+   printf '%s' "$(cat config/master.key)"
+   ```
+2. Select and copy the **entire** output (one line).
+3. In Render: **day-trip-web** → **Environment** → find **RAILS_MASTER_KEY** → **Edit**.
+4. Delete the current value and paste the new one. Do **not** add a space or newline at the end.
+5. Save, then do the same for **day-trip-worker**.
+6. Trigger a new deploy (e.g. **Manual Deploy** → **Deploy latest commit**).
+
+If it still fails, the credentials may have been encrypted with a different key. Create a new key and credentials: run `rm config/master.key config/credentials.yml.enc`, then `bin/rails credentials:edit` (creates both). Use the new `config/master.key` value on Render.
 
 **If the file doesn’t exist** (e.g. new app or new machine):
 
