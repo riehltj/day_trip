@@ -220,7 +220,7 @@ past_ride_data.each do |t|
     leave_date:              t[:date],
     leave_time:              leave_time,
     cost_per_rider_in_cents: t[:cost],
-    available_seats:         0,
+    available_seats:         t[:riders].length,
     status:                  :closed
   )
   past_ride.save!(validate: false)
