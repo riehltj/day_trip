@@ -6,6 +6,6 @@ module ApplicationHelper
   end
 
   def format_ride_cost(money)
-    money.to_i.zero? ? "FREE" : humanized_money_with_symbol(money)
+    money.to_i.zero? ? 'Free' : humanized_money_with_symbol(money)
   end
 end

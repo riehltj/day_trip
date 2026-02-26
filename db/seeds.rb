@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'open-uri'
+require 'base64'
+
 # Guard: skip if fully seeded (past rides + reviews already exist)
 if Ride.where(status: :closed).count >= 3
   puts "\nDemo data already exists — skipping seeds."
@@ -8,19 +11,58 @@ end
 
 puts "\nSeeding demo data..."
 
-def seed_image_io
+def placeholder_image_io
   base64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='
   StringIO.new(Base64.strict_decode64(base64))
 end
 
-car_photo_path = Rails.root.join('test/assets/images/car_1.jpg')
+def fetch_image(url)
+  URI.open(url, read_timeout: 10)
+rescue StandardError => e
+  puts " [warn: could not fetch #{url} — #{e.message}]"
+  placeholder_image_io
+end
 
-def attach_car_photo(driver, car_photo_path)
-  if car_photo_path.exist?
-    driver.car_photo.attach(io: File.open(car_photo_path), filename: 'car.jpg', content_type: 'image/jpeg')
-  else
-    driver.car_photo.attach(io: seed_image_io, filename: 'placeholder.png', content_type: 'image/png')
-  end
+# randomuser.me portraits — free, no API key, stable URLs
+AVATAR_URLS = {
+  'jake.martinez@example.com' => 'https://randomuser.me/api/portraits/men/32.jpg',
+  'sarah.chen@example.com'    => 'https://randomuser.me/api/portraits/women/44.jpg',
+  'mike.thompson@example.com' => 'https://randomuser.me/api/portraits/men/57.jpg',
+  'emily.r@example.com'       => 'https://randomuser.me/api/portraits/women/21.jpg',
+  'alex.patel@example.com'    => 'https://randomuser.me/api/portraits/men/78.jpg',
+  'casey.j@example.com'       => 'https://randomuser.me/api/portraits/men/14.jpg',
+  'jordan.lee@example.com'    => 'https://randomuser.me/api/portraits/women/63.jpg',
+}.freeze
+
+# Unsplash photos for each car — free to use, no API key for direct access
+CAR_PHOTO_URLS = {
+  'Subaru Outback'      => 'https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=800&q=70',
+  'Toyota 4Runner'      => 'https://images.unsplash.com/photo-1568844293986-8d0400bd4745?w=800&q=70',
+  'Jeep Grand Cherokee' => 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800&q=70',
+  'Honda CR-V'          => 'https://images.unsplash.com/photo-1546614042-7df3c24c9e5d?w=800&q=70',
+}.freeze
+
+def attach_avatar(user, email)
+  url = AVATAR_URLS[email]
+  return unless url
+
+  user.avatar.attach(
+    io:           fetch_image(url),
+    filename:     "#{email.split('@').first}.jpg",
+    content_type: 'image/jpeg'
+  )
+end
+
+def attach_car_photo(driver, make, model)
+  key = "#{make} #{model}"
+  url = CAR_PHOTO_URLS[key]
+  io  = url ? fetch_image(url) : placeholder_image_io
+
+  driver.car_photo.attach(
+    io:           io,
+    filename:     "#{key.downcase.gsub(' ', '_')}.jpg",
+    content_type: 'image/jpeg'
+  )
 end
 
 # ── Users ─────────────────────────────────────────────────────────────────────
@@ -38,7 +80,8 @@ user_data = [
 
 users = user_data.map do |u|
   print '.'
-  User.find_or_create_by!(email: u[:email]) do |user|
+  user = User.find_or_initialize_by(email: u[:email])
+  if user.new_record?
     user.first_name            = u[:first_name]
     user.last_name             = u[:last_name]
     user.gender                = u[:gender]
@@ -48,7 +91,10 @@ users = user_data.map do |u|
     user.zip_code              = '80202'
     user.password              = 'password123!'
     user.password_confirmation = 'password123!'
+    user.save!
+    attach_avatar(user, u[:email])
   end
+  user
 end
 
 # ── Drivers ───────────────────────────────────────────────────────────────────
@@ -81,7 +127,7 @@ drivers = driver_data.map do |d|
     driver.car_model   = d[:car_model]
     driver.car_year    = d[:car_year]
     driver.description = d[:description]
-    attach_car_photo(driver, car_photo_path)
+    attach_car_photo(driver, d[:car_make], d[:car_model])
     driver.save!
   end
   driver
