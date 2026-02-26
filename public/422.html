@@ -23,7 +23,15 @@
       text-align: center;
       box-shadow: 0 4px 24px rgba(0,0,0,0.08);
     }
-    .emoji { font-size: 4rem; margin-bottom: 1rem; }
+    .illustration {
+      width: 220px;
+      height: 160px;
+      margin: 0 auto 1.5rem;
+      display: block;
+      background: #eef2ff;
+      border-radius: 0.75rem;
+      object-fit: contain;
+    }
     h1 { font-size: 1.75rem; font-weight: 700; color: #1a202c; margin-bottom: 0.75rem; }
     p { color: #718096; line-height: 1.6; margin-bottom: 2rem; }
     a {
@@ -41,7 +49,8 @@
 </head>
 <body>
   <div class="card">
-    <div class="emoji">🎫</div>
+    <!-- undraw.co suggestion: "Authentication" or "Warning" → save as public/images/errors/422.svg -->
+    <img src="/images/errors/422.svg" alt="" class="illustration">
     <h1>Invalid lift ticket</h1>
     <p>We couldn't process that request — it might be expired or something changed. Head back and try again.</p>
     <a href="/">Head back</a>

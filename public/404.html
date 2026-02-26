@@ -31,9 +31,15 @@
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
     }
 
-    .emoji {
-      font-size: 4rem;
-      margin-bottom: 1rem;
+    .illustration {
+      width: 220px;
+      height: 160px;
+      margin: 0 auto 1.5rem;
+      display: block;
+      /* placeholder background until image is added */
+      background: #eef2ff;
+      border-radius: 0.75rem;
+      object-fit: contain;
     }
 
     h1 {
@@ -57,7 +63,6 @@
       padding: 0.75rem 1.75rem;
       border-radius: 0.5rem;
       font-weight: 600;
-      transition: background 0.2s;
     }
 
     a:hover {
@@ -74,10 +79,10 @@
 
 <body>
   <div class="card">
-    <div class="emoji">⛷️</div>
-    <h1>Wrong turn on I-70</h1>
-    <p>This page doesn't exist. Maybe it took the Eisenhower Tunnel and never came back. Try heading back to the main
-      road.</p>
+    <!-- undraw.co suggestion: "Lost" or "Page not found" → save as public/images/errors/404.svg -->
+    <img src="/images/errors/404.svg" alt="" class="illustration">
+    <h1>We can't find Harry right now. Maybe he's hiding in plain sight?</h1>
+    <p>This page doesn't exist - maybe you typed it in wrong or we are having issues.</p>
     <a href="/">Back to the mountains</a>
     <p class="code">404 — Page not found</p>
   </div>
