@@ -24,7 +24,7 @@
     <div class="flex items-center gap-4 mb-2">
       <div class="avatar">
         <div class="w-16 h-16 rounded-full bg-base-300">
-          <% if resource.persisted? && resource.avatar.attached? %>
+          <% if resource.persisted? && resource.avatar.attached? && resource.avatar.blob&.persisted? %>
             <%= image_tag resource.avatar, class: "w-full h-full object-cover" %>
           <% else %>
             <div class="w-full h-full flex items-center justify-center bg-primary text-primary-content text-xl font-medium">

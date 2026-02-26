@@ -3,7 +3,7 @@
 require 'sidekiq/web' # require the web UI
 
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'users/registrations' }
 
   root 'rides#index'
   # Rides

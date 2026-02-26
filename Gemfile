@@ -74,6 +74,7 @@ gem 'factory_bot_rails', '~> 6.4' # Test data
 gem 'faker', '~> 3.4', '>= 3.4.2' # Fake test data
 gem 'money-rails', '~> 1.15' # Money handling
 gem 'lucide-rails', '~> 0.4.0' # SVG icons
+gem 'cloudinary' # Cloud file storage for Active Storage
 gem "view_component"
 
 # gem "faker_active_record", path: "/Users/tylerriehl/faker_active_record" # Commented out - path doesn't exist

@@ -7,8 +7,11 @@
   <% end %>
 
   <% if @rides.empty? %>
-    <div class="col-span-full text-center text-gray-500 py-8">
-      You have no rides yet.
+    <div class="flex flex-col items-center justify-center py-24 text-center">
+      <%= lucide_icon('map', class: 'w-16 h-16 text-accent mb-4 opacity-60') %>
+      <h2 class="text-2xl font-bold text-base-content mb-2">No trips yet — let's fix that</h2>
+      <p class="text-base-content/60 max-w-sm mb-6">You haven't joined or posted any rides. The mountains aren't going to visit themselves.</p>
+      <%= link_to 'Find a Ride', rides_path, class: 'btn btn-primary' %>
     </div>
   <% else %>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mx-auto p-4">
