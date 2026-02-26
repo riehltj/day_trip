@@ -35,11 +35,7 @@ services:
           property: connectionString
       - key: HOST
         value: daytrip.live
-      - key: CLOUDINARY_CLOUD_NAME
-        sync: false
-      - key: CLOUDINARY_API_KEY
-        sync: false
-      - key: CLOUDINARY_API_SECRET
+      - key: CLOUDINARY_URL
         sync: false
 
   # Sidekiq background worker (mailers, jobs)
