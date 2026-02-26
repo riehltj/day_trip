@@ -1,54 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>403 Forbidden</title>
-    <style>
-      body {
-        background: #222;
-        color: #fff;
-        font-family: "Segoe UI", "Arial", sans-serif;
-        text-align: center;
-        padding-top: 10vh;
-      }
-      .emoji {
-        font-size: 5rem;
-        margin-bottom: 1rem;
-        animation: shake 1s infinite alternate;
-      }
-      @keyframes shake {
-        0% {
-          transform: rotate(-5deg);
-        }
-        100% {
-          transform: rotate(5deg);
-        }
-      }
-      h1 {
-        font-size: 3rem;
-        margin-bottom: 0.5rem;
-      }
-      p {
-        font-size: 1.5rem;
-        margin-bottom: 2rem;
-      }
-      a {
-        color: #4d86e1;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 1.2rem;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="emoji">🚫</div>
-    <h1>403 Forbidden</h1>
-    <p>Whoa there, partner! You don't have permission to access this page.</p>
-    <p>
-      <a href="/">Take me home</a>
-    </p>
-  </body>
+<html>
+<head>
+  <title>No access — DayTrip</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f0f4f8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .card {
+      background: white;
+      border-radius: 1rem;
+      padding: 3rem 2.5rem;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .emoji { font-size: 4rem; margin-bottom: 1rem; }
+    h1 { font-size: 1.75rem; font-weight: 700; color: #1a202c; margin-bottom: 0.75rem; }
+    p { color: #718096; line-height: 1.6; margin-bottom: 2rem; }
+    a {
+      display: inline-block;
+      background: #4f46e5;
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 1.75rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+    }
+    a:hover { background: #4338ca; }
+    .code { font-size: 0.8rem; color: #a0aec0; margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="emoji">🚧</div>
+    <h1>This run is closed</h1>
+    <p>You don't have permission to be here — this area is for authorized riders only. Head back down the mountain.</p>
+    <a href="/">Back to the lodge</a>
+    <p class="code">403 — Forbidden</p>
+  </div>
+</body>
 </html>
