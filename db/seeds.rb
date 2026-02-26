@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Guard: only seed once. Re-deploying won't duplicate data.
-if Ride.count >= 5
+# Guard: skip if fully seeded (past rides + reviews already exist)
+if Ride.where(status: :closed).count >= 3
   puts "\nDemo data already exists — skipping seeds."
   return
 end
@@ -149,7 +149,8 @@ ride_templates = [
   },
 ]
 
-ride_templates.each_with_index do |t, i|
+unless Ride.where(status: :open).count >= 8
+  ride_templates.each_with_index do |t, i|
   print '.'
   leave_date = upcoming_weekends[i] || upcoming_weekends.last
   leave_time = Time.zone.now.change(hour: t[:hour], min: t[:min], sec: 0)
@@ -168,6 +169,7 @@ ride_templates.each_with_index do |t, i|
     description:             t[:description],
     status:                  :open
   )
+  end
 end
 
 # ── Past Rides + Reviews ──────────────────────────────────────────────────────

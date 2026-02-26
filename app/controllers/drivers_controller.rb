@@ -3,7 +3,7 @@
 class DriversController < ApplicationController
   before_action :authenticate_user!, only: %i[new create]
   before_action :set_driver, only: %i[show edit update destroy]
-  before_action :authorize_driver_owner!, only: %i[show edit update destroy]
+  before_action :authorize_driver_owner!, only: %i[edit update destroy]
 
   def show; end
 
