@@ -1,0 +1,290 @@
+<div class="p-6 max-w-full">
+  <div class="flex items-center gap-3 mb-6">
+    <%= lucide_icon('shield', class: 'w-8 h-8 text-accent') %>
+    <h1 class="text-3xl font-bold">Admin Dashboard</h1>
+  </div>
+
+  <%# Stats row %>
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+    <div class="stat bg-base-100 rounded-box shadow">
+      <div class="stat-figure text-primary"><%= lucide_icon('users', class: 'w-6 h-6') %></div>
+      <div class="stat-title">Users</div>
+      <div class="stat-value text-2xl"><%= @users.count %></div>
+    </div>
+    <div class="stat bg-base-100 rounded-box shadow">
+      <div class="stat-figure text-accent"><%= lucide_icon('car', class: 'w-6 h-6') %></div>
+      <div class="stat-title">Drivers</div>
+      <div class="stat-value text-2xl"><%= @drivers.count %></div>
+    </div>
+    <div class="stat bg-base-100 rounded-box shadow">
+      <div class="stat-figure text-success"><%= lucide_icon('map-pin', class: 'w-6 h-6') %></div>
+      <div class="stat-title">Rides</div>
+      <div class="stat-value text-2xl"><%= @rides.count %></div>
+    </div>
+    <div class="stat bg-base-100 rounded-box shadow">
+      <div class="stat-figure text-warning"><%= lucide_icon('ticket', class: 'w-6 h-6') %></div>
+      <div class="stat-title">Reservations</div>
+      <div class="stat-value text-2xl"><%= @reservations.count %></div>
+    </div>
+    <div class="stat bg-base-100 rounded-box shadow">
+      <div class="stat-figure text-error"><%= lucide_icon('star', class: 'w-6 h-6') %></div>
+      <div class="stat-title">Reviews</div>
+      <div class="stat-value text-2xl"><%= @reviews.count %></div>
+    </div>
+  </div>
+
+  <%# Tabs %>
+  <div role="tablist" class="tabs tabs-lifted tabs-lg">
+
+    <%# Users Tab %>
+    <input type="radio" name="admin_tabs" role="tab" class="tab" aria-label="Users" checked />
+    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-4">
+      <div class="overflow-x-auto">
+        <table class="table table-zebra table-sm w-full">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Gender</th>
+              <th>DOB</th>
+              <th>Driver?</th>
+              <th>City / State</th>
+              <th>Joined</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td class="font-mono text-xs text-base-content/50"><%= user.id.split('-').first %>…</td>
+                <td class="font-medium"><%= link_to user.full_name, driver_path(user.driver), class: "link link-hover" if user.driver? %><%= user.full_name unless user.driver? %></td>
+                <td><%= user.email %></td>
+                <td><%= user.phone_number.presence || '—' %></td>
+                <td><%= user.gender_full %></td>
+                <td><%= user.date_of_birth&.strftime('%b %d, %Y') || '—' %></td>
+                <td>
+                  <% if user.driver? %>
+                    <span class="badge badge-success badge-sm">Yes</span>
+                  <% else %>
+                    <span class="badge badge-ghost badge-sm">No</span>
+                  <% end %>
+                </td>
+                <td><%= [user.city, user.state].compact_blank.join(', ').presence || '—' %></td>
+                <td class="text-xs text-base-content/60"><%= user.created_at.strftime('%b %d, %Y') %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% if @users.empty? %>
+          <p class="text-center text-base-content/50 py-8">No users yet.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Drivers Tab %>
+    <input type="radio" name="admin_tabs" role="tab" class="tab" aria-label="Drivers" />
+    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-4">
+      <div class="overflow-x-auto">
+        <table class="table table-zebra table-sm w-full">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>User</th>
+              <th>Car</th>
+              <th>Year</th>
+              <th>Rides</th>
+              <th>Avg Rating</th>
+              <th>Payment Methods</th>
+              <th>Socials</th>
+              <th>Joined</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @drivers.each do |driver| %>
+              <tr>
+                <td class="font-mono text-xs text-base-content/50"><%= driver.id.split('-').first %>…</td>
+                <td><%= link_to driver.user.full_name, driver_path(driver), class: "link link-hover" %></td>
+                <td><%= "#{driver.car_make} #{driver.car_model}" %></td>
+                <td><%= driver.car_year %></td>
+                <td><%= driver.rides.count %></td>
+                <td>
+                  <% avg = driver.average_rating %>
+                  <% if avg > 0 %>
+                    <span class="badge badge-warning badge-sm"><%= avg %> ★</span>
+                  <% else %>
+                    <span class="text-base-content/40">—</span>
+                  <% end %>
+                </td>
+                <td>
+                  <% if driver.payment_methods.any? %>
+                    <%= driver.payment_methods.join(', ') %>
+                  <% else %>
+                    <span class="text-base-content/40">—</span>
+                  <% end %>
+                </td>
+                <td>
+                  <div class="flex gap-1">
+                    <%= link_to lucide_icon('twitter', class: 'w-4 h-4'), "https://twitter.com/#{driver.twitter}", target: '_blank', class: "opacity-60 hover:opacity-100" if driver.twitter.present? %>
+                    <%= link_to lucide_icon('instagram', class: 'w-4 h-4'), "https://instagram.com/#{driver.instagram}", target: '_blank', class: "opacity-60 hover:opacity-100" if driver.instagram.present? %>
+                    <%= link_to lucide_icon('facebook', class: 'w-4 h-4'), "https://facebook.com/#{driver.facebook}", target: '_blank', class: "opacity-60 hover:opacity-100" if driver.facebook.present? %>
+                    <% unless driver.twitter.present? || driver.instagram.present? || driver.facebook.present? %>
+                      <span class="text-base-content/40">—</span>
+                    <% end %>
+                  </div>
+                </td>
+                <td class="text-xs text-base-content/60"><%= driver.created_at.strftime('%b %d, %Y') %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% if @drivers.empty? %>
+          <p class="text-center text-base-content/50 py-8">No drivers yet.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Rides Tab %>
+    <input type="radio" name="admin_tabs" role="tab" class="tab" aria-label="Rides" />
+    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-4">
+      <div class="overflow-x-auto">
+        <table class="table table-zebra table-sm w-full">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Driver</th>
+              <th>Destination</th>
+              <th>Departs</th>
+              <th>From</th>
+              <th>Seats</th>
+              <th>Cost/Rider</th>
+              <th>Status</th>
+              <th>Posted</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @rides.each do |ride| %>
+              <tr>
+                <td class="font-mono text-xs text-base-content/50"><%= ride.id.split('-').first %>…</td>
+                <td><%= link_to ride.driver.user.full_name, driver_path(ride.driver), class: "link link-hover" %></td>
+                <td><%= link_to ride.destination, ride_path(ride), class: "link link-hover font-medium" %></td>
+                <td class="whitespace-nowrap"><%= ride.leave_date.strftime('%b %d, %Y') %></td>
+                <td><%= [ride.city, ride.state].compact_blank.join(', ') %></td>
+                <td><%= ride.available_seats %></td>
+                <td><%= number_to_currency(ride.cost_per_rider) %></td>
+                <td>
+                  <% badge_class = case ride.status
+                    when 'open'     then 'badge-success'
+                    when 'filled'   then 'badge-warning'
+                    when 'canceled' then 'badge-error'
+                    when 'closed'   then 'badge-ghost'
+                    end %>
+                  <span class="badge <%= badge_class %> badge-sm capitalize"><%= ride.status %></span>
+                </td>
+                <td class="text-xs text-base-content/60"><%= ride.created_at.strftime('%b %d, %Y') %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% if @rides.empty? %>
+          <p class="text-center text-base-content/50 py-8">No rides yet.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Reservations Tab %>
+    <input type="radio" name="admin_tabs" role="tab" class="tab" aria-label="Reservations" />
+    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-4">
+      <div class="overflow-x-auto">
+        <table class="table table-zebra table-sm w-full">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Passenger</th>
+              <th>Ride</th>
+              <th>Driver</th>
+              <th>Seats</th>
+              <th>Total Cost</th>
+              <th>Payment</th>
+              <th>Status</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @reservations.each do |res| %>
+              <tr>
+                <td class="font-mono text-xs text-base-content/50"><%= res.id.split('-').first %>…</td>
+                <td><%= res.user.full_name %></td>
+                <td><%= link_to res.ride.destination, ride_path(res.ride), class: "link link-hover" %></td>
+                <td><%= res.ride.driver.user.full_name %></td>
+                <td><%= res.number_of_seats %></td>
+                <td><%= number_to_currency(res.total_cost) %></td>
+                <td><%= res.payment_status.presence || '—' %></td>
+                <td>
+                  <% badge_class = case res.status
+                    when 'pending'   then 'badge-warning'
+                    when 'accepted'  then 'badge-success'
+                    when 'rejected'  then 'badge-error'
+                    when 'completed' then 'badge-ghost'
+                    end %>
+                  <span class="badge <%= badge_class %> badge-sm capitalize"><%= res.status %></span>
+                </td>
+                <td class="text-xs text-base-content/60"><%= res.created_at.strftime('%b %d, %Y') %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% if @reservations.empty? %>
+          <p class="text-center text-base-content/50 py-8">No reservations yet.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Reviews Tab %>
+    <input type="radio" name="admin_tabs" role="tab" class="tab" aria-label="Reviews" />
+    <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-4">
+      <div class="overflow-x-auto">
+        <table class="table table-zebra table-sm w-full">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Reviewer</th>
+              <th>Driver</th>
+              <th>Ride</th>
+              <th>Rating</th>
+              <th>Comment</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @reviews.each do |review| %>
+              <tr>
+                <td class="font-mono text-xs text-base-content/50"><%= review.id.split('-').first %>…</td>
+                <td><%= review.user.full_name %></td>
+                <td><%= link_to review.driver.user.full_name, driver_path(review.driver), class: "link link-hover" %></td>
+                <td><%= link_to review.ride.destination, ride_path(review.ride), class: "link link-hover" %></td>
+                <td>
+                  <div class="flex items-center gap-1">
+                    <% review.rating.times do %>
+                      <span class="text-warning text-xs">★</span>
+                    <% end %>
+                    <% (5 - review.rating).times do %>
+                      <span class="text-base-content/20 text-xs">★</span>
+                    <% end %>
+                    <span class="text-xs text-base-content/60 ml-1">(<%= review.rating %>)</span>
+                  </div>
+                </td>
+                <td class="max-w-xs truncate text-sm text-base-content/70"><%= review.comment %></td>
+                <td class="text-xs text-base-content/60"><%= review.created_at.strftime('%b %d, %Y') %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% if @reviews.empty? %>
+          <p class="text-center text-base-content/50 py-8">No reviews yet.</p>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+</div>

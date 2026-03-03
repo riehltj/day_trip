@@ -31,6 +31,11 @@ Rails.application.routes.draw do
   get 'how-it-works', to: 'pages#how_it_works', as: :how_it_works
   get 'about', to: 'pages#about', as: :about
 
+  # Admin (support@daytrip.live only)
+  namespace :admin do
+    get '/', to: 'dashboard#index', as: :dashboard
+  end
+
   # Sidekiq (admin only)
   authenticate :user, ->(u) { u.email == 'support@daytrip.live' } do
     mount Sidekiq::Web => '/sidekiq'
