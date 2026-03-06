@@ -17,7 +17,7 @@ class Ride < ApplicationRecord
   validates :address_line1, :city, :state, :zip_code, :leave_date, :leave_time, :destination, :available_seats,
             :cost_per_rider, presence: true
   validates :available_seats, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :cost_per_rider, numericality: { greater_than_or_equal_to: 0 }
+  validates :cost_per_rider, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 20 }
   validate :leave_date_in_future, on: :create
   validate :leave_date_not_in_past, on: :update
   validate :available_seats_not_below_booked, on: :update
